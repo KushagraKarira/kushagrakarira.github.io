@@ -25,8 +25,8 @@
 	to Submit Poems</font></b></font></font></p>
 
 
-	<form method="post">
-		<p><font face="CircularStd"><font color="#ffffff">First name:
+	<form method="post" data-netlify="true" >
+		<p><font face="CircularStd"><font color="#ffffff">First name :
 		</font><br/>
 <input type="text" name="fname"  size="18" value="Kushagra" style="width: 3.86cm; height: 0.64cm"><br/>
 <font color="#ffffff">Last
@@ -48,14 +48,3 @@
 </div>
 </body>
 </html>
-
-<?php
-
-if (isset($_POST["text"])) {
-  $txt = $_POST["text"];
-  $fp = fopen("newfile.txt", "a+") or die("Unable to open file!");
-  fwrite($fp, $txt);
-  fclose($fp);
-}
-
-?>
