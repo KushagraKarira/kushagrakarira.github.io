@@ -1,7 +1,8 @@
-/* eslint-disable new-cap, class-methods-use-this */
+/* eslint-disable new-cap, class-methods-use-this, jsdoc/require-jsdoc */
 // Todo: Compare with latest canvg (add any improvements of ours) and add full JSDocs (denoting links to standard APIs and which are custom): https://github.com/canvg/canvg
 /**
- * canvg.js - Javascript SVG parser and renderer on Canvas
+ * Javascript SVG parser and renderer on Canvas.
+ * @file canvg.js
  * @module canvg
  * @license MIT
  * @author Gabe Lerner <gabelerner@gmail.com>
@@ -27,17 +28,17 @@ const isNullish = (val) => {
 
 /**
 * @typedef {PlainObject} module:canvg.CanvgOptions
-* @property {boolean} opts.ignoreMouse true => ignore mouse events
-* @property {boolean} opts.ignoreAnimation true => ignore animations
-* @property {boolean} opts.ignoreDimensions true => does not try to resize canvas
-* @property {boolean} opts.ignoreClear true => does not clear canvas
-* @property {Integer} opts.offsetX int => draws at a x offset
-* @property {Integer} opts.offsetY int => draws at a y offset
-* @property {Integer} opts.scaleWidth int => scales horizontally to width
-* @property {Integer} opts.scaleHeight int => scales vertically to height
-* @property {module:canvg.ForceRedraw} opts.forceRedraw function => will call the function on every frame, if it returns true, will redraw
-* @property {boolean} opts.log Adds log function
-* @property {boolean} opts.useCORS Whether to set CORS `crossOrigin` for the image to `Anonymous`
+* @property {boolean} ignoreMouse true => ignore mouse events
+* @property {boolean} ignoreAnimation true => ignore animations
+* @property {boolean} ignoreDimensions true => does not try to resize canvas
+* @property {boolean} ignoreClear true => does not clear canvas
+* @property {Integer} offsetX int => draws at a x offset
+* @property {Integer} offsetY int => draws at a y offset
+* @property {Integer} scaleWidth int => scales horizontally to width
+* @property {Integer} scaleHeight int => scales vertically to height
+* @property {module:canvg.ForceRedraw} forceRedraw function => will call the function on every frame, if it returns true, will redraw
+* @property {boolean} log Adds log function
+* @property {boolean} useCORS Whether to set CORS `crossOrigin` for the image to `Anonymous`
 */
 
 /**
@@ -152,7 +153,7 @@ function build (opts) {
 
   // compress spaces
   svg.compressSpaces = function (s) {
-    return s.replace(/[\s\r\t\n]+/gm, ' ');
+    return s.replace(/\s+/gm, ' ');
   };
 
   // ajax
@@ -223,7 +224,7 @@ function build (opts) {
     numValue () {
       if (!this.hasValue()) return 0;
 
-      let n = parseFloat(this.value);
+      let n = Number.parseFloat(this.value);
       if (String(this.value).endsWith('%')) {
         n /= 100.0;
       }
@@ -302,7 +303,7 @@ function build (opts) {
     }
 
     getUnits () {
-      return String(this.value).replace(/[0-9.-]/g, '');
+      return String(this.value).replace(/[\d.-]/g, '');
     }
 
     // get the length as pixels
@@ -413,7 +414,7 @@ function build (opts) {
   // points and paths
   svg.ToNumberArray = function (s) {
     const a = svg.trim(svg.compressSpaces((s || '').replace(/,/g, ' '))).split(' ');
-    return a.map((_a) => parseFloat(_a));
+    return a.map((_a) => Number.parseFloat(_a));
   };
   svg.Point = class {
     constructor (x, y) {
@@ -1254,8 +1255,8 @@ function build (opts) {
         .replace(/,/gm, ' ') // get rid of all commas
         .replace(/([MmZzLlHhVvCcSsQqTtAa])([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from commands
         .replace(/([MmZzLlHhVvCcSsQqTtAa])([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from commands
-        .replace(/([MmZzLlHhVvCcSsQqTtAa])([^\s])/gm, '$1 $2') // separate commands from points
-        .replace(/([^\s])([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from points
+        .replace(/([MmZzLlHhVvCcSsQqTtAa])(\S)/gm, '$1 $2') // separate commands from points
+        .replace(/(\S)([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from points
         .replace(/(\d)([+-])/gm, '$1 $2') // separate digits when no comma
         .replace(/(\.\d*)(\.)/gm, '$1 $2') // separate digits when no comma
         .replace(/([Aa](\s+\d+)(\s+\d+)(\s+\d+))\s+([01])\s*([01])/gm, '$1 $5 $6 '); // shorthand elliptical arc path syntax
@@ -1307,7 +1308,7 @@ function build (opts) {
         },
 
         getScalar () {
-          return parseFloat(this.getToken());
+          return Number.parseFloat(this.getToken());
         },
 
         nextCommand () {
@@ -1881,7 +1882,7 @@ function build (opts) {
         }
         return false;
       }
-      this.duration = this.duration + delta;
+      this.duration += delta;
 
       // if we're past the begin time
       let updated = false;
@@ -1907,8 +1908,8 @@ function build (opts) {
       if (this.values.hasValue()) {
         const p = ret.progress * (this.values.value.length - 1);
         const lb = Math.floor(p), ub = Math.ceil(p);
-        ret.from = new svg.Property('from', parseFloat(this.values.value[lb]));
-        ret.to = new svg.Property('to', parseFloat(this.values.value[ub]));
+        ret.from = new svg.Property('from', Number.parseFloat(this.values.value[lb]));
+        ret.to = new svg.Property('to', Number.parseFloat(this.values.value[ub]));
         ret.progress = (p - lb) / (ub - lb);
       } else {
         ret.from = this.from;
@@ -1941,7 +1942,7 @@ function build (opts) {
         const r = from.r + (to.r - from.r) * p.progress;
         const g = from.g + (to.g - from.g) * p.progress;
         const b = from.b + (to.b - from.b) * p.progress;
-        return 'rgb(' + parseInt(r) + ',' + parseInt(g) + ',' + parseInt(b) + ')';
+        return 'rgb(' + Number.parseInt(r) + ',' + Number.parseInt(g) + ',' + Number.parseInt(b) + ')';
       }
       return this.attribute('from').value;
     }
@@ -2367,7 +2368,7 @@ function build (opts) {
         css += nodeValue;
       });
       // remove comments
-      css = css.replace(/(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(^[\s]*\/\/.*)/gm, ''); // eslint-disable-line unicorn/no-unsafe-regex
+      css = css.replace(/(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(^\s*\/\/.*)/gm, ''); // eslint-disable-line unicorn/no-unsafe-regex
       // replace whitespace
       css = svg.compressSpaces(css);
       const cssDefs = css.split('}');

@@ -1,6 +1,6 @@
 /* globals jQuery */
 /**
- * Miscellaneous utilities
+ * Miscellaneous utilities.
  * @module utilities
  * @license MIT
  *
@@ -38,7 +38,7 @@ let domcontainer_ = null;
 let svgroot_ = null;
 
 /**
-* Object with the following keys/values
+* Object with the following keys/values.
 * @typedef {PlainObject} module:utilities.SVGElementJSON
 * @property {string} element - Tag name of the SVG element to create
 * @property {PlainObject<string, string>} attr - Has key-value attributes to assign to the new element. An `id` should be set so that {@link module:utilities.EditorContext#addSVGElementFromJson} can later re-identify the element for modification or replacement.
@@ -60,7 +60,7 @@ let svgroot_ = null;
 /**
  * Create a new SVG element based on the given object keys/values and add it
  * to the current layer.
- * The element will be run through `cleanupElement` before being returned
+ * The element will be run through `cleanupElement` before being returned.
  * @function module:utilities.EditorContext#addSVGElementFromJson
  * @param {module:utilities.SVGElementJSON} data
  * @returns {Element} The new element
@@ -104,13 +104,13 @@ export const init = function (editorContext) {
 
 /**
  * Used to prevent the [Billion laughs attack]{@link https://en.wikipedia.org/wiki/Billion_laughs_attack}.
- * @function module:utilities.dropXMLInteralSubset
+ * @function module:utilities.dropXMLInternalSubset
  * @param {string} str String to be processed
  * @returns {string} The string with entity declarations in the internal subset removed
  * @todo This might be needed in other places `parseFromString` is used even without LGTM flagging
  */
-export const dropXMLInteralSubset = (str) => {
-  return str.replace(/(<!DOCTYPE\s+\w*\s*\[).*(\?\]>)/, '$1$2');
+export const dropXMLInternalSubset = (str) => {
+  return str.replace(/(<!DOCTYPE\s+\w*\s*\[).*(\?]>)/, '$1$2');
   // return str.replace(/(?<doctypeOpen><!DOCTYPE\s+\w*\s*\[).*(?<doctypeClose>\?\]>)/, '$<doctypeOpen>$<doctypeClose>');
 };
 
@@ -180,10 +180,10 @@ export function encode64 (input) {
     let enc4 = chr3 & 63;
     /* eslint-enable no-bitwise */
 
-    if (isNaN(chr2)) {
+    if (Number.isNaN(chr2)) {
       enc3 = 64;
       enc4 = 64;
-    } else if (isNaN(chr3)) {
+    } else if (Number.isNaN(chr3)) {
       enc4 = 64;
     }
 
@@ -208,7 +208,7 @@ export function decode64 (input) {
   }
 
   // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
-  input = input.replace(/[^A-Za-z0-9+/=]/g, '');
+  input = input.replace(/[^A-Za-z\d+/=]/g, '');
 
   let output = '';
   let i = 0;
@@ -661,8 +661,8 @@ export const getBBox = function (elem) {
         const bb = {
           width,
           height,
-          x: x + parseFloat(selected.getAttribute('x') || 0),
-          y: y + parseFloat(selected.getAttribute('y') || 0)
+          x: x + Number.parseFloat(selected.getAttribute('x') || 0),
+          y: y + Number.parseFloat(selected.getAttribute('y') || 0)
         };
         ret = bb;
       }
@@ -1237,7 +1237,14 @@ export const assignAttributes = function (elem, attrs, suspendLength, unitCheck)
     const ns = (key.substr(0, 4) === 'xml:'
       ? NS.XML
       : key.substr(0, 6) === 'xlink:' ? NS.XLINK : null);
-
+    if (isNullish(value)) {
+      if (ns) {
+        elem.removeAttributeNS(ns, key);
+      } else {
+        elem.removeAttribute(key);
+      }
+      continue;
+    }
     if (ns) {
       elem.setAttributeNS(ns, key, value);
     } else if (!unitCheck) {

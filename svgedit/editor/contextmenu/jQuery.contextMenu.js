@@ -1,5 +1,5 @@
 /**
- * jQuery Context Menu Plugin
+ * @file jQuery Context Menu Plugin
  * Cory S.N. LaViska
  * A Beautiful Site ({@link https://abeautifulsite.net/})
  * Modified by Alexis Deveria
@@ -10,7 +10,7 @@
  * @todo Update to latest version and adapt (and needs jQuery update as well): {@link https://github.com/swisnl/jQuery-contextMenu}
  * @version 1.0.1
  *
- * @license (GPL-2.0-or-later OR MIT)
+ * @license (MIT OR GPL-2.0-or-later)
  *
  * This plugin is dual-licensed under the GNU General Public License
  *   and the MIT License and is copyright A Beautiful Site, LLC.
@@ -23,6 +23,7 @@ import {isMac} from '../browser.js';
 * @param {string} href The `href` value after the first character (for bypassing an initial `#`)
 * @param {external:jQuery} srcElement The wrapped jQuery srcElement
 * @param {{x: Float, y: Float, docX: Float, docY: Float}} coords
+* @returns {void}
 */
 
 /**
