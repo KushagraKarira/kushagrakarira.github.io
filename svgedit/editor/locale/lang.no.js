@@ -126,7 +126,6 @@ export default {
     reorient_path: 'Reorient path',
     ungroup: 'Dele opp Elements',
     docprops: 'Document Properties',
-    editor_homepage: 'SVG-Edit Home Page',
     move_bottom: 'Move to Bottom',
     move_top: 'Flytt til toppen',
     node_clone: 'Clone Node',

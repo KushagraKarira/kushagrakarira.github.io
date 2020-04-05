@@ -1,7 +1,7 @@
 /**
- * @file ext-server_moinsave.js
+ * ext-server_moinsave.js
  *
- * @license (MIT OR GPL-2.0-or-later)
+ * @license MIT
  *
  * @copyright 2010 Alexis Deveria, 2011 MoinMoin:ReimarBauer
  *  adopted for moinmoins item storage. It sends in one post png and svg data
@@ -22,14 +22,14 @@ export default {
     //    with `getBBox` in browser.js `supportsPathBBox_`)
     /* const target = */ $(
       `<iframe name="output_frame" title="${strings.hiddenframe}"
-        style="width: 0; height: 0;" src="data:text/html;base64,PGh0bWw+PC9odG1sPg=="/>`
+        style="width: 0; height: 0;" src="#"/>`
     ).appendTo('body');
 
     svgEditor.setCustomHandlers({
       async save (win, data) {
         const svg = '<?xml version="1.0"?>\n' + data;
-        const {pathname} = new URL(location);
-        const name = pathname.replace(/\/+get\//, '');
+        const qstr = $.param.querystring();
+        const [, name] = qstr.substr(9).split('/+get/');
         const svgData = encode64(svg);
         if (!$('#export_canvas').length) {
           $('<canvas>', {id: 'export_canvas'}).hide().appendTo('body');

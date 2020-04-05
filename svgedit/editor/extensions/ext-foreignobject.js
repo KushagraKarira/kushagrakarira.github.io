@@ -1,5 +1,5 @@
 /**
- * @file ext-foreignobject.js
+ * ext-foreignobject.js
  *
  * @license Apache-2.0
  *

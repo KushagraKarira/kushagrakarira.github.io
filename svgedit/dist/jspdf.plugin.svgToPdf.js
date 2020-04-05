@@ -24,15 +24,19 @@
   }
 
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
   }
 
   function _arrayWithHoles(arr) {
@@ -40,11 +44,14 @@
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
-    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+    if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+      return;
+    }
+
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -70,33 +77,16 @@
     return _arr;
   }
 
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
   /**
-   * For parsing color values.
+   * For parsing color values
    * @module RGBColor
    * @author Stoyan Stefanov <sstoo@gmail.com>
    * @see https://www.phpied.com/rgb-color-parser-in-javascript/
@@ -258,7 +248,7 @@
       }
 
       return bits.map(function (b) {
-        return Number.parseInt(b);
+        return parseInt(b);
       });
     }
   }, {
@@ -271,11 +261,11 @@
       }
 
       return bits.map(function (b) {
-        return Number.parseInt(b, 16);
+        return parseInt(b, 16);
       });
     }
   }, {
-    re: /^(\w)(\w)(\w)$/,
+    re: /^(\w{1})(\w{1})(\w{1})$/,
     // re: /^(?<r>\w{1})(?<g>\w{1})(?<b>\w{1})$/,
     example: ['#fb0', 'f0f'],
     process: function process(_) {
@@ -284,7 +274,7 @@
       }
 
       return bits.map(function (b) {
-        return Number.parseInt(b + b, 16);
+        return parseInt(b + b, 16);
       });
     }
   }];
@@ -292,7 +282,9 @@
    * A class to parse color values.
    */
 
-  var RGBColor = /*#__PURE__*/function () {
+  var RGBColor =
+  /*#__PURE__*/
+  function () {
     /**
     * @param {string} colorString
     */
@@ -424,13 +416,12 @@
     circle: ['cx', 'cy', 'r', 'stroke', 'fill', 'stroke-width'],
     polygon: ['points', 'stroke', 'fill', 'stroke-width'],
     // polyline attributes are the same as those of polygon
-    path: ['d', 'stroke', 'fill', 'stroke-width'],
     text: ['x', 'y', 'font-size', 'font-family', 'text-anchor', 'font-weight', 'font-style', 'fill']
   };
 
   var attributeIsNotEmpty = function attributeIsNotEmpty(node, attr) {
     var attVal = attr ? node.getAttribute(attr) : node;
-    return attVal !== '' && attVal !== null && attVal !== 'null';
+    return attVal !== '' && attVal !== null;
   };
 
   var nodeIs = function nodeIs(node, possible) {
@@ -488,226 +479,6 @@
     };
   };
 
-  var getLinesOptionsOfPath = function getLinesOptionsOfPath(node) {
-    var segList = node.pathSegList,
-        n = segList.numberOfItems,
-        opsList = [];
-    var ops = {
-      lines: []
-    };
-    var curr = {
-      x: 0,
-      y: 0
-    };
-    var reflectControl = {
-      x: 0,
-      y: 0
-    };
-
-    var toRelative = function toRelative(nums, relativeTo) {
-      var re = [];
-
-      for (var i = 0; i < nums.length - 1; i += 2) {
-        re[i] = nums[i] - relativeTo.x;
-        re[i + 1] = nums[i + 1] - relativeTo.y;
-      }
-
-      return re;
-    };
-
-    var curveQToC = function curveQToC(nums) {
-      var a = 2 / 3;
-      var re = [nums[0] * a, nums[1] * a, nums[2] + (nums[0] - nums[2]) * a, nums[3] + (nums[1] - nums[3]) * a, nums[2], nums[3]];
-      return re;
-    };
-
-    for (var i = 0, letterPrev; i < n; i++) {
-      var seg = segList.getItem(i);
-      var x1 = seg.x1,
-          y1 = seg.y1,
-          x2 = seg.x2,
-          y2 = seg.y2,
-          x = seg.x,
-          y = seg.y,
-          letter = seg.pathSegTypeAsLetter;
-      var isRelative = letter >= 'a'; // lowercase letter
-
-      switch (letter) {
-        case 'M':
-        case 'm':
-          {
-            if (ops.lines.length && Object.prototype.hasOwnProperty.call(ops, 'x')) {
-              opsList.push(ops);
-            }
-
-            ops = {
-              lines: [],
-              x: isRelative ? x + curr.x : x,
-              y: isRelative ? y + curr.y : y,
-              closed: false
-            };
-            ops.closed = false;
-            break;
-          }
-
-        case 'L':
-          {
-            ops.lines.push(toRelative([x, y], curr));
-            break;
-          }
-
-        case 'l':
-          {
-            ops.lines.push([x, y]);
-            break;
-          }
-
-        case 'H':
-          {
-            ops.lines.push([x - curr.x, 0]);
-            break;
-          }
-
-        case 'h':
-          {
-            ops.lines.push([x, 0]);
-            break;
-          }
-
-        case 'V':
-          {
-            ops.lines.push([0, y - curr.y]);
-            break;
-          }
-
-        case 'v':
-          {
-            ops.lines.push([0, y]);
-            break;
-          }
-
-        case 'Q':
-          {
-            ops.lines.push(curveQToC(toRelative([x1, y1, x, y], curr)));
-            reflectControl.x = x - x1;
-            reflectControl.y = y - y1;
-            break;
-          }
-
-        case 'q':
-          {
-            ops.lines.push(curveQToC([x1, y1, x, y]));
-            reflectControl.x = x - x1;
-            reflectControl.y = y - y1;
-            break;
-          }
-
-        case 'T':
-          {
-            var p1 = letterPrev && 'QqTt'.includes(letterPrev) ? reflectControl : {
-              x: 0,
-              y: 0
-            };
-            ops.lines.push(curveQToC([p1.x, p1.y, x - curr.x, y - curr.y]));
-            reflectControl.x = x - curr.x - p1.x;
-            reflectControl.y = y - curr.y - p1.y;
-            break;
-          }
-
-        case 't':
-          {
-            var _p = letterPrev && 'QqTt'.includes(letterPrev) ? reflectControl : {
-              x: 0,
-              y: 0
-            };
-
-            ops.lines.push([_p.x, _p.y, x, y]);
-            reflectControl.x = x - _p.x;
-            reflectControl.y = y - _p.y;
-            break;
-          }
-
-        case 'C':
-          {
-            ops.lines.push(toRelative([x1, y1, x2, y2, x, y], curr));
-            break;
-          }
-
-        case 'c':
-          {
-            ops.lines.push([x1, y1, x2, y2, x, y]);
-            break;
-          }
-
-        case 'S':
-        case 's':
-          {
-            var _p2 = letterPrev && 'CcSs'.includes(letterPrev) ? reflectControl : {
-              x: 0,
-              y: 0
-            };
-
-            if (isRelative) {
-              ops.lines.push([_p2.x, _p2.y, x2, y2, x, y]);
-            } else {
-              ops.lines.push([_p2.x, _p2.y].concat(toRelative([x2, y2, x, y], curr)));
-            }
-
-            reflectControl.x = x - x2;
-            reflectControl.y = y - y2;
-            break;
-          }
-
-        case 'A':
-        case 'a':
-          {
-            // Not support command 'A' and 'a' yet. Treat it as straight line instead.
-            if (isRelative) {
-              ops.lines.push([x, y]);
-            } else {
-              ops.lines.push(toRelative([x, y], curr));
-            }
-
-            break;
-          }
-
-        case 'z':
-        case 'Z':
-          {
-            ops.closed = true;
-            break;
-          }
-
-        default:
-          {
-            // throw new Error('Unknown path command ' + letter);
-            return opsList;
-          }
-      }
-
-      if (letter === 'Z' || letter === 'z') {
-        curr.x = ops.x;
-        curr.y = ops.y;
-      } else {
-        if (letter !== 'V' && letter !== 'v') {
-          curr.x = isRelative ? x + curr.x : x;
-        }
-
-        if (letter !== 'H' && letter !== 'h') {
-          curr.y = isRelative ? y + curr.y : y;
-        }
-      }
-
-      letterPrev = letter;
-    }
-
-    if (ops.lines.length && Object.prototype.hasOwnProperty.call(ops, 'x')) {
-      opsList.push(ops);
-    }
-
-    return opsList;
-  };
-
   var svgElementToPdf = function svgElementToPdf(element, pdf, options) {
     // pdf is a jsPDF object
     // console.log('options =', options);
@@ -719,12 +490,11 @@
       // let hasStrokeColor = false;
       var hasFillColor = false;
       var fillRGB;
-      colorMode = null;
 
-      if (nodeIs(node, ['g', 'line', 'rect', 'ellipse', 'circle', 'polygon', 'polyline', 'path', 'text'])) {
+      if (nodeIs(node, ['g', 'line', 'rect', 'ellipse', 'circle', 'polygon', 'polyline', 'text'])) {
         var fillColor = node.getAttribute('fill');
 
-        if (attributeIsNotEmpty(fillColor) && node.getAttribute('fill-opacity') !== '0') {
+        if (attributeIsNotEmpty(fillColor)) {
           fillRGB = new RGBColor(fillColor);
 
           if (fillRGB.ok) {
@@ -736,25 +506,25 @@
         }
       }
 
-      if (nodeIs(node, ['g', 'line', 'rect', 'ellipse', 'circle', 'polygon', 'polyline', 'path'])) {
+      if (nodeIs(node, ['g', 'line', 'rect', 'ellipse', 'circle', 'polygon', 'polyline'])) {
         if (hasFillColor) {
           pdf.setFillColor(fillRGB.r, fillRGB.g, fillRGB.b);
         }
 
         if (attributeIsNotEmpty(node, 'stroke-width')) {
-          pdf.setLineWidth(k * Number.parseInt(node.getAttribute('stroke-width')));
+          pdf.setLineWidth(k * parseInt(node.getAttribute('stroke-width')));
         }
 
         var strokeColor = node.getAttribute('stroke');
 
-        if (attributeIsNotEmpty(strokeColor) && node.getAttribute('stroke-width') !== '0' && node.getAttribute('stroke-opacity') !== '0') {
+        if (attributeIsNotEmpty(strokeColor)) {
           var strokeRGB = new RGBColor(strokeColor);
 
           if (strokeRGB.ok) {
             // hasStrokeColor = true;
             pdf.setDrawColor(strokeRGB.r, strokeRGB.g, strokeRGB.b);
 
-            if (hasFillColor) {
+            if (colorMode === 'F') {
               colorMode = 'FD';
             } else {
               colorMode = 'S';
@@ -776,22 +546,22 @@
           break;
 
         case 'line':
-          pdf.line(k * Number.parseInt(node.getAttribute('x1')), k * Number.parseInt(node.getAttribute('y1')), k * Number.parseInt(node.getAttribute('x2')), k * Number.parseInt(node.getAttribute('y2')));
+          pdf.line(k * parseInt(node.getAttribute('x1')), k * parseInt(node.getAttribute('y1')), k * parseInt(node.getAttribute('x2')), k * parseInt(node.getAttribute('y2')));
           removeAttributes(node, pdfSvgAttr.line);
           break;
 
         case 'rect':
-          pdf.rect(k * Number.parseInt(node.getAttribute('x')), k * Number.parseInt(node.getAttribute('y')), k * Number.parseInt(node.getAttribute('width')), k * Number.parseInt(node.getAttribute('height')), colorMode);
+          pdf.rect(k * parseInt(node.getAttribute('x')), k * parseInt(node.getAttribute('y')), k * parseInt(node.getAttribute('width')), k * parseInt(node.getAttribute('height')), colorMode);
           removeAttributes(node, pdfSvgAttr.rect);
           break;
 
         case 'ellipse':
-          pdf.ellipse(k * Number.parseInt(node.getAttribute('cx')), k * Number.parseInt(node.getAttribute('cy')), k * Number.parseInt(node.getAttribute('rx')), k * Number.parseInt(node.getAttribute('ry')), colorMode);
+          pdf.ellipse(k * parseInt(node.getAttribute('cx')), k * parseInt(node.getAttribute('cy')), k * parseInt(node.getAttribute('rx')), k * parseInt(node.getAttribute('ry')), colorMode);
           removeAttributes(node, pdfSvgAttr.ellipse);
           break;
 
         case 'circle':
-          pdf.circle(k * Number.parseInt(node.getAttribute('cx')), k * Number.parseInt(node.getAttribute('cy')), k * Number.parseInt(node.getAttribute('r')), colorMode);
+          pdf.circle(k * parseInt(node.getAttribute('cx')), k * parseInt(node.getAttribute('cy')), k * parseInt(node.getAttribute('r')), colorMode);
           removeAttributes(node, pdfSvgAttr.circle);
           break;
 
@@ -806,37 +576,7 @@
             }
 
             removeAttributes(node, pdfSvgAttr.polygon);
-            break;
-          }
-
-        case 'path':
-          {
-            if (colorMode) {
-              var linesOptionsList = getLinesOptionsOfPath(node);
-
-              if (linesOptionsList.length > 0) {
-                linesOptionsList.forEach(function (linesOptions) {
-                  pdf.lines(linesOptions.lines, k * linesOptions.x, k * linesOptions.y, [k, k], null, linesOptions.closed);
-                }); // svg fill rule default is nonzero
-
-                var fillRule = node.getAttribute('fill-rule');
-
-                if (fillRule === 'evenodd') {
-                  // f* : fill using even-odd rule
-                  // B* : stroke and fill using even-odd rule
-                  if (colorMode === 'F') {
-                    colorMode = 'f*';
-                  } else if (colorMode === 'FD') {
-                    colorMode = 'B*';
-                  }
-                }
-
-                pdf.internal.write(pdf.internal.getStyle(colorMode));
-              }
-            }
-
-            removeAttributes(node, pdfSvgAttr.path);
-            break;
+            break; // TODO: path
           }
 
         case 'text':
@@ -849,18 +589,6 @@
 
                 case 'monospace':
                   pdf.setFont('courier');
-                  break;
-
-                case 'times':
-                  pdf.setFont('times');
-                  break;
-
-                case 'courier':
-                  pdf.setFont('courier');
-                  break;
-
-                case 'helvetica':
-                  pdf.setFont('helvetica');
                   break;
 
                 default:
@@ -892,7 +620,7 @@
             }
 
             pdf.setFontType(fontType);
-            var pdfFontSize = node.hasAttribute('font-size') ? Number.parseInt(node.getAttribute('font-size')) : 16;
+            var pdfFontSize = node.hasAttribute('font-size') ? parseInt(node.getAttribute('font-size')) : 16;
             /**
              *
              * @param {Element} elem
@@ -919,7 +647,7 @@
                   };
                 }
 
-                svg.remove();
+                document.body.removeChild(svg);
               }
 
               return box.width;
@@ -948,8 +676,8 @@
                   break;
               }
 
-              x = Number.parseInt(node.getAttribute('x')) - xOffset;
-              y = Number.parseInt(node.getAttribute('y'));
+              x = parseInt(node.getAttribute('x')) - xOffset;
+              y = parseInt(node.getAttribute('y'));
             } // console.log('fontSize:', pdfFontSize, 'text:', node.textContent);
 
 

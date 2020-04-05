@@ -58,14 +58,15 @@ module.exports = {
   recurseDepth: 10,
   source: {
     exclude: [
-      'cypress',
       'node_modules',
       'dist',
       'editor/external',
+      'firefox-extension',
+      'opera-widget',
       'screencasts',
       'test'
     ],
-    excludePattern: 'svgedit-config-*|build-html.js|rollup*|external/babel-polyfill|extensions/mathjax|imagelib/jquery.min.js|jspdf/jspdf.min.js|jspdf/underscore-min.js|jquery-ui|jquery.min.js|js-hotkeys'
+    excludePattern: 'svgedit-config-*|build-html.js|rollup*|external/babel-polyfill|extensions/mathjax|imagelib/jquery.min.js|jspdf/jspdf.min.js|jspdf/underscore-min.js|jquery-ui|jquery.min.js|jquerybbq|js-hotkeys'
   },
   sourceType: 'module',
   tags: {

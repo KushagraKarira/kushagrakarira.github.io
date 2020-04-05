@@ -1,5 +1,5 @@
 /**
- * @file ext-star.js
+ * ext-star.js
  *
  *
  * @copyright 2010 CloudCanvas, Inc. All rights reserved

@@ -129,7 +129,6 @@ var svgEditorLang_sq = (function () {
       reorient_path: 'Reorient path',
       ungroup: 'Elemente Ungroup',
       docprops: 'Dokumenti Prona',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Move to Bottom',
       move_top: 'Move to Top',
       node_clone: 'Clone Node',

@@ -1,5 +1,5 @@
 /**
- * @file ext-grid.js
+ * ext-grid.js
  *
  * @license Apache-2.0
  *

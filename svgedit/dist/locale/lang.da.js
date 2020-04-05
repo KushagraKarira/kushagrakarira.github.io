@@ -129,7 +129,6 @@ var svgEditorLang_da = (function () {
       reorient_path: 'Reorient path',
       ungroup: 'Opdel Elements',
       docprops: 'Document Properties',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Flyt til bund',
       move_top: 'Flyt til toppen',
       node_clone: 'Clone Node',

@@ -1,8 +1,8 @@
 /* globals MathJax */
 /**
- * @file ext-mathjax.js
+ * ext-mathjax.js
  *
- * @license MIT
+ * @license Apache-2.0
  *
  * @copyright 2013 Jo Segaert
  *

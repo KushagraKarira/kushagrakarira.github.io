@@ -129,7 +129,6 @@ var svgEditorLang_fy = (function () {
       reorient_path: 'Paad opnij orientearje',
       ungroup: 'Groepering opheffe',
       docprops: 'Dokuminteigenskippen',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Nei eftergrûn',
       move_top: 'Nei foargrûn',
       node_clone: 'Knooppunt duplisearje',

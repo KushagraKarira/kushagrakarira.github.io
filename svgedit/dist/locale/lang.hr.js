@@ -129,7 +129,6 @@ var svgEditorLang_hr = (function () {
       reorient_path: 'Reorient path',
       ungroup: 'Razgrupiranje Elementi',
       docprops: 'Svojstva dokumenta',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Move to Bottom',
       move_top: 'Pomakni na vrh',
       node_clone: 'Clone Node',

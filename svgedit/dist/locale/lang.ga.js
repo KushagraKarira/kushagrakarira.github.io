@@ -129,7 +129,6 @@ var svgEditorLang_ga = (function () {
       reorient_path: 'Reorient path',
       ungroup: 'Eilimintí Díghrúpáil',
       docprops: 'Doiciméad Airíonna',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Téigh go Bun',
       move_top: 'Téigh go Barr',
       node_clone: 'Clone Node',

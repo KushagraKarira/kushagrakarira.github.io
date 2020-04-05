@@ -2,8 +2,6 @@
   'use strict';
 
   function _typeof(obj) {
-    "@babel/helpers - typeof";
-
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -122,8 +120,7 @@
         viableNextSibling = viableNextSibling.nextSibling;
       }
 
-      var node = convertNodesIntoANode(nodes); // eslint-disable-next-line unicorn/prefer-modern-dom-apis
-
+      var node = convertNodesIntoANode(nodes);
       parent.insertBefore(node, viableNextSibling);
     },
     replaceWith: function replaceWith() {
@@ -144,7 +141,6 @@
       if (this.parentNode === parent) {
         parent.replaceChild(node, this);
       } else {
-        // eslint-disable-next-line unicorn/prefer-modern-dom-apis
         parent.insertBefore(node, viableNextSibling);
       }
     },

@@ -1,5 +1,5 @@
 /**
- * @file ext-server_opensave.js
+ * ext-server_opensave.js
  *
  * @license MIT
  *
@@ -74,7 +74,7 @@ export default {
     //    with `getBBox` in browser.js `supportsPathBBox_`)
     $(
       `<iframe name="output_frame" title="${strings.hiddenframe}"
-          style="width: 0; height: 0;" src="data:text/html;base64,PGh0bWw+"/>`
+          style="width: 0; height: 0;" src="#"/>`
     ).appendTo('body');
     svgEditor.setCustomHandlers({
       save (win, data) {

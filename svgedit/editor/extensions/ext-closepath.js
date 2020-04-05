@@ -1,5 +1,5 @@
 /**
- * @file ext-closepath.js
+ * ext-closepath.js
  *
  * @license MIT
  *

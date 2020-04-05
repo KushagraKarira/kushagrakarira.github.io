@@ -2,8 +2,6 @@ var svgEditorExtension_server_moinsave = (function () {
   'use strict';
 
   function _typeof(obj) {
-    "@babel/helpers - typeof";
-
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -15,42 +13,6 @@ var svgEditorExtension_server_moinsave = (function () {
     }
 
     return _typeof(obj);
-  }
-
-  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-      var info = gen[key](arg);
-      var value = info.value;
-    } catch (error) {
-      reject(error);
-      return;
-    }
-
-    if (info.done) {
-      resolve(value);
-    } else {
-      Promise.resolve(value).then(_next, _throw);
-    }
-  }
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var self = this,
-          args = arguments;
-      return new Promise(function (resolve, reject) {
-        var gen = fn.apply(self, args);
-
-        function _next(value) {
-          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-        }
-
-        function _throw(err) {
-          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-        }
-
-        _next(undefined);
-      });
-    };
   }
 
   function _classCallCheck(instance, Constructor) {
@@ -106,7 +68,7 @@ var svgEditorExtension_server_moinsave = (function () {
     return _setPrototypeOf(o, p);
   }
 
-  function _isNativeReflectConstruct() {
+  function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -120,7 +82,7 @@ var svgEditorExtension_server_moinsave = (function () {
   }
 
   function _construct(Parent, args, Class) {
-    if (_isNativeReflectConstruct()) {
+    if (isNativeReflectConstruct()) {
       _construct = Reflect.construct;
     } else {
       _construct = function _construct(Parent, args, Class) {
@@ -150,23 +112,6 @@ var svgEditorExtension_server_moinsave = (function () {
     }
 
     return _assertThisInitialized(self);
-  }
-
-  function _createSuper(Derived) {
-    return function () {
-      var Super = _getPrototypeOf(Derived),
-          result;
-
-      if (_isNativeReflectConstruct()) {
-        var NewTarget = _getPrototypeOf(this).constructor;
-
-        result = Reflect.construct(Super, arguments, NewTarget);
-      } else {
-        result = Super.apply(this, arguments);
-      }
-
-      return _possibleConstructorReturn(this, result);
-    };
   }
 
   function _superPropBase(object, property) {
@@ -200,15 +145,19 @@ var svgEditorExtension_server_moinsave = (function () {
   }
 
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
   }
 
   function _arrayWithHoles(arr) {
@@ -216,11 +165,14 @@ var svgEditorExtension_server_moinsave = (function () {
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
-    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+    if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+      return;
+    }
+
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -246,33 +198,16 @@ var svgEditorExtension_server_moinsave = (function () {
     return _arr;
   }
 
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
   /**
-   * For parsing color values.
+   * For parsing color values
    * @module RGBColor
    * @author Stoyan Stefanov <sstoo@gmail.com>
    * @see https://www.phpied.com/rgb-color-parser-in-javascript/
@@ -434,7 +369,7 @@ var svgEditorExtension_server_moinsave = (function () {
       }
 
       return bits.map(function (b) {
-        return Number.parseInt(b);
+        return parseInt(b);
       });
     }
   }, {
@@ -447,11 +382,11 @@ var svgEditorExtension_server_moinsave = (function () {
       }
 
       return bits.map(function (b) {
-        return Number.parseInt(b, 16);
+        return parseInt(b, 16);
       });
     }
   }, {
-    re: /^(\w)(\w)(\w)$/,
+    re: /^(\w{1})(\w{1})(\w{1})$/,
     // re: /^(?<r>\w{1})(?<g>\w{1})(?<b>\w{1})$/,
     example: ['#fb0', 'f0f'],
     process: function process(_) {
@@ -460,7 +395,7 @@ var svgEditorExtension_server_moinsave = (function () {
       }
 
       return bits.map(function (b) {
-        return Number.parseInt(b + b, 16);
+        return parseInt(b + b, 16);
       });
     }
   }];
@@ -468,7 +403,9 @@ var svgEditorExtension_server_moinsave = (function () {
    * A class to parse color values.
    */
 
-  var RGBColor = /*#__PURE__*/function () {
+  var RGBColor =
+  /*#__PURE__*/
+  function () {
     /**
     * @param {string} colorString
     */
@@ -938,17 +875,17 @@ var svgEditorExtension_server_moinsave = (function () {
 
   /**
   * @typedef {PlainObject} module:canvg.CanvgOptions
-  * @property {boolean} ignoreMouse true => ignore mouse events
-  * @property {boolean} ignoreAnimation true => ignore animations
-  * @property {boolean} ignoreDimensions true => does not try to resize canvas
-  * @property {boolean} ignoreClear true => does not clear canvas
-  * @property {Integer} offsetX int => draws at a x offset
-  * @property {Integer} offsetY int => draws at a y offset
-  * @property {Integer} scaleWidth int => scales horizontally to width
-  * @property {Integer} scaleHeight int => scales vertically to height
-  * @property {module:canvg.ForceRedraw} forceRedraw function => will call the function on every frame, if it returns true, will redraw
-  * @property {boolean} log Adds log function
-  * @property {boolean} useCORS Whether to set CORS `crossOrigin` for the image to `Anonymous`
+  * @property {boolean} opts.ignoreMouse true => ignore mouse events
+  * @property {boolean} opts.ignoreAnimation true => ignore animations
+  * @property {boolean} opts.ignoreDimensions true => does not try to resize canvas
+  * @property {boolean} opts.ignoreClear true => does not clear canvas
+  * @property {Integer} opts.offsetX int => draws at a x offset
+  * @property {Integer} opts.offsetY int => draws at a y offset
+  * @property {Integer} opts.scaleWidth int => scales horizontally to width
+  * @property {Integer} opts.scaleHeight int => scales vertically to height
+  * @property {module:canvg.ForceRedraw} opts.forceRedraw function => will call the function on every frame, if it returns true, will redraw
+  * @property {boolean} opts.log Adds log function
+  * @property {boolean} opts.useCORS Whether to set CORS `crossOrigin` for the image to `Anonymous`
   */
 
   /**
@@ -1093,7 +1030,7 @@ var svgEditorExtension_server_moinsave = (function () {
 
 
     svg.compressSpaces = function (s) {
-      return s.replace(/\s+/gm, ' ');
+      return s.replace(/[\s\r\t\n]+/gm, ' ');
     }; // ajax
     // Todo: Replace with `fetch` and polyfill
 
@@ -1147,7 +1084,9 @@ var svgEditorExtension_server_moinsave = (function () {
       mathematical: 'alphabetic'
     };
 
-    svg.Property = /*#__PURE__*/function () {
+    svg.Property =
+    /*#__PURE__*/
+    function () {
       function Property(name, value) {
         _classCallCheck(this, Property);
 
@@ -1170,7 +1109,7 @@ var svgEditorExtension_server_moinsave = (function () {
         key: "numValue",
         value: function numValue() {
           if (!this.hasValue()) return 0;
-          var n = Number.parseFloat(this.value);
+          var n = parseFloat(this.value);
 
           if (String(this.value).endsWith('%')) {
             n /= 100.0;
@@ -1272,7 +1211,7 @@ var svgEditorExtension_server_moinsave = (function () {
       }, {
         key: "getUnits",
         value: function getUnits() {
-          return String(this.value).replace(/[\d.-]/g, '');
+          return String(this.value).replace(/[0-9.-]/g, '');
         } // get the length as pixels
 
       }, {
@@ -1398,11 +1337,13 @@ var svgEditorExtension_server_moinsave = (function () {
     svg.ToNumberArray = function (s) {
       var a = svg.trim(svg.compressSpaces((s || '').replace(/,/g, ' '))).split(' ');
       return a.map(function (_a) {
-        return Number.parseFloat(_a);
+        return parseFloat(_a);
       });
     };
 
-    svg.Point = /*#__PURE__*/function () {
+    svg.Point =
+    /*#__PURE__*/
+    function () {
       function _class(x, y) {
         _classCallCheck(this, _class);
 
@@ -1445,7 +1386,9 @@ var svgEditorExtension_server_moinsave = (function () {
     }; // bounding box
 
 
-    svg.BoundingBox = /*#__PURE__*/function () {
+    svg.BoundingBox =
+    /*#__PURE__*/
+    function () {
       function _class2(x1, y1, x2, y2) {
         _classCallCheck(this, _class2);
 
@@ -1598,7 +1541,9 @@ var svgEditorExtension_server_moinsave = (function () {
     }(); // transforms
 
 
-    svg.Transform = /*#__PURE__*/function () {
+    svg.Transform =
+    /*#__PURE__*/
+    function () {
       function _class3(v) {
         var _this6 = this;
 
@@ -1682,17 +1627,17 @@ var svgEditorExtension_server_moinsave = (function () {
           }
         };
         Object.assign(this.Type, {
-          SkewBase: /*#__PURE__*/function (_this$Type$matrix) {
+          SkewBase:
+          /*#__PURE__*/
+          function (_this$Type$matrix) {
             _inherits(SkewBase, _this$Type$matrix);
-
-            var _super = _createSuper(SkewBase);
 
             function SkewBase(s) {
               var _this3;
 
               _classCallCheck(this, SkewBase);
 
-              _this3 = _super.call(this, s);
+              _this3 = _possibleConstructorReturn(this, _getPrototypeOf(SkewBase).call(this, s));
               _this3.angle = new svg.Property('angle', s);
               return _this3;
             }
@@ -1701,34 +1646,34 @@ var svgEditorExtension_server_moinsave = (function () {
           }(this.Type.matrix)
         });
         Object.assign(this.Type, {
-          skewX: /*#__PURE__*/function (_this$Type$SkewBase) {
+          skewX:
+          /*#__PURE__*/
+          function (_this$Type$SkewBase) {
             _inherits(skewX, _this$Type$SkewBase);
-
-            var _super2 = _createSuper(skewX);
 
             function skewX(s) {
               var _this4;
 
               _classCallCheck(this, skewX);
 
-              _this4 = _super2.call(this, s);
+              _this4 = _possibleConstructorReturn(this, _getPrototypeOf(skewX).call(this, s));
               _this4.m = [1, 0, Math.tan(_this4.angle.toRadians()), 1, 0, 0];
               return _this4;
             }
 
             return skewX;
           }(this.Type.SkewBase),
-          skewY: /*#__PURE__*/function (_this$Type$SkewBase2) {
+          skewY:
+          /*#__PURE__*/
+          function (_this$Type$SkewBase2) {
             _inherits(skewY, _this$Type$SkewBase2);
-
-            var _super3 = _createSuper(skewY);
 
             function skewY(s) {
               var _this5;
 
               _classCallCheck(this, skewY);
 
-              _this5 = _super3.call(this, s);
+              _this5 = _possibleConstructorReturn(this, _getPrototypeOf(skewY).call(this, s));
               _this5.m = [1, Math.tan(_this5.angle.toRadians()), 0, 1, 0, 0];
               return _this5;
             }
@@ -1819,7 +1764,9 @@ var svgEditorExtension_server_moinsave = (function () {
     svg.Element = {};
     svg.EmptyProperty = new svg.Property('EMPTY', '');
 
-    svg.Element.ElementBase = /*#__PURE__*/function () {
+    svg.Element.ElementBase =
+    /*#__PURE__*/
+    function () {
       function _class4(node) {
         var _this7 = this;
 
@@ -2059,15 +2006,15 @@ var svgEditorExtension_server_moinsave = (function () {
       return _class4;
     }();
 
-    svg.Element.RenderedElementBase = /*#__PURE__*/function (_svg$Element$ElementB) {
+    svg.Element.RenderedElementBase =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB) {
       _inherits(_class5, _svg$Element$ElementB);
-
-      var _super4 = _createSuper(_class5);
 
       function _class5() {
         _classCallCheck(this, _class5);
 
-        return _super4.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class5).apply(this, arguments));
       }
 
       _createClass(_class5, [{
@@ -2166,15 +2113,15 @@ var svgEditorExtension_server_moinsave = (function () {
       return _class5;
     }(svg.Element.ElementBase);
 
-    svg.Element.PathElementBase = /*#__PURE__*/function (_svg$Element$Rendered) {
+    svg.Element.PathElementBase =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered) {
       _inherits(_class6, _svg$Element$Rendered);
-
-      var _super5 = _createSuper(_class6);
 
       function _class6() {
         _classCallCheck(this, _class6);
 
-        return _super5.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class6).apply(this, arguments));
       }
 
       _createClass(_class6, [{
@@ -2237,15 +2184,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // svg element
 
 
-    svg.Element.svg = /*#__PURE__*/function (_svg$Element$Rendered2) {
+    svg.Element.svg =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered2) {
       _inherits(_class7, _svg$Element$Rendered2);
-
-      var _super6 = _createSuper(_class7);
 
       function _class7() {
         _classCallCheck(this, _class7);
 
-        return _super6.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class7).apply(this, arguments));
       }
 
       _createClass(_class7, [{
@@ -2320,15 +2267,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // rect element
 
 
-    svg.Element.rect = /*#__PURE__*/function (_svg$Element$PathElem) {
+    svg.Element.rect =
+    /*#__PURE__*/
+    function (_svg$Element$PathElem) {
       _inherits(_class8, _svg$Element$PathElem);
-
-      var _super7 = _createSuper(_class8);
 
       function _class8() {
         _classCallCheck(this, _class8);
 
-        return _super7.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class8).apply(this, arguments));
       }
 
       _createClass(_class8, [{
@@ -2367,15 +2314,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.PathElementBase); // circle element
 
 
-    svg.Element.circle = /*#__PURE__*/function (_svg$Element$PathElem2) {
+    svg.Element.circle =
+    /*#__PURE__*/
+    function (_svg$Element$PathElem2) {
       _inherits(_class9, _svg$Element$PathElem2);
-
-      var _super8 = _createSuper(_class9);
 
       function _class9() {
         _classCallCheck(this, _class9);
 
-        return _super8.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class9).apply(this, arguments));
       }
 
       _createClass(_class9, [{
@@ -2401,15 +2348,15 @@ var svgEditorExtension_server_moinsave = (function () {
 
     var KAPPA = 4 * ((Math.sqrt(2) - 1) / 3);
 
-    svg.Element.ellipse = /*#__PURE__*/function (_svg$Element$PathElem3) {
+    svg.Element.ellipse =
+    /*#__PURE__*/
+    function (_svg$Element$PathElem3) {
       _inherits(_class10, _svg$Element$PathElem3);
-
-      var _super9 = _createSuper(_class10);
 
       function _class10() {
         _classCallCheck(this, _class10);
 
-        return _super9.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class10).apply(this, arguments));
       }
 
       _createClass(_class10, [{
@@ -2438,15 +2385,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.PathElementBase); // line element
 
 
-    svg.Element.line = /*#__PURE__*/function (_svg$Element$PathElem4) {
+    svg.Element.line =
+    /*#__PURE__*/
+    function (_svg$Element$PathElem4) {
       _inherits(_class11, _svg$Element$PathElem4);
-
-      var _super10 = _createSuper(_class11);
 
       function _class11() {
         _classCallCheck(this, _class11);
 
-        return _super10.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class11).apply(this, arguments));
       }
 
       _createClass(_class11, [{
@@ -2480,17 +2427,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.PathElementBase); // polyline element
 
 
-    svg.Element.polyline = /*#__PURE__*/function (_svg$Element$PathElem5) {
+    svg.Element.polyline =
+    /*#__PURE__*/
+    function (_svg$Element$PathElem5) {
       _inherits(_class12, _svg$Element$PathElem5);
-
-      var _super11 = _createSuper(_class12);
 
       function _class12(node) {
         var _this8;
 
         _classCallCheck(this, _class12);
 
-        _this8 = _super11.call(this, node);
+        _this8 = _possibleConstructorReturn(this, _getPrototypeOf(_class12).call(this, node));
         _this8.points = svg.CreatePath(_this8.attribute('points').value);
         return _this8;
       }
@@ -2536,15 +2483,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.PathElementBase); // polygon element
 
 
-    svg.Element.polygon = /*#__PURE__*/function (_svg$Element$polyline) {
+    svg.Element.polygon =
+    /*#__PURE__*/
+    function (_svg$Element$polyline) {
       _inherits(_class13, _svg$Element$polyline);
-
-      var _super12 = _createSuper(_class13);
 
       function _class13() {
         _classCallCheck(this, _class13);
 
-        return _super12.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class13).apply(this, arguments));
       }
 
       _createClass(_class13, [{
@@ -2565,24 +2512,24 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.polyline); // path element
 
 
-    svg.Element.path = /*#__PURE__*/function (_svg$Element$PathElem6) {
+    svg.Element.path =
+    /*#__PURE__*/
+    function (_svg$Element$PathElem6) {
       _inherits(_class14, _svg$Element$PathElem6);
-
-      var _super13 = _createSuper(_class14);
 
       function _class14(node) {
         var _this9;
 
         _classCallCheck(this, _class14);
 
-        _this9 = _super13.call(this, node);
+        _this9 = _possibleConstructorReturn(this, _getPrototypeOf(_class14).call(this, node));
 
         var d = _this9.attribute('d').value // TODO: convert to real lexer based on https://www.w3.org/TR/SVG11/paths.html#PathDataBNF
         .replace(/,/gm, ' ') // get rid of all commas
         .replace(/([MmZzLlHhVvCcSsQqTtAa])([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from commands
         .replace(/([MmZzLlHhVvCcSsQqTtAa])([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from commands
-        .replace(/([MmZzLlHhVvCcSsQqTtAa])(\S)/gm, '$1 $2') // separate commands from points
-        .replace(/(\S)([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from points
+        .replace(/([MmZzLlHhVvCcSsQqTtAa])([^\s])/gm, '$1 $2') // separate commands from points
+        .replace(/([^\s])([MmZzLlHhVvCcSsQqTtAa])/gm, '$1 $2') // separate commands from points
         .replace(/(\d)([+-])/gm, '$1 $2') // separate digits when no comma
         .replace(/(\.\d*)(\.)/gm, '$1 $2') // separate digits when no comma
         .replace(/([Aa](\s+\d+)(\s+\d+)(\s+\d+))\s+([01])\s*([01])/gm, '$1 $5 $6 '); // shorthand elliptical arc path syntax
@@ -2632,7 +2579,7 @@ var svgEditorExtension_server_moinsave = (function () {
             return this.tokens[this.i];
           },
           getScalar: function getScalar() {
-            return Number.parseFloat(this.getToken());
+            return parseFloat(this.getToken());
           },
           nextCommand: function nextCommand() {
             this.previousCommand = this.command;
@@ -2944,15 +2891,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.PathElementBase); // pattern element
 
 
-    svg.Element.pattern = /*#__PURE__*/function (_svg$Element$ElementB2) {
+    svg.Element.pattern =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB2) {
       _inherits(_class15, _svg$Element$ElementB2);
-
-      var _super14 = _createSuper(_class15);
 
       function _class15() {
         _classCallCheck(this, _class15);
 
-        return _super14.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class15).apply(this, arguments));
       }
 
       _createClass(_class15, [{
@@ -2995,15 +2942,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // marker element
 
 
-    svg.Element.marker = /*#__PURE__*/function (_svg$Element$ElementB3) {
+    svg.Element.marker =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB3) {
       _inherits(_class16, _svg$Element$ElementB3);
-
-      var _super15 = _createSuper(_class16);
 
       function _class16() {
         _classCallCheck(this, _class16);
 
-        return _super15.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class16).apply(this, arguments));
       }
 
       _createClass(_class16, [{
@@ -3035,15 +2982,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // definitions element
 
 
-    svg.Element.defs = /*#__PURE__*/function (_svg$Element$ElementB4) {
+    svg.Element.defs =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB4) {
       _inherits(_class17, _svg$Element$ElementB4);
-
-      var _super16 = _createSuper(_class17);
 
       function _class17() {
         _classCallCheck(this, _class17);
 
-        return _super16.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class17).apply(this, arguments));
       }
 
       _createClass(_class17, [{
@@ -3056,17 +3003,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // base for gradients
 
 
-    svg.Element.GradientBase = /*#__PURE__*/function (_svg$Element$ElementB5) {
+    svg.Element.GradientBase =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB5) {
       _inherits(_class18, _svg$Element$ElementB5);
-
-      var _super17 = _createSuper(_class18);
 
       function _class18(node) {
         var _this10;
 
         _classCallCheck(this, _class18);
 
-        _this10 = _super17.call(this, node);
+        _this10 = _possibleConstructorReturn(this, _getPrototypeOf(_class18).call(this, node));
         _this10.gradientUnits = _this10.attribute('gradientUnits').valueOrDefault('objectBoundingBox');
         _this10.stops = [];
 
@@ -3139,15 +3086,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // linear gradient element
 
 
-    svg.Element.linearGradient = /*#__PURE__*/function (_svg$Element$Gradient) {
+    svg.Element.linearGradient =
+    /*#__PURE__*/
+    function (_svg$Element$Gradient) {
       _inherits(_class19, _svg$Element$Gradient);
-
-      var _super18 = _createSuper(_class19);
 
       function _class19() {
         _classCallCheck(this, _class19);
 
-        return _super18.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class19).apply(this, arguments));
       }
 
       _createClass(_class19, [{
@@ -3176,15 +3123,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.GradientBase); // radial gradient element
 
 
-    svg.Element.radialGradient = /*#__PURE__*/function (_svg$Element$Gradient2) {
+    svg.Element.radialGradient =
+    /*#__PURE__*/
+    function (_svg$Element$Gradient2) {
       _inherits(_class20, _svg$Element$Gradient2);
-
-      var _super19 = _createSuper(_class20);
 
       function _class20() {
         _classCallCheck(this, _class20);
 
-        return _super19.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class20).apply(this, arguments));
       }
 
       _createClass(_class20, [{
@@ -3217,17 +3164,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.GradientBase); // gradient stop element
 
 
-    svg.Element.stop = /*#__PURE__*/function (_svg$Element$ElementB6) {
+    svg.Element.stop =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB6) {
       _inherits(_class21, _svg$Element$ElementB6);
-
-      var _super20 = _createSuper(_class21);
 
       function _class21(node) {
         var _this11;
 
         _classCallCheck(this, _class21);
 
-        _this11 = _super20.call(this, node);
+        _this11 = _possibleConstructorReturn(this, _getPrototypeOf(_class21).call(this, node));
         _this11.offset = _this11.attribute('offset').numValue();
         if (_this11.offset < 0) _this11.offset = 0;
         if (_this11.offset > 1) _this11.offset = 1;
@@ -3246,17 +3193,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // animation base element
 
 
-    svg.Element.AnimateBase = /*#__PURE__*/function (_svg$Element$ElementB7) {
+    svg.Element.AnimateBase =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB7) {
       _inherits(_class22, _svg$Element$ElementB7);
-
-      var _super21 = _createSuper(_class22);
 
       function _class22(node) {
         var _this12;
 
         _classCallCheck(this, _class22);
 
-        _this12 = _super21.call(this, node);
+        _this12 = _possibleConstructorReturn(this, _getPrototypeOf(_class22).call(this, node));
         svg.Animations.push(_assertThisInitialized(_this12));
         _this12.duration = 0.0;
         _this12.begin = _this12.attribute('begin').toMilliseconds();
@@ -3316,7 +3263,7 @@ var svgEditorExtension_server_moinsave = (function () {
             return false;
           }
 
-          this.duration += delta; // if we're past the begin time
+          this.duration = this.duration + delta; // if we're past the begin time
 
           var updated = false;
 
@@ -3347,8 +3294,8 @@ var svgEditorExtension_server_moinsave = (function () {
             var p = ret.progress * (this.values.value.length - 1);
             var lb = Math.floor(p),
                 ub = Math.ceil(p);
-            ret.from = new svg.Property('from', Number.parseFloat(this.values.value[lb]));
-            ret.to = new svg.Property('to', Number.parseFloat(this.values.value[ub]));
+            ret.from = new svg.Property('from', parseFloat(this.values.value[lb]));
+            ret.to = new svg.Property('to', parseFloat(this.values.value[ub]));
             ret.progress = (p - lb) / (ub - lb);
           } else {
             ret.from = this.from;
@@ -3363,15 +3310,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // animate element
 
 
-    svg.Element.animate = /*#__PURE__*/function (_svg$Element$AnimateB) {
+    svg.Element.animate =
+    /*#__PURE__*/
+    function (_svg$Element$AnimateB) {
       _inherits(_class23, _svg$Element$AnimateB);
-
-      var _super22 = _createSuper(_class23);
 
       function _class23() {
         _classCallCheck(this, _class23);
 
-        return _super22.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class23).apply(this, arguments));
       }
 
       _createClass(_class23, [{
@@ -3388,15 +3335,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.AnimateBase); // animate color element
 
 
-    svg.Element.animateColor = /*#__PURE__*/function (_svg$Element$AnimateB2) {
+    svg.Element.animateColor =
+    /*#__PURE__*/
+    function (_svg$Element$AnimateB2) {
       _inherits(_class24, _svg$Element$AnimateB2);
-
-      var _super23 = _createSuper(_class24);
 
       function _class24() {
         _classCallCheck(this, _class24);
 
-        return _super23.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class24).apply(this, arguments));
       }
 
       _createClass(_class24, [{
@@ -3411,7 +3358,7 @@ var svgEditorExtension_server_moinsave = (function () {
             var r = from.r + (to.r - from.r) * p.progress;
             var g = from.g + (to.g - from.g) * p.progress;
             var b = from.b + (to.b - from.b) * p.progress;
-            return 'rgb(' + Number.parseInt(r) + ',' + Number.parseInt(g) + ',' + Number.parseInt(b) + ')';
+            return 'rgb(' + parseInt(r) + ',' + parseInt(g) + ',' + parseInt(b) + ')';
           }
 
           return this.attribute('from').value;
@@ -3422,15 +3369,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.AnimateBase); // animate transform element
 
 
-    svg.Element.animateTransform = /*#__PURE__*/function (_svg$Element$animate) {
+    svg.Element.animateTransform =
+    /*#__PURE__*/
+    function (_svg$Element$animate) {
       _inherits(_class25, _svg$Element$animate);
-
-      var _super24 = _createSuper(_class25);
 
       function _class25() {
         _classCallCheck(this, _class25);
 
-        return _super24.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class25).apply(this, arguments));
       }
 
       _createClass(_class25, [{
@@ -3452,17 +3399,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.animate); // font element
 
 
-    svg.Element.font = /*#__PURE__*/function (_svg$Element$ElementB8) {
+    svg.Element.font =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB8) {
       _inherits(_class26, _svg$Element$ElementB8);
-
-      var _super25 = _createSuper(_class26);
 
       function _class26(node) {
         var _this13;
 
         _classCallCheck(this, _class26);
 
-        _this13 = _super25.call(this, node);
+        _this13 = _possibleConstructorReturn(this, _getPrototypeOf(_class26).call(this, node));
         _this13.horizAdvX = _this13.attribute('horiz-adv-x').numValue();
         _this13.isRTL = false;
         _this13.isArabic = false;
@@ -3502,17 +3449,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // font-face element
 
 
-    svg.Element.fontface = /*#__PURE__*/function (_svg$Element$ElementB9) {
+    svg.Element.fontface =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB9) {
       _inherits(_class27, _svg$Element$ElementB9);
-
-      var _super26 = _createSuper(_class27);
 
       function _class27(node) {
         var _this14;
 
         _classCallCheck(this, _class27);
 
-        _this14 = _super26.call(this, node);
+        _this14 = _possibleConstructorReturn(this, _getPrototypeOf(_class27).call(this, node));
         _this14.ascent = _this14.attribute('ascent').value;
         _this14.descent = _this14.attribute('descent').value;
         _this14.unitsPerEm = _this14.attribute('units-per-em').numValue();
@@ -3523,17 +3470,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // missing-glyph element
 
 
-    svg.Element.missingglyph = /*#__PURE__*/function (_svg$Element$path) {
+    svg.Element.missingglyph =
+    /*#__PURE__*/
+    function (_svg$Element$path) {
       _inherits(_class28, _svg$Element$path);
-
-      var _super27 = _createSuper(_class28);
 
       function _class28(node) {
         var _this15;
 
         _classCallCheck(this, _class28);
 
-        _this15 = _super27.call(this, node);
+        _this15 = _possibleConstructorReturn(this, _getPrototypeOf(_class28).call(this, node));
         _this15.horizAdvX = 0;
         return _this15;
       }
@@ -3542,17 +3489,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.path); // glyph element
 
 
-    svg.Element.glyph = /*#__PURE__*/function (_svg$Element$path2) {
+    svg.Element.glyph =
+    /*#__PURE__*/
+    function (_svg$Element$path2) {
       _inherits(_class29, _svg$Element$path2);
-
-      var _super28 = _createSuper(_class29);
 
       function _class29(node) {
         var _this16;
 
         _classCallCheck(this, _class29);
 
-        _this16 = _super28.call(this, node);
+        _this16 = _possibleConstructorReturn(this, _getPrototypeOf(_class29).call(this, node));
         _this16.horizAdvX = _this16.attribute('horiz-adv-x').numValue();
         _this16.unicode = _this16.attribute('unicode').value;
         _this16.arabicForm = _this16.attribute('arabic-form').value;
@@ -3563,15 +3510,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.path); // text element
 
 
-    svg.Element.text = /*#__PURE__*/function (_svg$Element$Rendered3) {
+    svg.Element.text =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered3) {
       _inherits(_class30, _svg$Element$Rendered3);
-
-      var _super29 = _createSuper(_class30);
 
       function _class30(node) {
         _classCallCheck(this, _class30);
 
-        return _super29.call(this, node, true);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class30).call(this, node, true));
       }
 
       _createClass(_class30, [{
@@ -3661,15 +3608,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // text base
 
 
-    svg.Element.TextElementBase = /*#__PURE__*/function (_svg$Element$Rendered4) {
+    svg.Element.TextElementBase =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered4) {
       _inherits(_class31, _svg$Element$Rendered4);
-
-      var _super30 = _createSuper(_class31);
 
       function _class31() {
         _classCallCheck(this, _class31);
 
-        return _super30.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class31).apply(this, arguments));
       }
 
       _createClass(_class31, [{
@@ -3787,17 +3734,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // tspan
 
 
-    svg.Element.tspan = /*#__PURE__*/function (_svg$Element$TextElem) {
+    svg.Element.tspan =
+    /*#__PURE__*/
+    function (_svg$Element$TextElem) {
       _inherits(_class32, _svg$Element$TextElem);
-
-      var _super31 = _createSuper(_class32);
 
       function _class32(node) {
         var _this18;
 
         _classCallCheck(this, _class32);
 
-        _this18 = _super31.call(this, node, true);
+        _this18 = _possibleConstructorReturn(this, _getPrototypeOf(_class32).call(this, node, true));
         _this18.text = node.nodeValue || node.text || '';
         return _this18;
       }
@@ -3813,15 +3760,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.TextElementBase); // tref
 
 
-    svg.Element.tref = /*#__PURE__*/function (_svg$Element$TextElem2) {
+    svg.Element.tref =
+    /*#__PURE__*/
+    function (_svg$Element$TextElem2) {
       _inherits(_class33, _svg$Element$TextElem2);
-
-      var _super32 = _createSuper(_class33);
 
       function _class33() {
         _classCallCheck(this, _class33);
 
-        return _super32.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class33).apply(this, arguments));
       }
 
       _createClass(_class33, [{
@@ -3837,17 +3784,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.TextElementBase); // a element
 
 
-    svg.Element.a = /*#__PURE__*/function (_svg$Element$TextElem3) {
+    svg.Element.a =
+    /*#__PURE__*/
+    function (_svg$Element$TextElem3) {
       _inherits(_class34, _svg$Element$TextElem3);
-
-      var _super33 = _createSuper(_class34);
 
       function _class34(node) {
         var _this19;
 
         _classCallCheck(this, _class34);
 
-        _this19 = _super33.call(this, node);
+        _this19 = _possibleConstructorReturn(this, _getPrototypeOf(_class34).call(this, node));
         _this19.hasText = true;
 
         _toConsumableArray(node.childNodes).forEach(function (childNode) {
@@ -3899,17 +3846,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.TextElementBase); // image element
 
 
-    svg.Element.image = /*#__PURE__*/function (_svg$Element$Rendered5) {
+    svg.Element.image =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered5) {
       _inherits(_class35, _svg$Element$Rendered5);
-
-      var _super34 = _createSuper(_class35);
 
       function _class35(node) {
         var _this20;
 
         _classCallCheck(this, _class35);
 
-        _this20 = _super34.call(this, node);
+        _this20 = _possibleConstructorReturn(this, _getPrototypeOf(_class35).call(this, node));
 
         var href = _this20.getHrefAttribute().value;
 
@@ -3988,15 +3935,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // group element
 
 
-    svg.Element.g = /*#__PURE__*/function (_svg$Element$Rendered6) {
+    svg.Element.g =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered6) {
       _inherits(_class36, _svg$Element$Rendered6);
-
-      var _super35 = _createSuper(_class36);
 
       function _class36() {
         _classCallCheck(this, _class36);
 
-        return _super35.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class36).apply(this, arguments));
       }
 
       _createClass(_class36, [{
@@ -4014,15 +3961,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // symbol element
 
 
-    svg.Element.symbol = /*#__PURE__*/function (_svg$Element$Rendered7) {
+    svg.Element.symbol =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered7) {
       _inherits(_class37, _svg$Element$Rendered7);
-
-      var _super36 = _createSuper(_class37);
 
       function _class37() {
         _classCallCheck(this, _class37);
 
-        return _super36.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class37).apply(this, arguments));
       }
 
       _createClass(_class37, [{
@@ -4035,17 +3982,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // style element
 
 
-    svg.Element.style = /*#__PURE__*/function (_svg$Element$ElementB10) {
+    svg.Element.style =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB10) {
       _inherits(_class38, _svg$Element$ElementB10);
-
-      var _super37 = _createSuper(_class38);
 
       function _class38(node) {
         var _this21;
 
         _classCallCheck(this, _class38);
 
-        _this21 = _super37.call(this, node); // text, or spaces then CDATA
+        _this21 = _possibleConstructorReturn(this, _getPrototypeOf(_class38).call(this, node)); // text, or spaces then CDATA
 
         var css = '';
 
@@ -4055,7 +4002,7 @@ var svgEditorExtension_server_moinsave = (function () {
         }); // remove comments
 
 
-        css = css.replace(/(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(^\s*\/\/.*)/gm, ''); // eslint-disable-line unicorn/no-unsafe-regex
+        css = css.replace(/(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(^[\s]*\/\/.*)/gm, ''); // eslint-disable-line unicorn/no-unsafe-regex
         // replace whitespace
 
         css = svg.compressSpaces(css);
@@ -4115,17 +4062,17 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // use element
 
 
-    svg.Element.use = /*#__PURE__*/function (_svg$Element$Rendered8) {
+    svg.Element.use =
+    /*#__PURE__*/
+    function (_svg$Element$Rendered8) {
       _inherits(_class39, _svg$Element$Rendered8);
-
-      var _super38 = _createSuper(_class39);
 
       function _class39(node) {
         var _this22;
 
         _classCallCheck(this, _class39);
 
-        _this22 = _super38.call(this, node);
+        _this22 = _possibleConstructorReturn(this, _getPrototypeOf(_class39).call(this, node));
         _this22._el = _this22.getHrefAttribute().getDefinition();
         return _this22;
       }
@@ -4187,15 +4134,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.RenderedElementBase); // mask element
 
 
-    svg.Element.mask = /*#__PURE__*/function (_svg$Element$ElementB11) {
+    svg.Element.mask =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB11) {
       _inherits(_class40, _svg$Element$ElementB11);
-
-      var _super39 = _createSuper(_class40);
 
       function _class40() {
         _classCallCheck(this, _class40);
 
-        return _super39.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class40).apply(this, arguments));
       }
 
       _createClass(_class40, [{
@@ -4249,15 +4196,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // clip element
 
 
-    svg.Element.clipPath = /*#__PURE__*/function (_svg$Element$ElementB12) {
+    svg.Element.clipPath =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB12) {
       _inherits(_class41, _svg$Element$ElementB12);
-
-      var _super40 = _createSuper(_class41);
 
       function _class41() {
         _classCallCheck(this, _class41);
 
-        return _super40.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class41).apply(this, arguments));
       }
 
       _createClass(_class41, [{
@@ -4291,15 +4238,15 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // filters
 
 
-    svg.Element.filter = /*#__PURE__*/function (_svg$Element$ElementB13) {
+    svg.Element.filter =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB13) {
       _inherits(_class42, _svg$Element$ElementB13);
-
-      var _super41 = _createSuper(_class42);
 
       function _class42() {
         _classCallCheck(this, _class42);
 
-        return _super41.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class42).apply(this, arguments));
       }
 
       _createClass(_class42, [{
@@ -4345,15 +4292,15 @@ var svgEditorExtension_server_moinsave = (function () {
       return _class42;
     }(svg.Element.ElementBase);
 
-    svg.Element.feMorphology = /*#__PURE__*/function (_svg$Element$ElementB14) {
+    svg.Element.feMorphology =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB14) {
       _inherits(_class43, _svg$Element$ElementB14);
-
-      var _super42 = _createSuper(_class43);
 
       function _class43() {
         _classCallCheck(this, _class43);
 
-        return _super42.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class43).apply(this, arguments));
       }
 
       _createClass(_class43, [{
@@ -4365,15 +4312,15 @@ var svgEditorExtension_server_moinsave = (function () {
       return _class43;
     }(svg.Element.ElementBase);
 
-    svg.Element.feComposite = /*#__PURE__*/function (_svg$Element$ElementB15) {
+    svg.Element.feComposite =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB15) {
       _inherits(_class44, _svg$Element$ElementB15);
-
-      var _super43 = _createSuper(_class44);
 
       function _class44() {
         _classCallCheck(this, _class44);
 
-        return _super43.apply(this, arguments);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class44).apply(this, arguments));
       }
 
       _createClass(_class44, [{
@@ -4414,17 +4361,17 @@ var svgEditorExtension_server_moinsave = (function () {
       img[y * width * 4 + x * 4 + rgba] = val;
     }
 
-    svg.Element.feColorMatrix = /*#__PURE__*/function (_svg$Element$ElementB16) {
+    svg.Element.feColorMatrix =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB16) {
       _inherits(_class45, _svg$Element$ElementB16);
-
-      var _super44 = _createSuper(_class45);
 
       function _class45(node) {
         var _this23;
 
         _classCallCheck(this, _class45);
 
-        _this23 = _super44.call(this, node);
+        _this23 = _possibleConstructorReturn(this, _getPrototypeOf(_class45).call(this, node));
         var matrix = svg.ToNumberArray(_this23.attribute('values').value);
 
         switch (_this23.attribute('type').valueOrDefault('matrix')) {
@@ -4491,17 +4438,17 @@ var svgEditorExtension_server_moinsave = (function () {
       return _class45;
     }(svg.Element.ElementBase);
 
-    svg.Element.feGaussianBlur = /*#__PURE__*/function (_svg$Element$ElementB17) {
+    svg.Element.feGaussianBlur =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB17) {
       _inherits(_class46, _svg$Element$ElementB17);
-
-      var _super45 = _createSuper(_class46);
 
       function _class46(node) {
         var _this24;
 
         _classCallCheck(this, _class46);
 
-        _this24 = _super45.call(this, node);
+        _this24 = _possibleConstructorReturn(this, _getPrototypeOf(_class46).call(this, node));
         _this24.blurRadius = Math.floor(_this24.attribute('stdDeviation').numValue());
         _this24.extraFilterDistance = _this24.blurRadius;
         return _this24;
@@ -4524,46 +4471,46 @@ var svgEditorExtension_server_moinsave = (function () {
     }(svg.Element.ElementBase); // title element, do nothing
 
 
-    svg.Element.title = /*#__PURE__*/function (_svg$Element$ElementB18) {
+    svg.Element.title =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB18) {
       _inherits(_class47, _svg$Element$ElementB18);
-
-      var _super46 = _createSuper(_class47);
 
       function _class47(node) {
         _classCallCheck(this, _class47);
 
-        return _super46.call(this);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class47).call(this));
       }
 
       return _class47;
     }(svg.Element.ElementBase); // desc element, do nothing
 
 
-    svg.Element.desc = /*#__PURE__*/function (_svg$Element$ElementB19) {
+    svg.Element.desc =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB19) {
       _inherits(_class48, _svg$Element$ElementB19);
-
-      var _super47 = _createSuper(_class48);
 
       function _class48(node) {
         _classCallCheck(this, _class48);
 
-        return _super47.call(this);
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class48).call(this));
       }
 
       return _class48;
     }(svg.Element.ElementBase);
 
-    svg.Element.MISSING = /*#__PURE__*/function (_svg$Element$ElementB20) {
+    svg.Element.MISSING =
+    /*#__PURE__*/
+    function (_svg$Element$ElementB20) {
       _inherits(_class49, _svg$Element$ElementB20);
-
-      var _super48 = _createSuper(_class49);
 
       function _class49(node) {
         var _this25;
 
         _classCallCheck(this, _class49);
 
-        _this25 = _super48.call(this);
+        _this25 = _possibleConstructorReturn(this, _getPrototypeOf(_class49).call(this));
         svg.log('ERROR: Element \'' + node.nodeName + '\' not yet implemented.');
         return _this25;
       }
@@ -4589,32 +4536,26 @@ var svgEditorExtension_server_moinsave = (function () {
     }; // load from url
 
 
-    svg.load = /*#__PURE__*/function () {
-      var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ctx, url) {
-        var dom;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return svg.ajax(url, true);
+    svg.load = function _callee(ctx, url) {
+      var dom;
+      return regeneratorRuntime.async(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return regeneratorRuntime.awrap(svg.ajax(url, true));
 
-              case 2:
-                dom = _context.sent;
-                return _context.abrupt("return", svg.loadXml(ctx, dom));
+            case 2:
+              dom = _context.sent;
+              return _context.abrupt("return", svg.loadXml(ctx, dom));
 
-              case 4:
-              case "end":
-                return _context.stop();
-            }
+            case 4:
+            case "end":
+              return _context.stop();
           }
-        }, _callee);
-      }));
-
-      return function (_x2, _x3) {
-        return _ref12.apply(this, arguments);
-      };
-    }(); // load from xml
+        }
+      });
+    }; // load from xml
 
 
     svg.loadXml = function (ctx, xml) {
@@ -4835,9 +4776,9 @@ var svgEditorExtension_server_moinsave = (function () {
       checkPath: function checkPath(element, ctx) {
         var _this26 = this;
 
-        this.events.forEach(function (_ref13, i) {
-          var x = _ref13.x,
-              y = _ref13.y;
+        this.events.forEach(function (_ref12, i) {
+          var x = _ref12.x,
+              y = _ref12.y;
 
           if (ctx.isPointInPath && ctx.isPointInPath(x, y)) {
             _this26.eventElements[i] = element;
@@ -4847,9 +4788,9 @@ var svgEditorExtension_server_moinsave = (function () {
       checkBoundingBox: function checkBoundingBox(element, bb) {
         var _this27 = this;
 
-        this.events.forEach(function (_ref14, i) {
-          var x = _ref14.x,
-              y = _ref14.y;
+        this.events.forEach(function (_ref13, i) {
+          var x = _ref13.x,
+              y = _ref13.y;
 
           if (bb.isPointInBox(x, y)) {
             _this27.eventElements[i] = element;
@@ -4894,87 +4835,81 @@ var svgEditorExtension_server_moinsave = (function () {
   var extServer_moinsave = {
     name: 'server_moinsave',
     init: function init(_ref) {
-      var _this = this;
+      var $, encode64, importLocale, strings, svgEditor, svgCanvas, saveSvgAction;
+      return regeneratorRuntime.async(function init$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              $ = _ref.$, encode64 = _ref.encode64, importLocale = _ref.importLocale;
+              _context2.next = 3;
+              return regeneratorRuntime.awrap(importLocale());
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var $, encode64, importLocale, strings, svgEditor, svgCanvas, saveSvgAction;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                $ = _ref.$, encode64 = _ref.encode64, importLocale = _ref.importLocale;
-                _context2.next = 3;
-                return importLocale();
+            case 3:
+              strings = _context2.sent;
+              svgEditor = this;
+              svgCanvas = svgEditor.canvas;
+              saveSvgAction = '/+modify'; // Create upload target (hidden iframe)
+              //  Hiding by size instead of display to avoid FF console errors
+              //    with `getBBox` in browser.js `supportsPathBBox_`)
 
-              case 3:
-                strings = _context2.sent;
-                svgEditor = _this;
-                svgCanvas = svgEditor.canvas;
-                saveSvgAction = '/+modify'; // Create upload target (hidden iframe)
-                //  Hiding by size instead of display to avoid FF console errors
-                //    with `getBBox` in browser.js `supportsPathBBox_`)
+              /* const target = */
 
-                /* const target = */
+              $("<iframe name=\"output_frame\" title=\"".concat(strings.hiddenframe, "\"\n        style=\"width: 0; height: 0;\" src=\"#\"/>")).appendTo('body');
+              svgEditor.setCustomHandlers({
+                save: function save(win, data) {
+                  var svg, qstr, _qstr$substr$split, _qstr$substr$split2, name, svgData, c, datauri, pngData;
 
-                $("<iframe name=\"output_frame\" title=\"".concat(strings.hiddenframe, "\"\n        style=\"width: 0; height: 0;\" src=\"data:text/html;base64,PGh0bWw+PC9odG1sPg==\"/>")).appendTo('body');
-                svgEditor.setCustomHandlers({
-                  save: function save(win, data) {
-                    return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-                      var svg, _URL, pathname, name, svgData, c, datauri, pngData;
+                  return regeneratorRuntime.async(function save$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          svg = '<?xml version="1.0"?>\n' + data;
+                          qstr = $.param.querystring();
+                          _qstr$substr$split = qstr.substr(9).split('/+get/'), _qstr$substr$split2 = _slicedToArray(_qstr$substr$split, 2), name = _qstr$substr$split2[1];
+                          svgData = encode64(svg);
 
-                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                        while (1) {
-                          switch (_context.prev = _context.next) {
-                            case 0:
-                              svg = '<?xml version="1.0"?>\n' + data;
-                              _URL = new URL(location), pathname = _URL.pathname;
-                              name = pathname.replace(/\/+get\//, '');
-                              svgData = encode64(svg);
-
-                              if (!$('#export_canvas').length) {
-                                $('<canvas>', {
-                                  id: 'export_canvas'
-                                }).hide().appendTo('body');
-                              }
-
-                              c = $('#export_canvas')[0];
-                              c.width = svgCanvas.contentW;
-                              c.height = svgCanvas.contentH;
-                              _context.next = 10;
-                              return canvg(c, svg);
-
-                            case 10:
-                              datauri = c.toDataURL('image/png'); // const {uiStrings} = svgEditor;
-
-                              pngData = encode64(datauri); // Brett: This encoding seems unnecessary
-
-                              /* const form = */
-
-                              $('<form>').attr({
-                                method: 'post',
-                                action: saveSvgAction + '/' + name,
-                                target: 'output_frame'
-                              }).append("\n          <input type=\"hidden\" name=\"png_data\" value=\"".concat(pngData, "\">\n          <input type=\"hidden\" name=\"filepath\" value=\"").concat(svgData, "\">\n          <input type=\"hidden\" name=\"filename\" value=\"drawing.svg\">\n          <input type=\"hidden\" name=\"contenttype\" value=\"application/x-svgdraw\">\n        ")).appendTo('body').submit().remove();
-                              $.alert(strings.saved);
-                              top.window.location = '/' + name;
-
-                            case 15:
-                            case "end":
-                              return _context.stop();
+                          if (!$('#export_canvas').length) {
+                            $('<canvas>', {
+                              id: 'export_canvas'
+                            }).hide().appendTo('body');
                           }
-                        }
-                      }, _callee);
-                    }))();
-                  }
-                });
 
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
+                          c = $('#export_canvas')[0];
+                          c.width = svgCanvas.contentW;
+                          c.height = svgCanvas.contentH;
+                          _context.next = 10;
+                          return regeneratorRuntime.awrap(canvg(c, svg));
+
+                        case 10:
+                          datauri = c.toDataURL('image/png'); // const {uiStrings} = svgEditor;
+
+                          pngData = encode64(datauri); // Brett: This encoding seems unnecessary
+
+                          /* const form = */
+
+                          $('<form>').attr({
+                            method: 'post',
+                            action: saveSvgAction + '/' + name,
+                            target: 'output_frame'
+                          }).append("\n          <input type=\"hidden\" name=\"png_data\" value=\"".concat(pngData, "\">\n          <input type=\"hidden\" name=\"filepath\" value=\"").concat(svgData, "\">\n          <input type=\"hidden\" name=\"filename\" value=\"drawing.svg\">\n          <input type=\"hidden\" name=\"contenttype\" value=\"application/x-svgdraw\">\n        ")).appendTo('body').submit().remove();
+                          $.alert(strings.saved);
+                          top.window.location = '/' + name;
+
+                        case 15:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  });
+                }
+              });
+
+            case 9:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2);
-      }))();
+        }
+      }, null, this);
     }
   };
 

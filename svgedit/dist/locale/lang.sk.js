@@ -129,7 +129,6 @@ var svgEditorLang_sk = (function () {
       reorient_path: 'Zmeniť orientáciu krivky',
       ungroup: 'Zrušiť skupinu',
       docprops: 'Vlastnosti dokumentu',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Presunúť spodok',
       move_top: 'Presunúť na vrch',
       node_clone: 'Klonovať uzol',

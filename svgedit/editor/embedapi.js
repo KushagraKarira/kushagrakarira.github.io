@@ -1,6 +1,5 @@
 /**
-* Handles underlying communication between the embedding window and the
-* editor frame.
+* Handles underlying communication between the embedding window and the editor frame
 * @module EmbeddedSVGEdit
 */
 

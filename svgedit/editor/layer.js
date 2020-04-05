@@ -1,6 +1,6 @@
 /* globals jQuery */
 /**
- * Provides tools for the layer concept.
+ * Provides tools for the layer concept
  * @module layer
  * @license MIT
  *
@@ -120,7 +120,7 @@ class Layer {
     if (isNullish(opacity)) {
       return 1;
     }
-    return Number.parseFloat(opacity);
+    return parseFloat(opacity);
   }
 
   /**

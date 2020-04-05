@@ -1,5 +1,5 @@
 /**
- * @file ext-panning.js
+ * ext-panning.js
  *
  * @license MIT
  *

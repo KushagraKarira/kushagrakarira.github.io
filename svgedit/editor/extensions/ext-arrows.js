@@ -1,5 +1,5 @@
 /**
- * @file ext-arrows.js
+ * ext-arrows.js
  *
  * @license MIT
  *

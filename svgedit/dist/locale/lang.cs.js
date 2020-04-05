@@ -129,7 +129,6 @@ var svgEditorLang_cs = (function () {
       reorient_path: 'Změna orientace křivky',
       ungroup: 'Zrušit seskupení',
       docprops: 'Vlastnosti dokumentu',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Vrstvu úplně dospodu',
       move_top: 'Vrstvu úplně nahoru',
       node_clone: 'Vložit nový uzel',

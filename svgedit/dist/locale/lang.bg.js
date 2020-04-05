@@ -129,7 +129,6 @@ var svgEditorLang_bg = (function () {
       reorient_path: 'Reorient path',
       ungroup: 'Разгрупирай Елементи',
       docprops: 'Document Properties',
-      editor_homepage: 'SVG-Edit Home Page',
       move_bottom: 'Премести надолу',
       move_top: 'Премести в началото',
       node_clone: 'Clone Node',
