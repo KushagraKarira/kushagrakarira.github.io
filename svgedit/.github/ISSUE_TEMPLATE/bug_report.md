@@ -1,7 +1,6 @@
 ---
 name: Bug report
 about: Create a report in case we may be able to help
-
 ---
 
 **Describe the bug**
