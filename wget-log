@@ -1,0 +1,21 @@
+--2020-05-10 01:08:42--  http://pukaarfoundation.com/
+Resolving pukaarfoundation.com (pukaarfoundation.com)... 164.68.109.96
+Connecting to pukaarfoundation.com (pukaarfoundation.com)|164.68.109.96|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://pukaarfoundation.com/ [following]
+--2020-05-10 01:08:44--  https://pukaarfoundation.com/
+Connecting to pukaarfoundation.com (pukaarfoundation.com)|164.68.109.96|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘pukaarfoundation.com/index.html’
+
+         pukaarfoun     [ <=>                ]  48.00K   137KB/s               pukaarfoundation.co     [  <=>               ]  63.45K   180KB/s    in 0.4s    
+
+2020-05-10 01:08:47 (180 KB/s) - ‘pukaarfoundation.com/index.html’ saved [64969]
+
+Loading robots.txt; please ignore errors.
+--2020-05-10 01:08:47--  https://pukaarfoundation.com/robots.txt
+Reusing existing connection to pukaarfoundation.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/plain]
+Saving to: ‘pukaarfoundation.com/robots.txt’
