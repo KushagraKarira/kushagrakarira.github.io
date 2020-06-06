@@ -1,0 +1,885 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/css/index.css?fin20" />
+	<script type="text/javascript" src="http://thexdevs.allalla.com/Themes/default/scripts/script.js?fin20"></script>
+	<script type="text/javascript" src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/scripts/theme.js?fin20"></script>
+	<script type="text/javascript"><!-- // --><![CDATA[
+		var smf_theme_url = "http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3";
+		var smf_default_theme_url = "http://thexdevs.allalla.com/Themes/default";
+		var smf_images_url = "http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images";
+		var smf_scripturl = "http://thexdevs.allalla.com/index.php";
+		var smf_iso_case_folding = false;
+		var smf_charset = "ISO-8859-1";
+		var ajax_notification_text = "Loading...";
+		var ajax_notification_cancel_text = "Cancel";
+	// ]]></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta name="description" content="The X-Team Developers - Index" />
+	<meta name="keywords" content="x-team,melior,the x-team developers,developers,tricks,bada,android,iota,windows" />
+	<title>The X-Team Developers - Index</title>
+	<meta name="robots" content="noindex" />
+	<link rel="canonical" href="http://thexdevs.allalla.com/index.php" />
+	<link rel="help" href="http://thexdevs.allalla.com/index.php?action=help" />
+	<link rel="search" href="http://thexdevs.allalla.com/index.php?action=search" />
+	<link rel="contents" href="http://thexdevs.allalla.com/index.php" />
+	<link rel="alternate" type="application/rss+xml" title="The X-Team Developers - RSS" href="http://thexdevs.allalla.com/index.php?type=rss;action=.xml" />
+<style type="text/css">
+.activity_holder
+{
+	height: 15px;
+	border: 1px solid #9BAEBF;
+}
+
+.activity_bar
+{
+	height: 15px;
+	background: url(http://thexdevs.allalla.com/Themes/default/images/theme/main_block.png) 90% -200px;
+}
+
+.activity_percentage
+{
+	height: 15px;
+	color: #333333;
+	text-align: center;
+}
+</style>
+
+<meta name="google-site-verification" content="iLboy0IvPVOa-mYRFzyegyKnmLFtXju-axvwthVhQgw" />
+</head>
+<body>
+<div id="wrapper"> 
+	<header>
+		<div class="bwgrid">
+			<div class="bwcell8">		
+				<h1 class="forumtitle">
+					<a href="http://thexdevs.allalla.com/index.php"><img src="https://lh3.googleusercontent.com/-lSly4lTCZUY/AAAAAAAAAAI/AAAAAAAAAF8/JI0ydJsEMi4/s120-c/photo.jpg" alt="The X-Team Developers" /></a>
+				</h1>
+				<div id="siteslogan">
+				Think . Believe . Develop
+				</div>
+			</div>
+			<div class="bwcell8" style="text-align: right;padding-top: 1em;">
+				<form id="search_form" action="http://thexdevs.allalla.com/index.php?action=search2" method="post" accept-charset="ISO-8859-1">
+					<input type="text" name="search" value="" class="top_input_text" />
+					<input type="submit" name="submit" value="Search" class="top_button_submit" />
+					<input type="hidden" name="advanced" value="0" />	</form>
+				<script type="text/javascript" src="http://thexdevs.allalla.com/Themes/default/scripts/sha1.js"></script>
+				<div class="memberarea">
+					<form id="guest_form" action="http://thexdevs.allalla.com/index.php?action=login2" method="post" accept-charset="ISO-8859-1"  onsubmit="hashLoginPassword(this, '6f219b00195a9157f43ebac837329c9d');">
+						<input type="text" name="user" size="10" class="top_input_text" />
+						<input type="password" name="passwrd" size="10" class="top_input_text" />
+						<select name="cookielength" class="top_input_text">
+							<option value="60">1 Hour</option>
+							<option value="1440">1 Day</option>
+							<option value="10080">1 Week</option>
+							<option value="43200">1 Month</option>
+							<option value="-1" selected="selected">Forever</option>
+						</select>
+						<input type="submit" value="Login" class="top_button_submit" />
+						<input type="hidden" name="hash_passwrd" value="" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="pagetitle" class="catbg">The X-Team Developers - Index</div>
+	<div id="wrapcontent">
+		
+		<menu id="main_menu">
+			<ul class="dropmenu" id="menu_nav">
+				<li id="button_home">
+					<a class="active firstlevel" href="http://thexdevs.allalla.com/index.php">
+						<span class="last firstlevel">Home</span>
+					</a>
+				</li>
+				<li id="button_help">
+					<a class="firstlevel" href="http://thexdevs.allalla.com/index.php?action=help">
+						<span class="firstlevel">Help</span>
+					</a>
+				</li>
+				<li id="button_search">
+					<a class="firstlevel" href="http://thexdevs.allalla.com/index.php?action=search">
+						<span class="firstlevel">Search</span>
+					</a>
+				</li>
+				<li id="button_login">
+					<a class="firstlevel" href="http://thexdevs.allalla.com/index.php?action=login">
+						<span class="firstlevel">Login</span>
+					</a>
+				</li>
+				<li id="button_register">
+					<a class="firstlevel" href="http://thexdevs.allalla.com/index.php?action=register">
+						<span class="last firstlevel">Register</span>
+					</a>
+				</li>
+			</ul>
+		</menu>
+		<div id="mainbox">
+			<div id="contentbox">
+				
+	<nav class="navigate_section">
+		<ul>
+			<li class="last">	<a href="http://thexdevs.allalla.com/index.php"><span>The X-Team Developers</span></a></li></ul>
+	</nav>
+				<article>
+	<div id="boardindex_table">
+		<table class="table_list">
+			<tbody class="header" id="category_1">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c1"></a>General Category
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_1_boards">
+				<tr id="board_1" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=1.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=1.0" name="b1">General Discussion</a>
+
+						<p>Feel free to talk about anything and everything in this board.</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>64</b> Posts in  
+						<b>11</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=16">Sandeepr</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=85.msg569#new" title="Re: Problem wid my Lappy......">Re: Problem wid my Lappy...</a></b>
+						on September 13, 2013, 05:55:49 PM
+						
+					</td>
+				</tr>
+				<tr id="board_27" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=27.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/redirect.png" alt="*" title="*" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=27.0" name="b27">The Sunday Tips</a>
+
+						<p>Exclusive tips and tricks for all your gadgets at one place</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>115</b> Redirects 
+						 Topics</span>
+					
+					</td>
+				</tr>
+				<tr id="board_7" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=7.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=7.0" name="b7">Freebies</a>
+
+						<p>why to pay when you can get it for free.... only here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+				<tr id="board_5" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=5.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=5.0" name="b5">Contests</a>
+
+						<p>all the contests held here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+				<tr id="board_4" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=4.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=4.0" name="b4">Wallpapers</a>
+
+						<p>all the beauty of world captured is posted here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>5</b> Posts in  
+						<b>3</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=21">Dragon Warrior</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=82.msg501#new" title="catz">catz</a></b>
+						on August 23, 2013, 12:10:03 PM
+						
+					</td>
+				</tr>
+				<tr id="board_6" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=6.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=6.0" name="b6">Developer's Races</a>
+
+						<p>A Monthly Special contest between all the members... winners are rewarded with most premium awards any forum can give</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>1</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=1">JARVIS</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=39.msg128#new" title="June Month Nominees">June Month Nominees</a></b>
+						on June 23, 2013, 08:15:21 PM
+						
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+			<tbody class="header" id="category_2">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c2"></a>Android
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_2_boards">
+				<tr id="board_21" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=21.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=21.0" name="b21">Android general</a>
+
+						<p>all general tricks , codes and playstore tips posted here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>4</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=3">Siva Mk</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=38.msg484#new" title="Re: Can lg sol run jellybean?">Re: Can lg sol run jelly...</a></b>
+						on August 12, 2013, 03:37:06 PM
+						
+					</td>
+				</tr>
+				<tr id="board_23" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=23.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=23.0" name="b23">4.0.* Ice Cream Sandwich</a>
+
+						<p>one of the most versatile android verision available today</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+				<tr id="board_22" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=22.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=22.0" name="b22">4.2 Jelly Bean</a>
+
+						<p>The latest installment of android </p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>1</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=13">tanishq18</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=30.msg59#new" title="google now">google now</a></b>
+						on June 18, 2013, 09:16:16 AM
+						
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+			<tbody class="header" id="category_3">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c3"></a>Bada
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_3_boards">
+				<tr id="board_2" class="windowbg2">
+					<td class="icon windowbg" rowspan="2">
+						<a href="http://thexdevs.allalla.com/index.php?board=2.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=2.0" name="b2">Melior</a>
+
+						<p>the modded firmware by X-Team</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>70</b> Posts in  
+						<b>12</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=16">Sandeepr</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=37.msg595#new" title="Re: Project Technoboot Updates">Re: Project Technoboot U...</a></b>
+						on <strong>Today</strong> at 04:59:38 AM
+						
+					</td>
+				</tr>
+					<tr id="board_2_children">
+						<td colspan="3" class="children windowbg">
+							<strong>Child Boards</strong>: <a href="http://thexdevs.allalla.com/index.php?board=24.0" title="No New Posts (Topics: 1, Posts: 3)">Firmwares</a>, <a href="http://thexdevs.allalla.com/index.php?board=25.0" title="No New Posts (Topics: 4, Posts: 6)">Themes</a>
+						</td>
+					</tr>
+				<tr id="board_3" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=3.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=3.0" name="b3">Bada 2.0</a>
+
+						<p>latest version of samsung mobile os</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>1</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=1">JARVIS</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=19.msg19#new" title="How to Install Android 4.0.4 ICS on Samsung wave I (S8500) and review - DK ">How to Install Android 4...</a></b>
+						on June 02, 2013, 09:28:55 AM
+						
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+			<tbody class="header" id="category_8">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c8"></a>Java Store
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_8_boards">
+				<tr id="board_30" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=30.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=30.0" name="b30">240X400 Resolution</a>
+
+						<p></p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>2</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=3">Siva Mk</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=52.msg212#new" title="Re: Microsoft office paint">Re: Microsoft office pai...</a></b>
+						on July 03, 2013, 02:44:25 AM
+						
+					</td>
+				</tr>
+				<tr id="board_31" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=31.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=31.0" name="b31">240X320 Resolution</a>
+
+						<p></p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>1</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=21">Dragon Warrior</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=91.msg586#new" title="brain challange 3">brain challange 3</a></b>
+						on September 22, 2013, 06:38:45 PM
+						
+					</td>
+				</tr>
+				<tr id="board_32" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=32.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=32.0" name="b32">480X800 Resolution</a>
+
+						<p></p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+			<tbody class="header" id="category_4">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c4"></a>PC - OS
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_4_boards">
+				<tr id="board_11" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=11.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=11.0" name="b11">WINDOWS-General</a>
+
+						<p></p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>8</b> Posts in  
+						<b>2</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=17">yash007</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=40.msg140#new" title="Re: Lappy keeps on restarting :(">Re: Lappy keeps on resta...</a></b>
+						on June 25, 2013, 08:11:20 AM
+						
+					</td>
+				</tr>
+				<tr id="board_9" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=9.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=9.0" name="b9">WINDOWS-7</a>
+
+						<p>ALL Tips and tricks related to win-7 posted here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>3</b> Posts in  
+						<b>3</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=1">JARVIS</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=18.msg18#new" title="20 Amazing Windows 7 Performance Boosting Tips(part -3)">20 Amazing Windows 7 Per...</a></b>
+						on June 01, 2013, 03:55:38 PM
+						
+					</td>
+				</tr>
+				<tr id="board_10" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=10.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=10.0" name="b10">WINDOWS-8</a>
+
+						<p>all premium tricks of win-8 here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+				<tr id="board_12" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=12.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=12.0" name="b12">OTHER OS</a>
+
+						<p>all the links and tricks for all the other OS here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+			<tbody class="header" id="category_5">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c5"></a>Other Mobile OS
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_5_boards">
+				<tr id="board_20" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=20.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=20.0" name="b20">UbnHD2</a>
+
+						<p>The armed version of backtrack usually made for hacking and related purposes currently supports HTChd kernel</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+			<tbody class="header" id="category_6">
+				<tr>
+					<td colspan="4">
+						<div class="cat_bar">
+							<h3 class="catbg">
+								<a id="c6"></a>Network Operators
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="content" id="category_6_boards">
+				<tr id="board_13" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=13.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=13.0" name="b13">Airtel</a>
+
+						<p>all the tricks , tips and usage info related to airtel here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>2</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=16">Sandeepr</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=15.msg596#new" title="Re: USSD Codes">Re: USSD Codes</a></b>
+						on <strong>Today</strong> at 05:01:03 AM
+						
+					</td>
+				</tr>
+				<tr id="board_19" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=19.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=19.0" name="b19">Reliance</a>
+
+						<p>all the tricks , tips and usage info related to reliance here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+				<tr id="board_18" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=18.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=18.0" name="b18">Idea</a>
+
+						<p>all the tricks , tips and usage info related to idea here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>2</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=3">Siva Mk</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=27.msg52#new" title="Re:  New idea 3g / GPRS trick using proxy ">Re:  New idea 3g / GPRS ...</a></b>
+						on June 17, 2013, 03:55:09 PM
+						
+					</td>
+				</tr>
+				<tr id="board_17" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=17.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=17.0" name="b17">BSNL</a>
+
+						<p>all the tricks , tips and usage info related to bsnl here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>1</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=3">Siva Mk</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=6.msg6#new" title="Usage Infos..">Usage Infos..</a></b>
+						on May 29, 2013, 10:54:29 AM
+						
+					</td>
+				</tr>
+				<tr id="board_16" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=16.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=16.0" name="b16">TATA Docomo</a>
+
+						<p>all the tricks , tips and usage info related to docomo here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>1</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=3">Siva Mk</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=14.msg14#new" title="USSD Codes">USSD Codes</a></b>
+						on June 01, 2013, 01:14:50 AM
+						
+					</td>
+				</tr>
+				<tr id="board_15" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=15.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=15.0" name="b15">Vodafone</a>
+
+						<p>all the tricks , tips and usage info related to vodafone here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>3</b> Posts in  
+						<b>1</b> Topics</span>
+					
+						<br />Last post  by <a href="http://thexdevs.allalla.com/index.php?action=profile;u=17">yash007</a>
+						in <b><a href="http://thexdevs.allalla.com/index.php?topic=59.msg462#new" title="Re: code for checking msgs left? ? ?">Re: code for checking ms...</a></b>
+						on August 03, 2013, 06:41:07 AM
+						
+					</td>
+				</tr>
+				<tr id="board_14" class="windowbg2">
+					<td class="icon windowbg">
+						<a href="http://thexdevs.allalla.com/index.php?board=14.0">
+							<img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" alt="No New Posts" title="No New Posts" />
+						</a>
+					</td>
+					<td class="info">
+						<a class="subject" href="http://thexdevs.allalla.com/index.php?board=14.0" name="b14">Aircel</a>
+
+						<p>all the tricks , tips and usage info related to aircel here</p>
+					</td>
+					<td class="lastpost" colspan="2">
+						<span><b>0</b> Posts in  
+						<b>0</b> Topics</span>
+					
+					</td>
+				</tr>
+			</tbody>
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="posting_icons" class="flow_hidden">
+		<ul class="reset">
+			<li class="floatleft"><img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/off.png" style="height: 20px;" alt="" /> No New Posts</li>
+			<li class="floatleft"><img src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/redirect.png" style="height: 20px;" alt="" /> Redirect Board</li>
+		</ul>
+	</div>
+	<span class="clear upperframe"><span></span></span>
+	<div class="roundframe"><div class="innerframe">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<img class="icon" id="upshrink_ic" src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/collapse.gif" alt="*" title="Shrink or expand the header." style="display: none;" />
+				The X-Team Developers - Info Center
+			</h3>
+		</div>
+		<div id="upshrinkHeaderIC">
+			<div class="title_barIC">
+				<h4 class="titlebg">
+					<span class="ie6_header floatleft">
+						<a href="http://thexdevs.allalla.com/index.php?action=stats"><img class="icon" src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/icons/info.gif" alt="Forum Stats" /></a>
+						Forum Stats
+					</span>
+				</h4>
+			</div>
+			<p>
+				573 Posts in 77 Topics by 34 Members. Latest Member: <strong> <a href="http://thexdevs.allalla.com/index.php?action=profile;u=35">madsison</a></strong><br />
+				Latest Post: <strong>&quot;<a href="http://thexdevs.allalla.com/index.php?topic=15.msg596#new" title="Re: USSD Codes">Re: USSD Codes</a>&quot;</strong>  ( <strong>Today</strong> at 05:01:03 AM )<br />
+				<a href="http://thexdevs.allalla.com/index.php?action=recent">View the most recent posts on the forum.</a><br />
+				<a href="http://thexdevs.allalla.com/index.php?action=stats">[More Stats]</a>
+			</p>
+			<div class="title_barIC">
+				<h4 class="titlebg">
+					<span class="ie6_header floatleft">
+						<img class="icon" src="http://thexdevs.allalla.com/Themes/envision2013_smf20_rev3/images/icons/online.gif" alt="Users Online" />
+						Users Online
+					</span>
+				</h4>
+			</div>
+			<p class="inline stats">
+				1 Guest, 2 Users (1 Spider)
+			</p>
+			<p class="inline smalltext">
+				Users active in past 15 minutes:<br /><a href="http://thexdevs.allalla.com/index.php?action=profile;u=6">rockingayush1995@gmail.co</a>, <a href="http://thexdevs.allalla.com/index.php?action=profile;u=6">rockingayush1995@gmail.co</a>, Alexa
+			</p>
+			<div class="plainbox" style="background: #fff; font-size: 90%;">
+				Most Online Today: <strong>19</strong>.
+				Most Online Ever: 26 (July 13, 2013, 04:53:27 AM)
+			</div>
+		</div>
+	</div></div>
+	<span class="lowerframe"><span></span></span>
+	<script type="text/javascript"><!-- // --><![CDATA[
+		var oInfoCenterToggle = new smc_Toggle({
+			bToggleEnabled: true,
+			bCurrentlyCollapsed: false,
+			aSwappableContainers: [
+				'upshrinkHeaderIC'
+			],
+			aSwapImages: [
+				{
+					sId: 'upshrink_ic',
+					srcExpanded: smf_images_url + '/collapse.gif',
+					altExpanded: 'Shrink or expand the header.',
+					srcCollapsed: smf_images_url + '/expand.gif',
+					altCollapsed: 'Shrink or expand the header.'
+				}
+			],
+			oThemeOptions: {
+				bUseThemeSettings: false,
+				sOptionName: 'collapse_header_ic',
+				sSessionVar: 'cb0dcd0227',
+				sSessionId: '6f219b00195a9157f43ebac837329c9d'
+			},
+			oCookieOptions: {
+				bUseCookie: true,
+				sCookieName: 'upshrinkIC'
+			}
+		});
+	// ]]></script>
+				</article>
+			</div>
+		</div>
+		
+				<div id="copyrite" style="overflow: hidden;">
+					<div class="floatright">
+						<a class="socialbuttons" id="rs_button" href="http://thexdevs.allalla.com/index.php?action=.xml;type=rss2">&nbsp;</a><a class="socialbuttons" id="tw_button" href="https://twitter.com/xteamdevelopers">&nbsp;</a><a class="socialbuttons" id="fb_button" href="https://www.facebook.com/TheXTeamDevelopers">&nbsp;</a>
+					</div>The X-Team Developers 2013
+				</div>
+		
+		<footer id="footerarea">
+			
+			<span class="smalltext" style="display: inline; visibility: visible; font-family: Verdana, Arial, sans-serif;"><a href="http://thexdevs.allalla.com/index.php?action=credits" title="Simple Machines Forum" target="_blank" class="new_win">SMF 2.0.4</a> |
+ <a href="http://www.simplemachines.org/about/smf/license.php" title="License" target="_blank" class="new_win">SMF &copy; 2013</a>, <a href="http://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a>
+			</span> | <a href="http://www.bjornhkristiansen.com">Envision2013 theme by Bloc</a>
+		</footer>
+	</div>
+</div>
+</body></html><!-- www.1freehosting.com Analytics Code -->
+<noscript><a title="Free hosting" href="http://www.1freehosting.com">Free hosting</a><a title="Web host free" href="http://www.1freehosting.com">Web host free</a><a title="Free websites hosting" href="http://www.1freehosting.com/free-website-and-hosting.html">Free websites hosting</a><a title="Pagerank SEO analytic" href="http://www.1pagerank.com">Pagerank SEO analytic</a></noscript>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-21588661-2']);
+  _gaq.push(['_setDomainName', window.location.host]);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+
+    var fga = document.createElement('script'); fga.type = 'text/javascript'; fga.async = true;
+    fga.src = ('https:' == document.location.protocol ? 'https://www' : 'http://www') + '.1freehosting.com/cdn/ga.js';
+    var fs = document.getElementsByTagName('script')[0]; fs.parentNode.insertBefore(fga, fs);
+
+  })();
+</script>
+<!-- End Of Analytics Code -->

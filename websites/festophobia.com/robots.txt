@@ -1,0 +1,11 @@
+<br />
+<b>Warning</b>:  mysql_query(): Access denied for user ''@'localhost' (using password: NO) in <b>/home/tophob/public_html/wp-content/themes/casual/ocmx/theme-setup/setup.php</b> on line <b>144</b><br />
+<br />
+<b>Warning</b>:  mysql_query(): A link to the server could not be established in <b>/home/tophob/public_html/wp-content/themes/casual/ocmx/theme-setup/setup.php</b> on line <b>144</b><br />
+<br />
+<b>Warning</b>:  mysql_query(): Access denied for user ''@'localhost' (using password: NO) in <b>/home/tophob/public_html/wp-content/themes/casual/ocmx/theme-setup/setup.php</b> on line <b>148</b><br />
+<br />
+<b>Warning</b>:  mysql_query(): A link to the server could not be established in <b>/home/tophob/public_html/wp-content/themes/casual/ocmx/theme-setup/setup.php</b> on line <b>148</b><br />
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
