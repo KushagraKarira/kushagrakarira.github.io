@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Karira
+Description=Nothing, just FMA Flamel
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/karira
+ScriptFile=/usr/share/plymouth/themes/karira/karira.script
