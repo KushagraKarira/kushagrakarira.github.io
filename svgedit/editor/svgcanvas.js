@@ -20,7 +20,13 @@
 import './svgpathseg.js';
 import jQueryPluginSVG from './jQuery.attr.js'; // Needed for SVG attribute setting and array form with `attr`
 import jQueryPluginDBox from './dbox.js';
+
+/* eslint-disable import/no-namespace -- Keeping namespaced to help distinguish
+  utilities from local functions until we split canvas into separate files */
+import * as pathModule from './path.js';
+import * as hstry from './history.js';
 import * as draw from './draw.js';
+/* eslint-enable import/no-namespace */
 // eslint-disable-next-line no-duplicate-imports
 import {
   identifyLayers, createLayer, cloneLayer, deleteCurrentLayer,
@@ -28,7 +34,6 @@ import {
   setLayerVisibility, moveSelectedToLayer, mergeLayer, mergeAllLayers,
   leaveContext, setContext
 } from './draw.js';
-import * as pathModule from './path.js';
 import {sanitizeSvg} from './sanitize.js';
 import {getReverseNS, NS} from './namespaces.js';
 import {importSetGlobal, importScript} from './external/dynamic-import-polyfill/importModule.js';
@@ -42,7 +47,6 @@ import {
   init as utilsInit, getBBox as utilsGetBBox, getStrokedBBoxDefaultVisible,
   isNullish
 } from './utilities.js';
-import * as hstry from './history.js';
 import {
   transformPoint, matrixMultiply, hasMatrixTransform, transformListToTransform,
   getMatrix, snapToAngle, isIdentity, rectsIntersect, transformBox
@@ -501,25 +505,25 @@ const undoMgr = canvas.undoMgr = new UndoManager({
       call('changed', elems);
       const cmdType = cmd.type();
       const isApply = (eventType === EventTypes.AFTER_APPLY);
-      if (cmdType === MoveElementCommand.type()) {
+      if (cmdType === 'MoveElementCommand') {
         const parent = isApply ? cmd.newParent : cmd.oldParent;
         if (parent === svgcontent) {
           draw.identifyLayers();
         }
-      } else if (cmdType === InsertElementCommand.type() ||
-          cmdType === RemoveElementCommand.type()) {
+      } else if (cmdType === 'InsertElementCommand' ||
+          cmdType === 'RemoveElementCommand') {
         if (cmd.parent === svgcontent) {
           draw.identifyLayers();
         }
-        if (cmdType === InsertElementCommand.type()) {
+        if (cmdType === 'InsertElementCommand') {
           if (isApply) { restoreRefElems(cmd.elem); }
         } else if (!isApply) {
           restoreRefElems(cmd.elem);
         }
-        if (cmd.elem.tagName === 'use') {
+        if (cmd.elem && cmd.elem.tagName === 'use') {
           setUseData(cmd.elem);
         }
-      } else if (cmdType === ChangeElementCommand.type()) {
+      } else if (cmdType === 'ChangeElementCommand') {
         // if we are changing layer names, re-identify all layers
         if (cmd.elem.tagName === 'title' &&
           cmd.elem.parentNode.parentNode === svgcontent
@@ -692,10 +696,8 @@ const addToSelection = this.addToSelection = function (elemsToAdd, showGrips) {
   }
   call('selected', selectedElements);
 
-  if (showGrips || selectedElements.length === 1) {
-    selectorManager.requestSelector(selectedElements[0]).showGrips(true);
-  } else {
-    selectorManager.requestSelector(selectedElements[0]).showGrips(false);
+  if (selectedElements.length === 1) {
+    selectorManager.requestSelector(selectedElements[0]).showGrips(showGrips);
   }
 
   // make sure the elements are in the correct order
@@ -2889,9 +2891,6 @@ const dblClick = function (evt) {
   const evtTarget = evt.target;
   const parent = evtTarget.parentNode;
 
-  // Do nothing if already in current group
-  if (parent === currentGroup) { return; }
-
   let mouseTarget = getMouseTarget(evt);
   const {tagName} = mouseTarget;
 
@@ -2899,6 +2898,9 @@ const dblClick = function (evt) {
     const pt = transformPoint(evt.pageX, evt.pageY, rootSctm);
     textActions.select(mouseTarget, pt.x, pt.y);
   }
+
+  // Do nothing if already in current group
+  if (parent === currentGroup) { return; }
 
   if ((tagName === 'g' || tagName === 'a') &&
     getRotationAngle(mouseTarget)
