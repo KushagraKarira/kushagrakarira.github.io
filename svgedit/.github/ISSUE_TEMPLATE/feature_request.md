@@ -1,7 +1,7 @@
 ---
+title: ''
 name: Feature Request
 about: Report a new feature
-title: ''
 labels: enhancement
 assignees: ''
 ---
