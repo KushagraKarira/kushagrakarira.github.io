@@ -4,7 +4,7 @@
   "main": "main.js",
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-asar": "bwin/grunt-asar#update-asar",
+    "grunt-asar": "github:bwin/grunt-asar#update-asar",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
@@ -14,5 +14,9 @@
     "grunt-download-electron": "^2.1.4",
     "grunt-processhtml": "^0.4.1",
     "grunt-replace": "^1.0.1"
+  },
+  "dependencies": {
+    "coffeescript": "^2.5.1",
+    "fund": "^1.0.0"
   }
 }
