@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Homepage </title>
+<script>
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  n =  new Date();
+  y = n.getFullYear();
+  mo = n.getMonth() + 1;
+  d = n.getDate();
+  
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+  document.getElementById("date").innerHTML = d + "/" + mo + "/" + y;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers more than 10
+  return i;
+}
+</script>
+</head>
+
+<body onload="startTime()" lang="en-IN" link="#ffffff" vlink="#ffffff" bgcolor="#000000" text="#ffffff" >
+
+<br><br><br><br><br><br>
+<h1 style="text-align:center"><div id="time"></div></h1>
+<h3 style="text-align:center"><div id="date"></div></h3>
+<br><br><br>
+
+
+<table width="100%" cellpadding="4" cellspacing="0">
+<col width="85*"/>
+<col width="85*"/>
+<col width="85*"/>
+<tr valign="top">
+<td width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p align="center" >
+<a href="https://mail.google.com/mail/u/1/#inbox"><font color="#ffffff">Gmail - kkarira_19@nirmauni.ac.in</font></a></p> </td>
+
+<td width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p align="center" ><a href="https://ndl.iitkgp.ac.in/"><font color="#ffffff">National Digital Library</font></a></p></td>
+		
+<td width="33%" style="border: 1px solid #000000; padding: 0.1cm"><p align="center" ><a href="https://lms.nirmauni.ac.in/my/"><font color="#ffffff">Moodle</font></a></p></td></tr>
+
+
+<tr valign="top"><td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p align="center" ><a href="https://mail.google.com/mail/u/0/#inbox"><font color="#ffffff">Gmail - kushagrakarira@gmail.com</font></a></p></td>
+
+<td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p align="center" ><a href="https://z-lib.org/"><font color="#ffffff">Z Library</font></a></p></td>
+
+<td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm"><p align="center" ><a href="https://elibrary.nirmauni.ac.in/"><font color="#ffffff">ELibrary</font></a></p></td></tr>
+
+
+<tr valign="top"><td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p align="center" ><br/></p></td>
+		
+<td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p align="center" ><a href="https://kushagrakarira.github.io/"><font color="#ffffff">Karira.me</font></a></p></td>
+
+<td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm"><p align="center" ><a href="http://librarysearch.nirmauni.ac.in/"><font color="#ffffff">LibSearch</font></a></p></td></tr>
+</table>
+
+</body>
+</html>
