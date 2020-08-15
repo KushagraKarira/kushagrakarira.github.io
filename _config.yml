@@ -16,9 +16,9 @@ baseurl: ''
 url: ''
 twitter_username: kushagrakarira
 github_username: kushagrakarira
-#theme: minima
-remote_theme: riggraz/no-style-please
+# theme: minima
+# remote_theme: riggraz/no-style-please
 plugins:
 - jekyll-feed
-
+markdown: kramdown
 theme: jekyll-theme-minimal
