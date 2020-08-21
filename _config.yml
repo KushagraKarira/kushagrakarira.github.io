@@ -16,6 +16,6 @@ baseurl: ''
 url: 'https://kushagrakarira.github.io/'
 twitter_username: kushagrakarira
 github_username: kushagrakarira
-# theme: minima
-# plugins:
-# - jekyll-feed
+theme: minima
+plugins:
+- jekyll-feed
