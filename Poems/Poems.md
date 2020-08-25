@@ -1,6 +1,6 @@
 # Poems
-[FillingEmptyness](FillingEmptyness)
-[OneAgainInEternity](https://www.example.com)
-[OneForTruth](https://www.example.com)
-[Ragnarök'sMercy](https://www.example.com)
-[Resurrected](https://www.example.com)
+[FillingEmptyness](https://kushagrakarira.github.io/Poems/FillingEmptyness.html)
+[OneAgainInEternity](https://kushagrakarira.github.io/Poems/OneAgainInEternity.html)
+[OneForTruth](https://kushagrakarira.github.io/Poems/OneForTruth.html)
+[Ragnarök'sMercy](https://kushagrakarira.github.io/Poems/Ragnarök'sMercy.html)
+[Resurrected](https://kushagrakarira.github.io/Poems/Resurrected.html)
