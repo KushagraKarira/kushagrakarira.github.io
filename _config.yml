@@ -1,6 +1,6 @@
 ---
-title: Kushagra Karira
-timezone: IST
+title: Kushagrakarira.Github.Io
+timezone: UTC
 collections:
   posts:
     title: Posts
@@ -8,12 +8,3 @@ collections:
   uploads:
     title: Uploads
     output: true
-email: kushagrakarira@gmail.com
-description: . . .
-baseurl: ''
-url: 'https://kushagrakarira.github.io/'
-twitter_username: kushagrakarira
-github_username: kushagrakarira
-theme: minima
-plugins:
-- jekyll-feed
