@@ -2,7 +2,7 @@
 { 
     "name":"Kushagra Karira", 
     "short_name":"Karira", 
-    "start_url":"index.html", 
+    "start_url":"https://kushagrakarira.github.io/", 
     "display":"standalone", 
     "background_color":"#000000", 
     "theme_color":"black", 
@@ -13,6 +13,7 @@
     "src":"images/icon-192x192.png",                       
     "sizes":"192x192", 
     "type":"image/png"
+    "purpose":"any maskable"
     }, 
     { 
     "src":"images/icon-512x512.png", 
