@@ -1,0 +1,23 @@
+
+{ 
+    "name":"Kushagra Karira", 
+    "short_name":"Karira", 
+    "start_url":"index.html", 
+    "display":"standalone", 
+    "background_color":"#000000", 
+    "theme_color":"black", 
+    "scope": ".", 
+    "description":"This is a PWA tutorial.", 
+    "icons":[ 
+    { 
+    "src":"images/icon-192x192.png",                       
+    "sizes":"192x192", 
+    "type":"image/png"
+    }, 
+    { 
+    "src":"images/icon-512x512.png", 
+    "sizes":"512x512", 
+    "type":"image/png"
+    } 
+  ] 
+}
