@@ -1,0 +1,15 @@
+a:active {color:black;}
+a:link {color:black;}
+a:visited {color:black;}
+tr{background-color:#00a0fc; color:white;}
+
+body {background-color: white;color: black;}
+.text {color: black;}
+
+@media (prefers-color-scheme: dark) {
+body {background-color: black;color: white;}
+.text {color: white;}
+a:active {color:white;}
+a:link {color:white;}
+a:visited {color:white;}
+}
