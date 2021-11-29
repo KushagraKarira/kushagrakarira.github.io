@@ -10,12 +10,22 @@
     <meta name="description" content="...">
     <meta name="author" content="Kushagra Karira">
     <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.webmanifest">
     <link rel="apple-touch-icon" href="images/icon-192x192.png"></link>
     <title>Kushagra Karira</title>
     <link rel="stylesheet" href="style.css">
 </head>
  
 <body>
+
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('/serviceworker.js')
+           .then(function() { console.log("Service Worker Registered"); });
+}
+</script>
+
 <table width="100%" cellspacing="0"><tr>
 <td align="center"><a  href="../index.html"><b>[ HOME ]</a></b>
 <td align="center"><a href="../Poems/Poems.html"><b>[ POEMS ]</b></a>

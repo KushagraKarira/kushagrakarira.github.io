@@ -1,14 +1,18 @@
-
-{ 
-    "name":"Kushagra Karira", 
-    "short_name":"Karira", 
-    "start_url":"https://kushagrakarira.github.io/", 
-    "display":"standalone", 
-    "background_color":"#000000", 
-    "theme_color":"black", 
-    "scope": ".", 
-    "description":"This is a PWA tutorial.", 
-    "icons":[ 
+{
+  "background_color": "#000000",
+  "description": "Finally, My own website",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Kushagra Karira",
+  "orientation": "any",
+  "scope": "./",
+  "short_name": "Karira",
+  "start_url": "index.html",
+  "theme_color": "black",
+  "categories": [],
+  "screenshots": [],
+  "shortcuts": []
+  "icons":[ 
     { 
     "src":"images/icon-192x192.png",                       
     "sizes":"192x192", 
