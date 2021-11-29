@@ -9,15 +9,16 @@
   "short_name": "Karira",
   "start_url": "index.html",
   "theme_color": "black",
+  "prefer_related_applications": false,
   "categories": [],
   "screenshots": [],
   "shortcuts": []
-  "icons":[ 
+  "icons": [ 
     { 
     "src":"images/icon-192x192.png",                       
     "sizes":"192x192", 
     "type":"image/png"
-    "purpose":"any maskable"
+    "purpose": "any maskable"
     }, 
     { 
     "src":"images/icon-512x512.png", 
