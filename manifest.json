@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "./",
   "short_name": "Karira",
-  "start_url": "https://karira.tech/",
+  "start_url": "../index.html",
   "theme_color": "black",
   "prefer_related_applications": false,
   "categories": [],
