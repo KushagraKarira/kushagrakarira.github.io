@@ -12,47 +12,32 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="images/icon-192x192.png"></link>
     <title>Kushagra Karira</title>
-    <style>
-a:active {
-  color:#ffffff;
-}
-a:link {
-  color:#ffffff;
-}a:visited {
-  color:#ffffff;
+<style>
+a:active {color:black;}
+a:link {color:black;}
+a:visited {color:black;}
+tr{background-color:#00a0fc; color:white;}
+
+body {background-color: white;color: black;}
+.text {color: black;}
+
+@media (prefers-color-scheme: dark) {
+body {background-color: black;color: white;}
+.text {color: white;}
+a:active {color:white;}
+a:link {color:white;}
+a:visited {color:white;}
 }
 </style>
 </head>
-      
-<script> 
-    window.addEventListener('load', () => { 
-      registerSW(); 
-    }); 
-  
-    // Register the Service Worker 
-    async function registerSW() { 
-      if ('serviceWorker' in navigator) { 
-        try { 
-          await navigator 
-                .serviceWorker 
-                .register('serviceworker.js'); 
-        } 
-        catch (e) { 
-          console.log('SW registration failed'); 
-        } 
-      } 
-    } 
- </script>
  
-<body bgcolor="000000" text="ffffff">
-  <table width="100%" cellspacing="0">
-<tr bgcolor="#00a0fc" >
-		<td align="center"><a  href="../index.html"><b>[ HOME ]</a></b>
-		<td align="center"><a href="../Poems/Poems.html"><b>[ POEMS ]</b></a>
-		<td align="center"><a href="../Articles/Articles.html"><b>[ BLOG ]</b></a>
-		<td align="center"><a href="../svgedit/dist/editor/index.html?storagePrompt=false"><b> [ SVGEdit ]</b></a>
-</tr>
-</table>
+<body>
+<table width="100%" cellspacing="0"><tr>
+<td align="center"><a  href="../index.html"><b>[ HOME ]</a></b>
+<td align="center"><a href="../Poems/Poems.html"><b>[ POEMS ]</b></a>
+<td align="center"><a href="../Articles/Articles.html"><b>[ BLOG ]</b></a>
+<td align="center"><a href="../svgedit/dist/editor/index.html?storagePrompt=false"><b> [ SVGEdit ]</b></a>
+</tr></table>
 
 <h1 align="center">Kushagra Karira</h1>
 <p align="center" >Humanoid Biological Lifeform</p>
@@ -60,7 +45,8 @@ a:link {
 <br><br>
 
 <h2>About Website : </h2>
-Attempt at creating an ever lighter version of my website in gnome builder.
+It's my website, follows my philosophy;<br>
+Lightweight, Meaningful and to the point
 
 <h3><b>Updates</b></h3>
 <ul>
@@ -71,11 +57,11 @@ Attempt at creating an ever lighter version of my website in gnome builder.
 	<li>February	25, 2021 – Website restored and cleaning
 	<li>March 11, 2021 – Minimize code and other optimizations
 </ul>
+
 <h3>Social Links</h3>
 GitHub : <a href="https://github.com/kushagrakarira">github.com/kushagrakarira</a></p>
 DeviantArt : <a href="http://deviantart.com/kushagrakarira">deviantart.com/kushagrakarira</a></p>
 Mastodon : <a href="https://mastodon.social/@kushagrakarira">mastodon.social/@kushagrakarira</a></p>
 Email : <a href="mailto://kushagrakarira@protonmail.com">kushagrakarira@protonmail.com</a></p>
 
-</body>
-</html>
+</body</html>

@@ -1,49 +1,24 @@
-{
-  "short_name": "Karira",
-  "name": "Kushagra Karira",
-  "icons": [
-    {
-      "src": "/images/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "512x512"
-    },
-    {
-      "src": "/images/icon-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icons-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": "/?source=pwa",
-  "background_color": "#000000",
-  "display": "standalone",
-  "scope": "/",
-  "theme_color": "#0000ff",
-  "shortcuts": [
-    {
-      "name": "Kushagra Karira",
-      "short_name": "Karira",
-      "description": "My own website !!",
-      "url": "/today?source=pwa",
-      "icons": [{ "src": "/images/icon-192x192.png", "sizes": "192x192" }]
-    },
-  ],
-  "description": "My own website !!",
-  "screenshots": [
-    {
-      "src": "/images/screenshot1.png",
-      "type": "image/png",
-      "sizes": "540x720"
-    },
-    {
-      "src": "/images/screenshot2.jpg",
-      "type": "image/png",
-      "sizes": "540x720"
-    }
-  ]
+
+{ 
+    "name":"Kushagra Karira", 
+    "short_name":"Karira", 
+    "start_url":"https://kushagrakarira.github.io/", 
+    "display":"standalone", 
+    "background_color":"#000000", 
+    "theme_color":"black", 
+    "scope": ".", 
+    "description":"This is a PWA tutorial.", 
+    "icons":[ 
+    { 
+    "src":"images/icon-192x192.png",                       
+    "sizes":"192x192", 
+    "type":"image/png"
+    "purpose":"any maskable"
+    }, 
+    { 
+    "src":"images/icon-512x512.png", 
+    "sizes":"512x512", 
+    "type":"image/png"
+    } 
+  ] 
 }
