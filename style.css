@@ -1,10 +1,9 @@
+body {background-color: white;color: black;}
+.text {color: black;}
 a:active {color:black;}
 a:link {color:black;}
 a:visited {color:black;}
-tr{background-color:#00a0fc; color:white;}
-
-body {background-color: white;color: black;}
-.text {color: black;}
+tr{background-color:#3584e4; color:white;}
 
 @media (prefers-color-scheme: dark) {
 body {background-color: black;color: white;}
@@ -12,4 +11,5 @@ body {background-color: black;color: white;}
 a:active {color:white;}
 a:link {color:white;}
 a:visited {color:white;}
+tr{background-color:#1a5fb4; color:white;}
 }
