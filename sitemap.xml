@@ -8,144 +8,64 @@
 
 
 <url>
-  <loc>https://kushagrakarira.github.io/</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/index.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/Poems/Poems.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/Poems.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/Articles/Articles.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Blog/Blog.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/Games/Games.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/svgedit/dist/editor/index.html?storagePrompt=false</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/svgedit/editor/svg-editor.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/homepage.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Poems/Poems.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/Resurrected.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Articles/Articles.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/OnceAainInEternity.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Games/Games.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/FillingEmptyness.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/svgedit/editor/svg-editor.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/Ragnar%C3%B6k'sMercy.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/Poems/Resurrected.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/OneForTruth.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://kushagrakarira.github.io/Poems/FillingEmptyness.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
+  <loc>https://karira.tech/Poems/Entangled.html</loc>
+  <lastmod>2021-12-07T16:30:45+00:00</lastmod>
   <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/Articles/Design.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/Games/bounce/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/Games/defender/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/Games/pacman/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/Games/snake/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/Games/tetris/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Poems/Resurrected.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Poems/FillingEmptyness.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Articles/Design.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Games/bounce/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Games/defender/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Games/pacman/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Games/snake/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://kushagrakarira.github.io/kushagrakarira.github.io/Games/tetris/index.html</loc>
-  <lastmod>2020-04-05T07:26:26+00:00</lastmod>
-  <priority>0.51</priority>
 </url>
 
 
