@@ -1,27 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@font-face {
-    font-family: 'Inter';
-    src: local('Inter Regular'), local('Inter-Regular'),
-        url('Inter-Regular.woff2') format('woff2'),
-        url('Inter-Regular.woff') format('woff'),
-        url('Inter-Regular.svg#Inter-Regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+/*@import "https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap";*/
 
-body {background-color: white;color: black;font-family: 'Inter', sans-serif;}
-.text {color: black;}
-a:active {color:black;}
-a:link {color:black;}
-a:visited {color:black;}
-tr{background-color:#3584e4; color:white;}
+@font-face {
+font-family:'Inter';
+src:local('Inter Regular'),local(Inter-Regular),url(Inter-Regular.woff2));
+font-weight:400;font-style:normal;}
+
+body {background-color:#fff;color:#000;font-family:'Inter',sans-serif;}
+.text {color:#000;}
+a:active {color:#000;}
+a:link {color:#000;}
+a:visited {color:#000;}
+tr {background-color:#3584e4;color:#fff;}
 
 @media (prefers-color-scheme: dark) {
-body {background-color: black;color: white;font-family: 'Inter', sans-serif;}
-.text {color: white;}
-a:active {color:white;}
-a:link {color:white;}
-a:visited {color:white;}
-tr{background-color:#1a5fb4; color:white;}
+body {background-color:#000;color:#fff;font-family:'Inter',sans-serif;}
+.text {color:#fff;}
+a:active {color:#fff;}
+a:link {color:#fff;}
+a:visited {color:#fff;}
+tr {background-color:#1a5fb4;color:#fff;}
 }
