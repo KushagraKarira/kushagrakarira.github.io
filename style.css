@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-font-family: 'Inter', sans-serif;
 
-body {background-color: white;color: black;}
+body {background-color: white;color: black;font-family: 'Inter', sans-serif;}
 .text {color: black;}
 a:active {color:black;}
 a:link {color:black;}
@@ -9,7 +8,7 @@ a:visited {color:black;}
 tr{background-color:#3584e4; color:white;}
 
 @media (prefers-color-scheme: dark) {
-body {background-color: black;color: white;}
+body {background-color: black;color: white;font-family: 'Inter', sans-serif;}
 .text {color: white;}
 a:active {color:white;}
 a:link {color:white;}
