@@ -18,7 +18,113 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs12" />
+     id="defs12">
+    <clipPath
+       id="clipPath18"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path16"
+         d="M 0,24 H 24 V 0 H 0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath26"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path24"
+         d="M 2.00005,22 H 22 V 2.00005 H 2.00005 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath42"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path40"
+         d="M 3,21 H 21 V 3 H 3 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath58"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path56"
+         d="M 4,22 H 20 V 2 H 4 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath74"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path72"
+         d="M 2,20 H 22 V 4 H 2 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath90"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path88"
+         d="M 0,24 H 24 V 0 H 0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath100"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path98"
+         d="M 0,48 H 48 V 0 H 0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath108"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path106"
+         d="M 0,24 H 24 V 0 H 0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath116"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path114"
+         d="M -2.13623e-4,24.0002 H 23.9997 V 2.74658e-4 H -2.13623e-4 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath120"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path118"
+         d="M -2.13623e-4,47.9998 H 47.9998 V -1.52588e-4 H -2.13623e-4 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath124"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path122"
+         d="M 48,48 H 0 V 0 h 48 z" />
+    </clipPath>
+    <clipPath
+       id="clipPath332"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path330"
+         d="M 0,24 H 24 V 0 H 0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath342"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path340"
+         d="M -2.28882e-4,48.0001 H 47.9998 V 1.2207e-4 H -2.28882e-4 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath350"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path348"
+         d="M -2.28882e-4,48.0001 H 47.9998 V 1.2207e-4 H -2.28882e-4 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath354"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path352"
+         d="M 0,0 H 48 V 48 H 0 Z" />
+    </clipPath>
+  </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -32,15 +138,16 @@
      inkscape:window-height="699"
      id="namedview10"
      showgrid="false"
-     inkscape:zoom="0.27090488"
-     inkscape:cx="450.34257"
-     inkscape:cy="398.66391"
+     inkscape:zoom="0.22040098"
+     inkscape:cx="4.5371849"
+     inkscape:cy="707.80085"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="SVGRoot"
      inkscape:document-rotation="0"
-     inkscape:pagecheckerboard="0" />
+     inkscape:pagecheckerboard="true"
+     inkscape:snap-page="true" />
   <metadata
      id="metadata818">
     <rdf:RDF>
@@ -54,7 +161,7 @@
   </metadata>
   <g
      id="g19"
-     transform="translate(39.55645,-75.669659)"
+     transform="matrix(0.70613169,0,0,0.70613169,186.62095,105.25547)"
      style="fill:#000000">
     <path
        style="fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
