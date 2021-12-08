@@ -7,16 +7,16 @@ font-weight:400;font-style:normal;}
 
 body {background-color:#f6f5f4;color:#2e3436;font-family:'Inter',sans-serif;}
 .text {color:#2e3436;}
-a:active {color:#2e3436;}
+/*a:active {color:#2e3436;}*/
 a:link {color:#2e3436;}
-a:visited {color:#2e3436;}
+/*a:visited {color:#2e3436;}*/
 tr {background-color:#3081e3;}
 
 @media (prefers-color-scheme: dark) {
 body {background-color:#353535;color:#eeeeec;font-family:'Inter',sans-serif;}
 .text {color:#eeeeec;}
-a:active {color:#eeeeec;}
+/*a:active {color:#eeeeec;}*/
 a:link {color:#eeeeec;}
-a:visited {color:#eeeeec;}
+/*a:visited {color:#eeeeec;}*/
 tr {background-color:#15519b;}
 }

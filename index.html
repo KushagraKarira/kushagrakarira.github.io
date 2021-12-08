@@ -25,7 +25,7 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/serviceworker.js',{scope: '.'}).then(function(registration) {
-      // Registration was successful
+      // Registration
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
     }, function(err) {
       // registration failed :(
@@ -33,6 +33,7 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+</script>
 
 <table width="100%" cellspacing="0"><tr>
 <td align="center"><a  href="../index.html"><b>[ HOME ]</a></b>
