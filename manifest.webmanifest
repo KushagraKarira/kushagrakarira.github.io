@@ -6,9 +6,11 @@
     "start_url": "/",
     "name": "Kushagra Karira",
     "short_name": "Karira",
+    "orientation": "any",
+    "dir": "ltr",
     "description": "My Website !!",
-    "start_url": "../index.html",
     "prefer_related_applications": false,
+    "categories": ["person", "technology", "world"],
     "icons": [
         {
             "src": "/icon-192x192.png",
