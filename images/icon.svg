@@ -159,6 +159,10 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <path
+     id="rect879"
+     style="fill:#ffffff"
+     d="M 0,0 H 1080 V 1080 H 0 Z" />
   <g
      id="g19"
      transform="matrix(0.70613169,0,0,0.70613169,186.62095,105.25547)"

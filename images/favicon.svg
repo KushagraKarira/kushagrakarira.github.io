@@ -140,7 +140,7 @@
      showgrid="false"
      inkscape:zoom="0.22040098"
      inkscape:cx="4.5371849"
-     inkscape:cy="707.80084"
+     inkscape:cy="707.80085"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -159,12 +159,16 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <path
+     id="rect879"
+     style="fill:#000000"
+     d="M 0,0 H 1080 V 1080 H 0 Z" />
   <g
      id="g19"
      transform="matrix(0.70613169,0,0,0.70613169,186.62095,105.25547)">
     <path
        style="fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="path1377"
+       id="path884"
        d="M 78.03863,439.32506 4.7853003,500.99475 530.33615,1042.1648 996.1018,431.64693 937.16594,378.07438 531.54534,889.52016 Z" />
     <path
        id="path826"
