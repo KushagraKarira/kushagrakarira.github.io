@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar" content="#aa7700"> 
+    <meta name="theme-color" content="black">
+    <meta name="description" content="...">
+    <meta name="author" content="Kushagra Karira">
+    <link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png"></link>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta name="theme-color" content="#00a0fc">
+    <title>Kushagra Karira</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<table width="100%" cellspacing="0"><tr>
+<td align="center"><a  href="../index.html"><b>[ HOME ]</a></b>
+<td align="center"><a href="../Poems/Poems.html"><b>[ POEMS ]</b></a>
+<td align="center"><a href="../Blog/Blog.html"><b>[ BLOG ]</b></a>
+<td align="center"><a href="../svgedit/dist/editor/index.html?storagePrompt=false"><b> [ SVGEdit ]</b></a>
+</tr></table>
+
+<h1 align="center">Gallery</h1>
+
+<div class="slideshow-container">
+
+<div class="mySlides fade">
+  <div class="numbertext">1 / 3</div>
+  <img src="favicon.svg" style="width:100%">
+  <div class="text">Caption Text</div>
+</div>
+
+<div class="mySlides fade">
+  <div class="numbertext">2 / 3</div>
+  <img src="Illusion.svg" style="width:100%">
+  <div class="text">Caption Two</div>
+</div>
+
+<div class="mySlides fade">
+  <div class="numbertext">3 / 3</div>
+  <img src="favicon.svg" style="width:100%">
+  <div class="text">Caption Three</div>
+</div>
+
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+<a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+</div>
+<br>
+
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span> 
+  <span class="dot" onclick="currentSlide(2)"></span> 
+  <span class="dot" onclick="currentSlide(3)"></span> 
+</div>
+
+<script>
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+</script>
+
+</body>
+</html> 
+
