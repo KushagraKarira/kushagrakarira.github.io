@@ -6,7 +6,7 @@
    version="1.1"
    viewBox="0 0 1080 1080"
    sodipodi:docname="favicon.svg"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    inkscape:export-filename="/home/kushagra/Projects/kushagrakarira.github.io/Graphic/F1080.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
@@ -159,27 +159,24 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <path
-     id="rect879"
-     style="fill:#000000"
-     d="M 0,0 H 1080 V 1080 H 0 Z" />
   <g
      id="g19"
-     transform="matrix(0.70613169,0,0,0.70613169,186.62095,105.25547)">
+     transform="matrix(0.70613169,0,0,0.70613169,186.62095,105.25547)"
+     style="fill:#808080;fill-opacity:1">
     <path
-       style="fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#808080;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        id="path884"
        d="M 78.03863,439.32506 4.7853003,500.99475 530.33615,1042.1648 996.1018,431.64693 937.16594,378.07438 531.54534,889.52016 Z" />
     <path
        id="path826"
        d="M 90.804835,463.10993 75.063023,573.3611 C 353.80307,679.12054 501.41609,565.70511 722.53832,404.25527 L 882.82053,572.77615 921.77423,522.38484 729.60547,316.65166 C 532.47675,475.81726 388.79798,599.01612 90.804835,463.10993 Z"
-       style="fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#808080;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
     <path
-       style="fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#808080;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        id="path1371"
        d="M 4.7853003,500.99475 52.877659,550.5164 C 295.49634,246.91229 557.74466,189.2326 724.80248,320.65415 L 921.77423,522.38484 996.1018,431.64693 C 694.14781,16.839447 188.46484,197.78726 4.7853003,500.99475 Z" />
     <ellipse
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path828"
        cx="278.229"
        cy="500.72299"
@@ -187,7 +184,7 @@
        ry="60.955002"
        transform="rotate(-19.640424)" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#808080;fill-opacity:1;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path836"
        d="m 328.85126,659.02883 c 4.83893,-5.07364 50.73821,30.839 102.45375,80.16214 51.71554,49.32313 89.76033,93.47124 84.9214,98.54488 -4.83893,5.07364 -50.73821,-30.839 -102.45375,-80.16213 -51.71554,-49.32314 -89.76033,-93.47125 -84.9214,-98.54489 z"
        transform="translate(34.421424,-21.613453)" />
