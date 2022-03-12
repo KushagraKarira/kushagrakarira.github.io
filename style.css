@@ -16,7 +16,7 @@ body {background-color: #fff;	color: #000; font-family: 'Inter'}
 a:active {color: #000}
 a:link {color: #000}
 a:visited {color: #000}
-tr {background-color: #62a0ea}
+tr {background-color: #99c1f1}
 
 @media (prefers-color-scheme: dark) {
 	body {background-color: #000; color: #fff; font-family: 'Inter'}
