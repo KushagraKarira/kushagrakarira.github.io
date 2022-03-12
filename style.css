@@ -18,7 +18,7 @@ a:link {color: #000}
 a:visited {color: #000}
 tr {background-color: #99c1f1}
 .footer {position: fixed; left: 0; bottom: 0; width: 100%;}
-
+.center {display: block; margin-left: auto; margin-right: auto; width: 50%;}
 @media (prefers-color-scheme: dark) {
 	body {background-color: #000; color: #fff; font-family: 'Inter'}
 	.text {color: #fff}
