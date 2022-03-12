@@ -12,12 +12,11 @@
 }
 
 body {background-color: #fff;	color: #000; font-family: 'Inter'}
-
 .text {color: #000}
 a:active {color: #000}
 a:link {color: #000}
 a:visited {color: #000}
-tr {background-color: #00f}
+tr {background-color: #62a0ea}
 
 @media (prefers-color-scheme: dark) {
 	body {background-color: #000; color: #fff; font-family: 'Inter'}
@@ -25,7 +24,8 @@ tr {background-color: #00f}
 	a:active {color: #fff}
 	a:link {color: #fff}
 	a:visited {color: #fff}
-	tr {background-color: #00f}
+	tr {background-color: #1a5fb4}
 }
+html{overflow-x: hidden;}
 
 
