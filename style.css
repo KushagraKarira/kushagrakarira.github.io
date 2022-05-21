@@ -1,12 +1,3 @@
-/*@font-face {
-    font-family: "Inter";
-    src: url(Inter-Regular.eot);
-    src: local('Inter Regular'), local('Inter-Regular'),
-        url('Inter-Regular.woff2') format('woff2'),
-    font-weight: normal;
-    font-style: normal
-}*/
-
 body {background-color: #fff}
 .text,a:active,a:link,a:visited,body {color: #000}
 tr {background-color: #99c1f1}
