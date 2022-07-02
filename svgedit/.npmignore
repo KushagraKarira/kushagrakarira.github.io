@@ -1,5 +1,7 @@
+ignore
+screencasts
+test
+
+.github/ISSUE_TEMPLATE/bug_report.md
+build
 lgtm.yml
-coverage/**
-.nyc_output
-instrumented/**
-node_modules/**
