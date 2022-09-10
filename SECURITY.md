@@ -14,8 +14,6 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+The Website is made to be static with just HTML5 and CSS, the parts with CSS and other variable components are isolated by creating different github projects.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+The contents of website can change any time without warning, use archive.org or ask me for the content with specific date and time.
