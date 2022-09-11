@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000mm"
+   height="1000mm"
+   viewBox="0 0 1000 1000"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="8.svg"
+   inkscape:export-filename="/home/kushagra/Projects/design/NFT/8.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     width="1000mm"
+     inkscape:snap-page="true"
+     inkscape:zoom="0.048753956"
+     inkscape:cx="4184.2758"
+     inkscape:cy="553.80121"
+     inkscape:window-width="1366"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#8ff0a4;stroke:none;stroke-width:10"
+       id="rect846"
+       width="1000"
+       height="1000"
+       x="0"
+       y="1.1368684e-13" />
+    <path
+       id="path2356"
+       style="fill:#26a269;stroke:none;stroke-width:24.1889"
+       inkscape:transform-center-x="2.6328969e-06"
+       d="m 414.03696,0.6065 293.07099,292.6418 0.4285,414.2872 -414.03672,0.4289 L 0.42874,415.3225 0,1.0354 Z" />
+    <path
+       id="path2354"
+       style="fill:#57e389;stroke:none;stroke-width:24.1889"
+       inkscape:transform-center-x="-7.3671031e-06"
+       d="M 585.96329,1001.2127 292.89228,708.5708 292.46354,294.2836 706.50026,293.8547 999.57126,586.4966 1000,1000.7837 Z" />
+    <path
+       id="path2352"
+       style="fill:#2ec27e;stroke:none;stroke-width:24.1889"
+       inkscape:transform-center-x="-2.5693708e-06"
+       d="M 292.89348,707.9644 292.46499,293.6772 584.93,0.4289 998.96526,0 999.394,414.2872 706.93045,707.5355 Z"
+       inkscape:transform-center-y="-2.1933432e-06" />
+    <path
+       id="path2358"
+       style="fill:#33d17a;stroke:none;stroke-width:24.1889"
+       inkscape:transform-center-x="2.3671035e-06"
+       d="M 706.93021,707.5355 414.46545,1000.7837 0.4285,1001.2127 0,586.9255 292.46499,293.6772 706.50172,293.2483 Z"
+       inkscape:transform-center-y="-5.0000002e-06" />
+  </g>
+</svg>
