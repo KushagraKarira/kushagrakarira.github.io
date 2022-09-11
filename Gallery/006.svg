@@ -1,91 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="1000mm"
-   height="1000mm"
-   viewBox="0 0 1000 1000"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   sodipodi:docname="Puzzle.svg"
-   inkscape:export-filename="/home/kushagra/Projects/design/NFT/Puzzle.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:snap-page="true"
-     inkscape:zoom="0.061280861"
-     inkscape:cx="2888.3406"
-     inkscape:cy="1403.3745"
-     inkscape:window-width="1366"
-     inkscape:window-height="699"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#deddda;stroke:none;stroke-width:4.99999;stroke-opacity:1"
-       id="rect2774"
-       width="1000"
-       height="1000"
-       x="0"
-       y="0" />
-    <g
-       id="g2731">
-      <path
-         id="path1710"
-         style="fill:#f9f06b;stroke:#000000;stroke-width:4.39737"
-         inkscape:transform-center-x="5.2080834e-06"
-         d="M 378.54612,197.10306 134.99156,337.71943 V 618.95212 L 378.54612,759.56849 622.1007,618.95212 V 337.71943 Z"
-         inkscape:transform-center-y="-2.559653e-06" />
-      <path
-         id="path1380"
-         style="fill:#99c1f1;stroke:#000000;stroke-width:4.39737;stroke-opacity:1"
-         inkscape:transform-center-x="1.0612468e-05"
-         d="M 378.54612,197.10308 134.99156,337.71943 V 618.95212 L 378.54612,478.33578 Z"
-         inkscape:transform-center-y="-3.4873804e-06" />
-      <path
-         id="path2001"
-         style="fill:#dc8add;stroke:#000000;stroke-width:4.39737"
-         inkscape:transform-center-x="9.399315e-06"
-         d="M 622.1007,56.486706 378.54612,197.10306 v 281.2327 L 622.1007,618.95212 865.65527,478.33576 v -281.2327 z"
-         inkscape:transform-center-y="-2.9910049e-06" />
-      <path
-         id="path1506"
-         style="fill:#8ff0a4;stroke:#000000;stroke-width:4.39737;stroke-opacity:1"
-         inkscape:transform-center-x="3.8587766e-06"
-         d="M 622.1007,56.486706 V 337.7194 l 243.55453,140.61635 v -281.2327 z" />
-      <path
-         id="path2003"
-         style="fill:#cdab8f;stroke:#000000;stroke-width:4.39737"
-         inkscape:transform-center-x="9.399315e-06"
-         d="M 622.1007,337.7194 378.54612,478.33576 V 759.56847 L 622.1007,900.18482 865.65527,759.56847 V 478.33576 Z"
-         inkscape:transform-center-y="-2.2800957e-06" />
-      <path
-         id="path2251"
-         style="fill:#f66151;stroke:#000000;stroke-width:4.39737;stroke-opacity:1"
-         inkscape:transform-center-x="9.2631607e-06"
-         d="M 622.1007,618.95211 378.54612,759.56847 622.1007,900.18482 865.65523,759.56847 Z"
-         inkscape:transform-center-y="-2.1366925e-06" />
-    </g>
-  </g>
+<svg width="1e3mm" height="1e3mm" version="1.1" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg">
+<rect width="1e3" height="1e3" fill="#deddda"/>
+<g stroke="#000" stroke-width="4.4">
+<path d="m379 197-244 141v281l244 141 244-141v-281z" fill="#f9f06b"/>
+<path d="m379 197-244 141v281l244-141z" fill="#99c1f1"/>
+<path d="m622 56-244 141v281l244 141 244-141v-281z" fill="#dc8add"/>
+<path d="m622 56v281l244 141v-281z" fill="#8ff0a4"/>
+<path d="m622 338-244 141v281l244 141 244-141v-281z" fill="#cdab8f"/>
+<path d="m622 619-244 141 244 141 244-141z" fill="#f66151"/>
+</g>
 </svg>

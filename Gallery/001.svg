@@ -1,158 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="1000mm"
-   height="1000mm"
-   viewBox="0 0 1000 1000"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   sodipodi:docname="3.svg"
-   inkscape:export-filename="/home/kushagra/Projects/design/NFT/3.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-page="true"
-     inkscape:zoom="0.095118845"
-     inkscape:cx="1240.5533"
-     inkscape:cy="1913.3958"
-     inkscape:window-width="1366"
-     inkscape:window-height="699"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#99c1f1;stroke:none;stroke-width:0.264583"
-       id="rect1449"
-       width="1000"
-       height="1000"
-       x="0"
-       y="0" />
-    <path
-       sodipodi:type="star"
-       style="fill:#1a5fb4;stroke:none"
-       id="path2161"
-       inkscape:flatsided="false"
-       sodipodi:sides="3"
-       sodipodi:cx="-29.149212"
-       sodipodi:cy="-1326.912"
-       sodipodi:r1="2578.3127"
-       sodipodi:r2="1289.1564"
-       sodipodi:arg1="0.52359878"
-       sodipodi:arg2="1.5707963"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 2203.7351,-37.755605 -2232.884277,-10e-6 -2232.884423,-1e-5 L -1145.5914,-1971.4901 -29.149201,-3905.2247 1087.2929,-1971.4902 Z"
-       transform="matrix(0.17237802,0,0,0.17237802,505.02468,673.17491)"
-       inkscape:transform-center-y="-111.11111"
-       inkscape:transform-center-x="2.1024474e-06" />
-    <path
-       sodipodi:type="star"
-       style="fill:#26a269;stroke:none"
-       id="path2261"
-       inkscape:flatsided="false"
-       sodipodi:sides="3"
-       sodipodi:cx="-29.149212"
-       sodipodi:cy="-1326.912"
-       sodipodi:r1="2578.3127"
-       sodipodi:r2="1289.1564"
-       sodipodi:arg1="0.52359878"
-       sodipodi:arg2="1.5707963"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 2203.7351,-37.755605 -2232.884277,-10e-6 -2232.884423,-1e-5 L -1145.5914,-1971.4901 -29.149201,-3905.2247 1087.2929,-1971.4902 Z"
-       transform="matrix(0.17237802,0,0,-0.17237802,505.02468,326.8251)"
-       inkscape:transform-center-y="111.11112"
-       inkscape:transform-center-x="-4.2110132e-06" />
-    <path
-       id="path2305"
-       style="fill:#e5a50a;stroke:none;stroke-width:0.651507"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="M 1162.3926 2519.6855 L 1889.7637 3779.5273 L 2617.1348 2519.6855 L 1889.7637 2519.6855 L 1162.3926 2519.6855 z "
-       transform="scale(0.26458333)" />
-    <path
-       id="path2328"
-       style="fill:#e5a50a;stroke:none;stroke-width:0.651507"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="M 1889.7637 1259.8418 L 2617.1348 2519.6855 L 3344.5039 1259.8418 L 1889.7637 1259.8418 z "
-       transform="scale(0.26458333)" />
-    <path
-       id="path2369"
-       style="fill:#e5a50a;stroke:none;stroke-width:0.172378"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="M 115.0997,333.33314 307.54997,666.66678 499.99971,333.33314 Z" />
-    <path
-       id="path2425"
-       style="fill:#c64600;stroke:none;stroke-width:0.651507"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="M 435.02344 1259.8418 L 798.70898 1889.7637 L 1162.3926 1259.8418 L 435.02344 1259.8418 z "
-       transform="scale(0.26458333)" />
-    <path
-       id="path2448"
-       style="fill:#c64600;stroke:none;stroke-width:0.172378"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="m 692.45022,333.33313 96.22514,166.66683 96.22462,-166.66683 z" />
-    <path
-       id="path2452"
-       style="fill:#c64600;stroke:none;stroke-width:0.172378"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="m 403.77483,583.33335 96.22514,166.66686 96.22462,-166.66686 z" />
-    <path
-       id="path2281"
-       style="fill:#77767b;stroke:none;stroke-width:0.651507"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="M 1162.3926 1259.8418 L 1889.7637 2519.6855 L 2617.1348 1259.8418 L 1889.7637 1259.8418 L 1162.3926 1259.8418 z "
-       transform="scale(0.26458333)" />
-    <path
-       id="path2454"
-       style="fill:#e66100;stroke:none;stroke-width:0.172378"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="m 403.77483,499.99992 96.22514,166.66685 96.22462,-166.66685 z" />
-    <path
-       id="path2450"
-       style="fill:#e66100;stroke:none;stroke-width:0.172378"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="111.11112"
-       d="m 403.77512,333.33334 96.22514,166.66685 96.22462,-166.66685 z" />
-    <path
-       id="path2574"
-       style="fill:#1c71d8;stroke:none;stroke-width:0.172378"
-       inkscape:transform-center-x="-4.2110132e-06"
-       inkscape:transform-center-y="-111.11112"
-       d="m 403.77509,333.33314 96.22514,-166.66685 96.22462,166.66685 z" />
-  </g>
+<svg width="1e3mm" height="1e3mm" version="1.1" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg">
+<rect width="1e3" height="1e3" fill="#99c1f1"/>
+<path transform="matrix(.17 0 0 .17 505 673)" d="m2204-38-4466-2e-5 2233-3868 1116 1934z" fill="#1a5fb4"/>
+<path transform="matrix(.17 0 0 -.17 505 327)" d="m2204-38-4466-2e-5 2233-3868 1116 1934z" fill="#26a269"/>
+<g fill="#e5a50a">
+<path transform="scale(.26)" d="m1162 2520 727 1260 727-1260h-1455z"/>
+<path transform="scale(.26)" d="m1890 1260 727 1260 727-1260h-1455z"/>
+<path d="m115 333 192 333 192-333z"/>
+</g>
+<g fill="#c64600">
+<path transform="scale(.26)" d="m435 1260 364 630 364-630h-727z"/>
+<path d="m692 333 96 167 96-167z"/>
+<path d="m404 583 96 167 96-167z"/>
+</g>
+<path transform="scale(.26)" d="m1162 1260 727 1260 727-1260h-1455z" fill="#77767b"/>
+<path d="m404 500 96 167 96-167z" fill="#e66100"/>
+<path d="m404 333 96 167 96-167z" fill="#e66100"/>
+<path d="m404 333 96-167 96 167z" fill="#1c71d8"/>
 </svg>

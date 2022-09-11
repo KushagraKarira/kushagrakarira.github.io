@@ -1,164 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="1000mm"
-   height="1000mm"
-   viewBox="0 0 1000 1000"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   sodipodi:docname="Imperfect.svg"
-   inkscape:export-filename="/home/kushagra/Projects/design/NFT/Imperfect.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:document-units="mm"
-     showgrid="false"
-     showguides="false"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-page="true"
-     inkscape:zoom="0.077941998"
-     inkscape:cx="1950.1681"
-     inkscape:cy="2373.5599"
-     inkscape:window-width="1366"
-     inkscape:window-height="699"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#8ff0a4;stroke-width:4.99999"
-       id="rect1413"
-       width="1000"
-       height="1000"
-       x="0"
-       y="0" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.05674"
-       id="rect1291"
-       width="91.975937"
-       height="501.96899"
-       x="-953.59088"
-       y="46.129715"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.05674"
-       id="rect1293"
-       width="91.975937"
-       height="501.96899"
-       x="-817.67645"
-       y="447.94208"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.03157"
-       id="rect1295"
-       width="91.975937"
-       height="495.76001"
-       x="-681.76208"
-       y="454.15106"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.04451"
-       id="rect1297"
-       width="91.975937"
-       height="498.94623"
-       x="-545.8476"
-       y="182.3222"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.05674"
-       id="rect1299"
-       width="91.975937"
-       height="501.96899"
-       x="-409.93317"
-       y="401.76505"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.04876"
-       id="rect1301"
-       width="91.975937"
-       height="499.99728"
-       x="-274.01874"
-       y="46.129715"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#9141ac;stroke-width:4.05674"
-       id="rect1303"
-       width="91.975937"
-       height="501.96899"
-       x="-138.10431"
-       y="46.129715"
-       transform="rotate(-90)" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.07906"
-       id="rect846"
-       width="91.975937"
-       height="507.50705"
-       x="46.407764"
-       y="46.128368" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.04878"
-       id="rect1010"
-       width="91.975937"
-       height="500"
-       x="182.3222"
-       y="453.87164" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.04878"
-       id="rect1012"
-       width="91.975937"
-       height="500"
-       x="318.2366"
-       y="453.87164" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.04765"
-       id="rect1014"
-       width="91.975937"
-       height="499.7193"
-       x="454.15106"
-       y="182.04279" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.04878"
-       id="rect1016"
-       width="91.975937"
-       height="500"
-       x="590.06549"
-       y="407.87576" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.04878"
-       id="rect1018"
-       width="91.975937"
-       height="500"
-       x="725.97992"
-       y="53.63541" />
-    <rect
-       style="fill:#1a5fb4;stroke-width:4.04878"
-       id="rect1020"
-       width="91.975937"
-       height="500"
-       x="861.89435"
-       y="53.63541" />
-  </g>
+<svg width="1e3mm" height="1e3mm" version="1.1" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg">
+<rect width="1e3" height="1e3" fill="#8ff0a4" stroke-width="5"/>
+<g fill="#9141ac">
+<rect transform="rotate(-90)" x="-954" y="46" width="92" height="502" stroke-width="4.1"/>
+<rect transform="rotate(-90)" x="-818" y="448" width="92" height="502" stroke-width="4.1"/>
+<rect transform="rotate(-90)" x="-682" y="454" width="92" height="496" stroke-width="4"/>
+<rect transform="rotate(-90)" x="-546" y="182" width="92" height="499" stroke-width="4"/>
+<rect transform="rotate(-90)" x="-410" y="402" width="92" height="502" stroke-width="4.1"/>
+<rect transform="rotate(-90)" x="-274" y="46" width="92" height="500" stroke-width="4"/>
+<rect transform="rotate(-90)" x="-138" y="46" width="92" height="502" stroke-width="4.1"/>
+</g>
+<g fill="#1a5fb4">
+<rect x="46" y="46" width="92" height="508" stroke-width="4.1"/>
+<rect x="182" y="454" width="92" height="500" stroke-width="4"/>
+<rect x="318" y="454" width="92" height="500" stroke-width="4"/>
+<rect x="454" y="182" width="92" height="500" stroke-width="4"/>
+<g stroke-width="4">
+<rect x="590" y="408" width="92" height="500"/>
+<rect x="726" y="54" width="92" height="500"/>
+<rect x="862" y="54" width="92" height="500"/>
+</g>
+</g>
 </svg>
