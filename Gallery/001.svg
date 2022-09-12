@@ -24,69 +24,81 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.1766117"
-     inkscape:cx="1412.7037"
-     inkscape:cy="2536.6382"
+     inkscape:zoom="2.997225"
+     inkscape:cx="2970.2475"
+     inkscape:cy="1931.1196"
      inkscape:window-width="1366"
      inkscape:window-height="699"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg32" />
-  <rect
-     width="1e3"
-     height="1e3"
-     fill="#99c1f1"
-     id="rect2" />
-  <path
-     d="m2204-38-4466-2e-5 2233-3868 1116 1934z"
-     fill="#1a5fb4"
-     id="path4"
-     transform="matrix(.17 0 0 .17 505 673)" />
-  <path
-     d="m2204-38-4466-2e-5 2233-3868 1116 1934z"
-     fill="#26a269"
-     id="path6"
-     transform="matrix(.17 0 0 -.17 505 327)" />
-  <path
-     d="M 311.18,663.42 500.2,991.02 689.22,663.42 H 310.92 Z"
-     id="path8"
-     style="fill:#e5a50a;stroke-width:0.26" />
-  <path
-     d="m 501.64,333.46 189.02,327.6 189.02,-327.6 h -378.3 z"
-     id="path10"
-     style="fill:#e5a50a;stroke-width:0.26" />
-  <path
-     d="m 120.46,333.46 192,333 192,-333 z"
-     id="path12"
-     style="fill:#e5a50a" />
-  <path
-     d="m 120.2,333.46 94.64,163.8 94.64,-163.8 H 120.46 Z"
-     id="path16"
-     style="fill:#c64600;stroke-width:0.26" />
-  <path
-     d="m 687.68,333.46 96,167 96,-167 z"
-     id="path18"
-     style="fill:#c64600" />
-  <path
-     d="m 404.07,583 96,167 96,-167 z"
-     id="path20"
-     style="fill:#c64600" />
-  <path
-     d="M 311.18,333.46 500.2,661.06 689.22,333.46 H 310.92 Z"
-     fill="#77767b"
-     id="path24"
-     style="stroke-width:0.26" />
-  <path
-     d="m 404.07,494.06 96,167 96,-167 z"
-     fill="#e66100"
-     id="path26" />
-  <path
-     d="m 404.07,333.46 96,167 96,-167 z"
-     fill="#e66100"
-     id="path28" />
-  <path
-     d="m 404.07,333 96,-167 96,167 z"
-     fill="#1c71d8"
-     id="path30" />
+  <g
+     id="g1541"
+     transform="translate(-439.80499)">
+    <rect
+       width="1000"
+       height="1000"
+       fill="#99c1f1"
+       id="rect2"
+       x="439.80499"
+       y="0" />
+    <g
+       id="g1525"
+       transform="translate(-560.195,-2.1498909)">
+      <path
+         d="m 1879.61,666.53979 -759.22,-1e-5 L 1500,8.9797818 1689.72,337.75978 Z"
+         fill="#1a5fb4"
+         id="path818"
+         style="stroke-width:0.17" />
+      <path
+         d="M 1879.61,337.76 H 1120.39 L 1500,995.32 1689.72,666.54 Z"
+         fill="#1a5fb4"
+         id="path399"
+         style="fill:#26a269;fill-opacity:1;stroke-width:0.17" />
+      <path
+         style="fill:#e5a50a;fill-opacity:1;stroke-width:0.17"
+         d="M 1689.8051,666.53952 1500.0002,337.75958 h 379.5252 z"
+         id="path1225" />
+      <path
+         style="fill:#c64600;fill-opacity:1;stroke-width:0.17"
+         d="m 1784.6652,502.14955 -94.9451,-164.38996 h 189.8897 z"
+         id="path945" />
+      <path
+         style="fill:#e5a50a;fill-opacity:1;stroke-width:0.17"
+         d="M 1310.2373,666.54004 1120.4324,337.7601 h 379.5252 z"
+         id="path947" />
+      <path
+         style="fill:#c64600;fill-opacity:1;stroke-width:0.17"
+         d="M 1215.2927,502.15007 1120.39,337.75959 h 189.805 z"
+         id="path943" />
+      <path
+         style="fill:#e5a50a;fill-opacity:1;stroke-width:0.17"
+         d="M 1499.9999,995.31997 1310.195,666.54003 h 379.5251 z"
+         id="path397" />
+      <path
+         style="fill:#77767b;fill-opacity:1;stroke-width:0.17"
+         d="M 1499.9999,666.54004 1310.195,337.7601 h 379.5252 z"
+         id="path1227" />
+      <path
+         d="m 1404,337.76011 96,-167 96,167 z"
+         fill="#1c71d8"
+         id="path1298" />
+      <path
+         d="m 1403.9576,336.45483 96,167 96,-167 z"
+         fill="#1c71d8"
+         id="path1300"
+         style="fill:#e66100;fill-opacity:1" />
+      <path
+         d="m 1403.9576,499.5 96,167 96,-167 z"
+         fill="#1c71d8"
+         id="path1371"
+         style="fill:#e66100;fill-opacity:1" />
+      <path
+         d="m 1399.457,575.17082 96,167 96,-167 z"
+         fill="#1c71d8"
+         id="path1373"
+         style="fill:#c64600;fill-opacity:1" />
+    </g>
+  </g>
 </svg>
