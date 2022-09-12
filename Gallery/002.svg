@@ -1,7 +1,58 @@
-<svg width="1e3mm" height="1e3mm" version="1.1" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg">
-<rect y="1.1e-13" width="1e3" height="1e3" fill="#8ff0a4"/>
-<path d="m414 0.61 293 293 0.43 414-414 0.43-293-293-0.43-414z" fill="#26a269"/>
-<path d="m586 1e3 -293-293-0.43-414 414-0.43 293 293 0.43 414z" fill="#57e389"/>
-<path d="m293 708-0.43-414 292-293 414-0.43 0.43 414-292 293z" fill="#2ec27e"/>
-<path d="m707 708-292 293-414 0.43-0.43-414 292-293 414-0.43z" fill="#33d17a"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1e3mm"
+   height="1e3mm"
+   version="1.1"
+   viewBox="0 0 1e3 1e3"
+   id="svg404"
+   sodipodi:docname="002.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs408" />
+  <sodipodi:namedview
+     id="namedview406"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.1766117"
+     inkscape:cx="1876.9991"
+     inkscape:cy="3148.1492"
+     inkscape:window-width="1366"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg404" />
+  <rect
+     y="1.1e-13"
+     width="1e3"
+     height="1e3"
+     fill="#8ff0a4"
+     id="rect394" />
+  <path
+     d="m 414,0 293,293 0.43,414 -414,0.43 -293,-293 L 0,0.43 Z"
+     fill="#26a269"
+     id="path396" />
+  <path
+     d="m586 1e3 -293-293-0.43-414 414-0.43 293 293 0.43 414z"
+     fill="#57e389"
+     id="path398" />
+  <path
+     d="m 293,708.43 -0.43,-414 292,-293 L 998.57,1 999,415 707,708 Z"
+     fill="#2ec27e"
+     id="path400" />
+  <path
+     d="m 706.43,706.57 -292,293 L 0.43,1000 0,586 292,293 706,292.57 Z"
+     fill="#33d17a"
+     id="path402" />
 </svg>

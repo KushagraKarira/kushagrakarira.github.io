@@ -1,14 +1,96 @@
-<svg width="1e3mm" height="1e3mm" version="1.1" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg">
-<path d="m0 0h1e3v1e3h-1e3z" fill="#c0bfbc" stroke-width="5"/>
-<path d="m0 0h500v1e3h-500z" fill="#9a9996" stroke-width="3.5"/>
-<path d="m0 0h500v500h-500z" fill="#8ff0a4" stroke-width="2.5"/>
-<path d="m250 0h250v500h-250z" fill="#57e389" stroke-width="1.8"/>
-<path d="m250 250h250v250h-250z" fill="#33d17a" stroke-width="1.2"/>
-<path d="m375 250h125v250h-125z" fill="#2ec27e" stroke-width=".88"/>
-<path d="m375 375h125v125h-125z" fill="#26a269" stroke-width=".62"/>
-<path d="m1e3 1e3h-500v-500h500z" fill="#99c1f1" stroke-width="2.5"/>
-<path d="m750 1e3h-250v-500h250z" fill="#62a0ea" stroke-width="1.8"/>
-<path d="m750 750h-250v-250h250z" fill="#3584e4" stroke-width="1.2"/>
-<path d="m625 750h-125v-250h125z" fill="#1c71d8" stroke-width=".88"/>
-<path d="m625 625h-125v-125h125z" fill="#1a5fb4" stroke-width=".62"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1e3mm"
+   height="1e3mm"
+   version="1.1"
+   viewBox="0 0 1e3 1e3"
+   id="svg26"
+   sodipodi:docname="010.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs30" />
+  <sodipodi:namedview
+     id="namedview28"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.13599583"
+     inkscape:cx="1886.0872"
+     inkscape:cy="1889.7638"
+     inkscape:window-width="1366"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg26" />
+  <path
+     d="m0 0h1e3v1e3h-1e3z"
+     fill="#c0bfbc"
+     stroke-width="5"
+     id="path2" />
+  <path
+     d="m 0,500 h 500 v 500 H 0 Z"
+     fill="#9a9996"
+     stroke-width="2.47487"
+     id="path4" />
+  <path
+     d="m0 0h500v500h-500z"
+     fill="#8ff0a4"
+     stroke-width="2.5"
+     id="path6" />
+  <path
+     d="m250 0h250v500h-250z"
+     fill="#57e389"
+     stroke-width="1.8"
+     id="path8" />
+  <path
+     d="m250 250h250v250h-250z"
+     fill="#33d17a"
+     stroke-width="1.2"
+     id="path10" />
+  <path
+     d="m375 250h125v250h-125z"
+     fill="#2ec27e"
+     stroke-width=".88"
+     id="path12" />
+  <path
+     d="m375 375h125v125h-125z"
+     fill="#26a269"
+     stroke-width=".62"
+     id="path14" />
+  <path
+     d="m1e3 1e3h-500v-500h500z"
+     fill="#99c1f1"
+     stroke-width="2.5"
+     id="path16" />
+  <path
+     d="m750 1e3h-250v-500h250z"
+     fill="#62a0ea"
+     stroke-width="1.8"
+     id="path18" />
+  <path
+     d="m750 750h-250v-250h250z"
+     fill="#3584e4"
+     stroke-width="1.2"
+     id="path20" />
+  <path
+     d="m625 750h-125v-250h125z"
+     fill="#1c71d8"
+     stroke-width=".88"
+     id="path22" />
+  <path
+     d="m625 625h-125v-125h125z"
+     fill="#1a5fb4"
+     stroke-width=".62"
+     id="path24" />
 </svg>
