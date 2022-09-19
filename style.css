@@ -21,3 +21,18 @@ tr {background-color: #99c1f1}
     .text,a:active,a:link,a:visited,body {color: #fff}
     tr {background-color: #1a5fb4}}
 html {overflow-x: hidden}
+
+.icon svg {
+  height: 1em;
+  width: 1em;
+}
+.svg-icon {
+  display: inline-flex;
+  align-self: center;
+}.svg-icon svg {
+  height:1em;
+  width:1em;
+}.svg-icon.svg-baseline svg {
+  top: .125em;
+  position: relative;
+}
