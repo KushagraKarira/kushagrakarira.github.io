@@ -20,12 +20,12 @@
 	  },
  	 {
  	   "name": "Blog",
- 	   "url": "../Blog/Blog.html"
+ 	   "url": "../Blog/Blog.html",
  	   "description": "How, What, Why, When and Where to do, if do"
  	 },
 	  {
  	   "name": "Gallery",
- 	   "url": "../Gallery/Gallery.html"
+ 	   "url": "../Gallery/Gallery.html",
  	   "description": "My Designs"
  	 },
  	 {
