@@ -1,8 +1,8 @@
 module.exports = {
-  "globDirectory": "fonts/",
+  "globDirectory": "/",
   "globPatterns": [
-    "**/*.woff2"
+    "**/*.{css,html,js}"
   ],
-  "swDest": "fonts/sw.js",
-  "swSrc": "src/sw.js"
+  "swDest": "/sw.js",
+  "swSrc": "src-sw.js"
 };
