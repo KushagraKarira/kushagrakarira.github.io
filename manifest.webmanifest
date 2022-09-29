@@ -1,53 +1,47 @@
 {
-  "name": "Kushagra Karira",
-  "short_name": "Karira",
-  "start_url": "/",
-  "theme_color": "#1a5fb4",
-  "background_color": "#000000",
-  "display": "fullscreen",
-  "scope": "/",
-  "orientation": "any",
-  "dir": "ltr",
-  "lang": "en",
-  "description": "Humanoid Biological Lifeform",
-  "prefer_related_applications": false,
-  "categories": [
-    "design",
-    "developer",
-    "games",
-    "education",
-    "entertainment"
-  ],
-  "shortcuts": [
-    {
-      "name": "Poems",
-      "url": "../Poems/Poems.html",
-      "icons": "../images/icons/pen.svg",
-      "description": "Poems, Written by Me !!"
-    },
-    {
-      "name": "Blog",
-      "url": "../Blog/Blog.html",
-      "icons": "../images/icons/book.svg",
-      "description": "How, What, Why, When and Where to do, if do"
-    },
-    {
-      "name": "Gallery",
-      "url": "../Gallery/Gallery.html",
-      "icons": "../images/icons/grid.svg",
-      "description": "My Designs"
-    },
-    {
-      "name": "HIDDEN",
-      "url": "../index.html"
-    }
-  ],
-  "icons": [
-    {
-      "src": "../images/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    }
-  ]
+    "name": "Kushagra Karira",
+    "short_name": "Karira",
+    "start_url": "/",
+    "theme_color": "#1a5fb4",
+    "background_color": "#000000",
+    "display": "fullscreen",
+    "scope": "/",
+    "orientation": "any",
+    "dir": "ltr",
+    "lang": "en",
+    "description": "Humanoid Biological Lifeform",
+    "prefer_related_applications": false,
+    "categories": ["design", "developer", "games", "education", "entertainment"],
+    "shortcuts" : [
+	  {
+ 	   "name": "Poems",
+ 	   "url": "../Poems/Poems.html",
+ 	   "icons": "../images/icons/pen.svg",
+ 	   "description": "Poems, Written by Me !!"
+	  },
+ 	 {
+ 	   "name": "Blog",
+ 	   "url": "../Blog/Blog.html",
+ 	   "icons": "../images/icons/book.svg",
+ 	   "description": "How, What, Why, When and Where to do, if do"
+ 	 },
+	  {
+ 	   "name": "Gallery",
+ 	   "url": "../Gallery/Gallery.html",
+ 	   "icons": "../images/icons/grid.svg",
+ 	   "description": "My Designs"
+ 	 },
+ 	 {
+ 	   "name": "HIDDEN",
+ 	   "url": "../index.html"
+ 	 }
+	],
+    "icons": [
+	{
+		"src": "../images/icon.svg",
+		"sizes": "any",
+		"type": "image/svg+xml",
+		"purpose": "any"
+	}
+    ],
 }
