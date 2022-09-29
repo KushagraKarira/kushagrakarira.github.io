@@ -1,0 +1,16 @@
+{
+  "name": "abaft-action-put-d9705",
+  "productName": "abaft-action-put-d9705",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "kushagra",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "19.0.6"
+  }
+}
