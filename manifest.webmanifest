@@ -16,19 +16,19 @@
 	  {
  	   "name": "Poems",
  	   "url": "../Poems/Poems.html",
- 	   "url": "../images/icons/pen.svg",
+ 	   "icons": "../images/icons/pen.svg",
  	   "description": "Poems, Written by Me !!"
 	  },
  	 {
  	   "name": "Blog",
  	   "url": "../Blog/Blog.html",
- 	   "url": "../images/icons/book.svg",
+ 	   "icons": "../images/icons/book.svg",
  	   "description": "How, What, Why, When and Where to do, if do"
  	 },
 	  {
  	   "name": "Gallery",
  	   "url": "../Gallery/Gallery.html",
- 	   "url": "../images/icons/grid.svg",
+ 	   "icons": "../images/icons/grid.svg",
  	   "description": "My Designs"
  	 },
  	 {

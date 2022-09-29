@@ -18,20 +18,15 @@
 </head>
  
 <body>
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/serviceworker.js',{scope: '.'}).then(function(registration) {
-      // Registration
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  });
-}
-</script>
+    <script src="../js/cache.js"></script>
+    <script>
+      // Let's register our serviceworker
+      navigator.serviceWorker.register("../js/sw.js", {
+        // The scope cannot be parent to the script url
+        scope: './'
+      });
+    </script>
+    <script src="../js/logging.js"></scrip
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>
 <td align="center"><a href="../index.html"><b>[ HOME ]</a></b>

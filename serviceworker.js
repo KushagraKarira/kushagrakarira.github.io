@@ -17,3 +17,9 @@ self.addEventListener("fetch", function (event) {
     }) 
   ); 
 });
+
+caches.open("pwa-assets")
+.then(cache => {
+  cache.add("styles.css"); // it stores only one resource
+  cache.addAll(["styles.css", "app.js"]); // it stores two resources
+});
