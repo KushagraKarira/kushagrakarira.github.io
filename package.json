@@ -1,16 +1,24 @@
 {
-  "name": "abaft-action-put-d9705",
-  "productName": "abaft-action-put-d9705",
+  "name": "kushagrakarira.github.io",
+  "productName": "kushagrakarira.github.io",
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
   "author": "kushagra",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "dependencies": {},
   "devDependencies": {
     "electron": "19.0.6"
+  },
+  "build": {
+  "appId": "tech.karira",
+  "mac": {
+    "category": "website"
   }
+}
 }
