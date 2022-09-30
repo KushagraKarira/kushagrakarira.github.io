@@ -6,6 +6,7 @@
   "main": "./main.js",
   "version": "1.0.0",
   "author": "kushagra",
+  "postinstall": "electron-builder install-app-deps",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
