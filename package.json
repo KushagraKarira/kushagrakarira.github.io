@@ -4,7 +4,7 @@
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
-  "version": "001",
+  "version": "002",
   "author": "kushagra",
   "postinstall": "electron-builder install-app-deps",
   "scripts": {
