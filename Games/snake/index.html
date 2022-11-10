@@ -1,93 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <title>Snake</title>
-    <link rel="stylesheet" href="design/style.css" />
-    <script type="module" src="source/Main.js"></script>
+  <title>Basic Snake HTML Game</title>
+  <meta charset="UTF-8">
+  <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid white;
+  }
+  </style>
 </head>
-
 <body>
-    <div id="container" class="mainScreen">
-        <div class="board"></div>
-        <div class="game">
-            <div class="start"></div>
-            <div class="snake"></div>
-            <div class="food">
-                <div class="foodShadow">
-                    <div></div><div></div>
-                    <div></div><div></div>
-                </div>
-                <div class="foodBody">
-                    <div></div><div></div>
-                    <div></div><div></div>
-                </div>
-            </div>
-            <div class="score"></div>
-            <div class="time"></div>
-            <div class="level"></div>
-        </div>
+<canvas width="400" height="400" id="game"></canvas>
+<script>
+var canvas = document.getElementById('game');
+var context = canvas.getContext('2d');
 
-        <div class="messages">
-            <div class="text">
-                <h2>Snake</h2>
-                <p>Select a level</p>
-            </div>
+// the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
+// (e.g. 16 * 25 = 400)
+var grid = 16;
+var count = 0;
 
-            <div class="main help">
-                <div class="demo"></div>
-                <ul>
-                    <li><a href="#" data-action="play" data-level="1">Eas<u>y</u></a></li>
-                    <li><a href="#" data-action="play" data-level="2">M<u>e</u>dium</a></li>
-                    <li><a href="#" data-action="play" data-level="3">Ha<u>r</u>d</a></li>
-                    <li><a href="#" data-action="play" data-level="4">S<u>u</u>per</a></li>
-                    <li><a href="#" data-action="highScores">H<u>i</u>gh Scores</a></li>
-                    <li><a href="#" data-action="help"><u>H</u>elp</a></li>
-                    <li><a href="#" data-action="restore">Con<u>t</u>inue</a></li>
-                </ul>
-                <div class="audio" data-action="sound">
-                    <div class="waves">
-                        <div></div><div></div>
-                        <div></div><div></div>
-                    </div>
-                    <div class="triangle"></div>
-                    <div class="box"></div>
-                </div>
-            </div>
+var snake = {
+  x: 160,
+  y: 160,
 
-            <ul class="pause">
-                <li><a href="#" data-action="endPause"><u>C</u>ontinue</a></li>
-                <li><a href="#" data-action="finishGame"><u>N</u>ew Game</a></li>
-            </ul>
+  // snake velocity. moves one grid length every frame in either the x or y direction
+  dx: grid,
+  dy: 0,
 
-            <div class="input">
-                <input type="text" placeholder="name" />
-                <a class="submit" href="#" data-action="save"><u>O</u>k</a>
-                <a class="restart" href="#" data-action="newGame"><u>N</u>ew Game</a>
-            </div>
+  // keep track of all grids the snake body occupies
+  cells: [],
 
-            <div class="high">
-                <div class="scores"></div>
-                <div class="none">No scores available</div>
-                <ul>
-                    <li><a href="#" data-action="showScores" data-level="1"><u>E</u>asy</a></li>
-                    <li><a href="#" data-action="showScores" data-level="2"><u>M</u>edium</a></li>
-                    <li><a href="#" data-action="showScores" data-level="3">Ha<u>r</u>d</a></li>
-                    <li><a href="#" data-action="showScores" data-level="4">S<u>u</u>per</a></li>
-                    <li><a href="#" data-action="mainScreen"><u>B</u>ack</a></li>
-                </ul>
-            </div>
+  // length of the snake. grows when eating an apple
+  maxCells: 4
+};
+var apple = {
+  x: 320,
+  y: 320
+};
 
-            <div class="controls">
-                <ol>
-                    <li>Use the arrows or WASD keys to move the snake.</li>
-                    <li>Space or P will pause the game.</li>
-                    <li>M will trigger the sound on or off.</li>
-                    <li>Use the links or keys (underline letters) to navigate throught the screens.</li>
-                </ol>
-                <a href="#" data-action="mainScreen"><u>B</u>ack</a>
-            </div>
-        </div>
-    </div>
+// get random whole numbers in a specific range
+// @see https://stackoverflow.com/a/1527820/2124254
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+// game loop
+function loop() {
+  requestAnimationFrame(loop);
+
+  // slow game loop to 15 fps instead of 60 (60/15 = 4)
+  if (++count < 4) {
+    return;
+  }
+
+  count = 0;
+  context.clearRect(0,0,canvas.width,canvas.height);
+
+  // move snake by it's velocity
+  snake.x += snake.dx;
+  snake.y += snake.dy;
+
+  // wrap snake position horizontally on edge of screen
+  if (snake.x < 0) {
+    snake.x = canvas.width - grid;
+  }
+  else if (snake.x >= canvas.width) {
+    snake.x = 0;
+  }
+
+  // wrap snake position vertically on edge of screen
+  if (snake.y < 0) {
+    snake.y = canvas.height - grid;
+  }
+  else if (snake.y >= canvas.height) {
+    snake.y = 0;
+  }
+
+  // keep track of where snake has been. front of the array is always the head
+  snake.cells.unshift({x: snake.x, y: snake.y});
+
+  // remove cells as we move away from them
+  if (snake.cells.length > snake.maxCells) {
+    snake.cells.pop();
+  }
+
+  // draw apple
+  context.fillStyle = 'red';
+  context.fillRect(apple.x, apple.y, grid-1, grid-1);
+
+  // draw snake one cell at a time
+  context.fillStyle = 'green';
+  snake.cells.forEach(function(cell, index) {
+
+    // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+    context.fillRect(cell.x, cell.y, grid-1, grid-1);
+
+    // snake ate apple
+    if (cell.x === apple.x && cell.y === apple.y) {
+      snake.maxCells++;
+
+      // canvas is 400x400 which is 25x25 grids
+      apple.x = getRandomInt(0, 25) * grid;
+      apple.y = getRandomInt(0, 25) * grid;
+    }
+
+    // check collision with all cells after this one (modified bubble sort)
+    for (var i = index + 1; i < snake.cells.length; i++) {
+
+      // snake occupies same space as a body part. reset game
+      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+        snake.x = 160;
+        snake.y = 160;
+        snake.cells = [];
+        snake.maxCells = 4;
+        snake.dx = grid;
+        snake.dy = 0;
+
+        apple.x = getRandomInt(0, 25) * grid;
+        apple.y = getRandomInt(0, 25) * grid;
+      }
+    }
+  });
+}
+
+// listen to keyboard events to move the snake
+document.addEventListener('keydown', function(e) {
+  // prevent snake from backtracking on itself by checking that it's
+  // not already moving on the same axis (pressing left while moving
+  // left won't do anything, and pressing right while moving left
+  // shouldn't let you collide with your own body)
+
+  // left arrow key
+  if (e.which === 37 && snake.dx === 0) {
+    snake.dx = -grid;
+    snake.dy = 0;
+  }
+  // up arrow key
+  else if (e.which === 38 && snake.dy === 0) {
+    snake.dy = -grid;
+    snake.dx = 0;
+  }
+  // right arrow key
+  else if (e.which === 39 && snake.dx === 0) {
+    snake.dx = grid;
+    snake.dy = 0;
+  }
+  // down arrow key
+  else if (e.which === 40 && snake.dy === 0) {
+    snake.dy = grid;
+    snake.dx = 0;
+  }
+});
+
+// start the game
+requestAnimationFrame(loop);
+</script>
 </body>
 </html>
