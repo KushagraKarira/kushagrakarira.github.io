@@ -1,4 +1,5 @@
 version: 2
+enable-beta-ecosystems: true
 updates:
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/.github/workflows" # Location of package manifests
@@ -15,8 +16,3 @@ updates:
   #   schedule:
   #     interval: "daily"
   #     open-pull-requests-limit: 50
-  - package-ecosystem: "enable-beta-ecosystems" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 50
