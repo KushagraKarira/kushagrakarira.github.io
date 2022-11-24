@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: 
-Disallow: /cgi-bin/
+Disallow:
+Allow: /
 Sitemap: https://kushagrakarira.github.io/sitemap.xml
