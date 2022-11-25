@@ -1,0 +1,8 @@
+<svg width="1080" height="1080" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    path { fill: #000000; }
+    @media (prefers-color-scheme: dark) {
+      path { fill: #ffffff; }
+    }
+    </style>
+<defs><linearGradient id="c" x1="226" x2="350" y1="391" y2="475" gradientTransform="matrix(1.29 0 0 1.29 -847 -65.6)" gradientUnits="userSpaceOnUse" xlink:href="#a"/><linearGradient id="a"><stop style="stop-color:#fff" offset="0"/><stop style="stop-color:#fff;stop-opacity:0" offset="1"/></linearGradient><linearGradient id="b" x1="480" x2="355" y1="211" y2="475" gradientTransform="matrix(1.29 0 0 1.29 -847 -65.6)" gradientUnits="userSpaceOnUse" xlink:href="#a"/></defs><g transform="matrix(3.02 0 0 3.02 1973 -189)"><path d="m-395 105-32 20.7v141l-128 82.2 0.158 91.6 159 108zm-32 200v184l-94.3-68.3-0.158-52.6z" style="fill:url(#c)"/><path d="m-388 105v444l162-342-27.1-17.5-103 226v-290z" style="fill:url(#b)"/></g></svg>
