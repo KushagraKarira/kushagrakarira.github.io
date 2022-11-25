@@ -1,1 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" id="svg32" width="1000mm" height="1000mm" version="1.1" viewBox="0 0 1000 1000"><g id="g1541" transform="translate(-439.80499)"><rect id="rect2" width="1000" height="1000" x="439.805" y="0" fill="#99c1f1"/><g id="g1525" transform="translate(-560.195,-2.1498909)"><path id="path818" fill="#1a5fb4" d="m 1879.61,666.53979 -759.22,-1e-5 L 1500,8.9797818 1689.72,337.75978 Z" style="stroke-width:.17"/><path id="path399" fill="#1a5fb4" d="M 1879.61,337.76 H 1120.39 L 1500,995.32 1689.72,666.54 Z" style="fill:#26a269;fill-opacity:1;stroke-width:.17"/><path style="fill:#e5a50a;fill-opacity:1;stroke-width:.17" id="path1225" d="M 1689.8051,666.53952 1500.0002,337.75958 h 379.5252 z"/><path style="fill:#c64600;fill-opacity:1;stroke-width:.17" id="path945" d="m 1784.6652,502.14955 -94.9451,-164.38996 h 189.8897 z"/><path style="fill:#e5a50a;fill-opacity:1;stroke-width:.17" id="path947" d="M 1310.2373,666.54004 1120.4324,337.7601 h 379.5252 z"/><path style="fill:#c64600;fill-opacity:1;stroke-width:.17" id="path943" d="M 1215.2927,502.15007 1120.39,337.75959 h 189.805 z"/><path style="fill:#e5a50a;fill-opacity:1;stroke-width:.17" id="path397" d="M 1499.9999,995.31997 1310.195,666.54003 h 379.5251 z"/><path style="fill:#77767b;fill-opacity:1;stroke-width:.17" id="path1227" d="M 1499.9999,666.54004 1310.195,337.7601 h 379.5252 z"/><path id="path1298" fill="#1c71d8" d="m 1404,337.76011 96,-167 96,167 z"/><path id="path1300" fill="#1c71d8" d="m 1403.9576,336.45483 96,167 96,-167 z" style="fill:#e66100;fill-opacity:1"/><path id="path1371" fill="#1c71d8" d="m 1403.9576,499.5 96,167 96,-167 z" style="fill:#e66100;fill-opacity:1"/><path id="path1373" fill="#1c71d8" d="m 1399.457,575.17082 96,167 96,-167 z" style="fill:#c64600;fill-opacity:1"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="svg32" width="1000mm" height="1000mm" version="1.1" viewBox="0 0 1000 1000" sodipodi:docname="001.svg" inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs id="defs20" />
+  <sodipodi:namedview id="namedview18" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:document-units="mm" showgrid="false" inkscape:zoom="0.06244166666666665" inkscape:cx="1105.031362605098" inkscape:cy="1889.76377952756" inkscape:window-width="1366" inkscape:window-height="699" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg32" />
+  <g id="g1541" transform="translate(-439.80499)">
+    <rect id="rect2" width="1000" height="1000" x="439.805" y="0" fill="#99c1f1" />
+    <g id="g1525" transform="translate(-560.195,-2.1498909)">
+      <path id="path818" fill="#1a5fb4" d="m 1879.61,666.53979 -759.22,-1e-5 L 1500,8.9797818 1689.72,337.75978 Z" style="stroke-width:0.17" />
+      <path id="path399" fill="#1a5fb4" d="M 1879.61,337.76 H 1120.39 L 1500,995.32 1689.72,666.54 Z" style="fill:#26a269;fill-opacity:1;stroke-width:0.17" />
+      <path style="fill:#e5a50a;fill-opacity:1;stroke-width:0.17" id="path1225" d="M 1689.8051,666.53952 1500.0002,337.75958 h 379.5252 z" />
+      <path style="fill:#c64600;fill-opacity:1;stroke-width:0.17" id="path945" d="m 1784.6652,502.14955 -94.9451,-164.38996 h 189.8897 z" />
+      <path style="fill:#e5a50a;fill-opacity:1;stroke-width:0.17" id="path947" d="M 1310.2373,666.54004 1120.4324,337.7601 h 379.5252 z" />
+      <path style="fill:#c64600;fill-opacity:1;stroke-width:0.17" id="path943" d="M 1215.2927,502.15007 1120.39,337.75959 h 189.805 z" />
+      <path style="fill:#e5a50a;fill-opacity:1;stroke-width:0.17" id="path397" d="M 1499.9999,995.31997 1310.195,666.54003 h 379.5251 z" />
+      <path style="fill:#77767b;fill-opacity:1;stroke-width:0.17" id="path1227" d="M 1499.9999,666.54004 1310.195,337.7601 h 379.5252 z" />
+      <path id="path1298" fill="#1c71d8" d="m 1404,337.76011 96,-167 96,167 z" />
+      <path id="path1300" fill="#1c71d8" d="m 1403.9576,336.45483 96,167 96,-167 z" style="fill:#e66100;fill-opacity:1" />
+      <path id="path1371" fill="#1c71d8" d="m 1403.9576,499.5 96,167 96,-167 z" style="fill:#e66100;fill-opacity:1" />
+      <path id="path1373" fill="#1c71d8" d="m 1399.457,575.17082 96,167 96,-167 z" style="fill:#c64600;fill-opacity:1" />
+    </g>
+  </g>
+  <metadata id="metadata126">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Kushagra Karira</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/by-nc/4.0/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:prohibits rdf:resource="http://creativecommons.org/ns#CommercialUse" />
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
