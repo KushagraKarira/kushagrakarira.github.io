@@ -1,0 +1,46 @@
+:root { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  :root { font-family: 'InterVar', sans-serif; font-optical-sizing: auto; }
+}
+
+@font-face {
+  font-family: 'InterVar';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url("../fonts/Inter.var.woff2") format("woff2-variations"), url("Inter.var.woff") format("woff2");
+  src: url("../fonts/Inter.var.woff2") format("woff2") tech("variations");
+}
+@font-face {
+  font-family: 'InterVar';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url("../fonts/Inter-Italic.var.woff2") format("woff2-variations"), url("Inter-Italic.var.woff2") format("woff2");
+  src: url("../fonts/Inter-Italic.var.woff2") format("woff2") tech("variations");
+}
+
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
+}
+
+body {background-color: #fff; font-family: "Inter",sans-serif}
+.text,a:active,a:link,a:visited,body {color: #000}
+
+table, th, td {background-color: #99c1f1; border: solid #99c1f1; border-radius: 25px; height: 10px;}
+td:hover {background-color: #add9ff;}
+
+.header {top: 0; position: fixed; left: -5px; padding:5px 5px 5px; width: 100%; text-align: center}
+.footer {bottom: 0; position: fixed; left: -5px; padding:5px 5px 5px; width: 100%; text-align: center}
+.center {display: block; margin-left: auto;margin-right: auto}
+
+
+@media (prefers-color-scheme:dark) {
+    body {background-color: #000; font-family: "Inter",sans-serif}
+    .text,a:active,a:link,a:visited,body {color: #fff}
+    table, th, td {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px;}
+    td:hover {background-color: #124582;}
+    }
+html {overflow-x: hidden}

@@ -1,0 +1,25 @@
+name: AppImage
+
+on:
+  push:
+    branches:
+      - main
+      - 'releases/**'
+
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      
+      - name: Fix Dependencies
+        run: sudo apt install fuse libfuse2
+      - name: Prepare AppImage
+        run: sudo apt-get install nodejs npm wget && npm install -g appnativefy && appnativefy --name "Kushagra Karira" --url "https://kushagrakarira.com/" --favicon
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: Kushagra-Karira-x86_64.AppImage
+          path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
