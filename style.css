@@ -30,7 +30,7 @@ body {background-color: #fff; font-family: "Inter",sans-serif}
 .text,a:active,a:link,a:visited,body {color: #000}
 
 table, th, td {background-color: #99c1f1; border: solid #99c1f1; border-radius: 25px; height: 10px;}
-td:hover {background-color: #add9ff;}
+th:hover {background-color: #add9ff;}
 
 .header {top: 0; position: fixed; left: -5px; padding:5px 5px 5px; width: 100%; text-align: center}
 .footer {bottom: 0; position: fixed; left: -5px; padding:5px 5px 5px; width: 100%; text-align: center}
@@ -41,6 +41,6 @@ td:hover {background-color: #add9ff;}
     body {background-color: #000; font-family: "Inter",sans-serif}
     .text,a:active,a:link,a:visited,body {color: #fff}
     table, th, td {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px;}
-    td:hover {background-color: #124582;}
+    th:hover {background-color: #124582;}
     }
 html {overflow-x: hidden}
