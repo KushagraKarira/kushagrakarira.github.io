@@ -25,11 +25,10 @@ div.desc {text-align: center}
 </head>
 
 <body>
-  <script>
-  $("th").click(function(){
-    $("th.selected").removeClass("selected");
-    $(this).addClass("selected");
-});
+<script>
+$("th").click(function(){
+    $(this).addClass("selected").siblings().removeClass("selected");
+});​
 </script>
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>

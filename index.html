@@ -27,10 +27,9 @@
   }
 </script>
 <script>
-  $("th").click(function(){
-    $("th.selected").removeClass("selected");
-    $(this).addClass("selected");
-});
+$("th").click(function(){
+    $(this).addClass("selected").siblings().removeClass("selected");
+});​
 </script>
 <nav>
 <div align="center" class="header">
