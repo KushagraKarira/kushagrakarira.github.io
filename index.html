@@ -26,6 +26,12 @@
   });
   }
 </script>
+<script>
+  $("th").click(function(){
+    $("th.selected").removeClass("selected");
+    $(this).addClass("selected");
+});
+</script>
 <nav>
 <div align="center" class="header">
   <table width="100%" cellspacing="0"><tr>

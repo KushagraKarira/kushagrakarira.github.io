@@ -11,9 +11,10 @@
     <link rel="apple-touch-icon" href="images/icon-192x192.png"></link>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <meta name="theme-color" content="#00a0fc">
-      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <title>Gallery</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
 <style>
 div.page {margin: auto; width: 99%; border: 3px; padding: 10px}
 div.gallery {margin: 5px; border: 1px solid #ccc; float: left; width: 180px; border-radius: 25px}
@@ -24,6 +25,12 @@ div.desc {text-align: center}
 </head>
 
 <body>
+  <script>
+  $("th").click(function(){
+    $("th.selected").removeClass("selected");
+    $(this).addClass("selected");
+});
+</script>
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>
 <th align="center"><a href="/index.html"><b>[ HOME ]</a></b>
