@@ -2,9 +2,7 @@ name: AppImage
 
 on:
   push:
-    branches:
-      - main
-      - 'releases/**'
+    branches: ["master"]
 
 
 jobs:
