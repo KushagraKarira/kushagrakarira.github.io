@@ -17,9 +17,19 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <title>Kushagra Karira</title>
     <meta name="ocs-site-verification" content="a42c669c68fd15def9f4ceee712a0415" />
-    <script src="script.js"></script>
 </head>
 <body>
+<style>
+	if ("serviceWorker" in navigator) {
+window.addEventListener("load", () => {
+navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
+});
+}
+
+$("th").click(function(){
+    $(this).addClass("selected").siblings().removeClass("selected");
+});
+</style>
 <nav>
 <div align="center" class="header">
   <table width="100%" cellspacing="0"><tr>

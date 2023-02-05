@@ -15,7 +15,6 @@
     <title>Gallery</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
-    <script src="script.js"></script>
 <style>
 div.page {margin: auto; width: 99%; border: 3px; padding: 10px}
 div.gallery {margin: 5px; border: 1px solid #ccc; float: left; width: 180px; border-radius: 25px}
@@ -26,6 +25,17 @@ div.desc {text-align: center}
 </head>
 
 <body>
+	<style>
+	if ("serviceWorker" in navigator) {
+window.addEventListener("load", () => {
+navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
+});
+}
+
+$("th").click(function(){
+    $(this).addClass("selected").siblings().removeClass("selected");
+});
+</style>
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>
 <th align="center"><a href="/index.html"><b>[ HOME ]</a></b></th>

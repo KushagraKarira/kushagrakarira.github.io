@@ -15,15 +15,20 @@
   <link rel="stylesheet" href="../style.css">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
-  <script src="script.js"></script>
 </head>
 
 <body>
-<script>
+<style>
+	if ("serviceWorker" in navigator) {
+window.addEventListener("load", () => {
+navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
+});
+}
+
 $("th").click(function(){
     $(this).addClass("selected").siblings().removeClass("selected");
-});​
-</script>
+});
+</style>
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>
 <th align="center"><a href="/index.html"><b>[ HOME ]</a></b></th>
