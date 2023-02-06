@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<style>
+	<script>
 	if ("serviceWorker" in navigator) {
 window.addEventListener("load", () => {
 navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
@@ -28,13 +28,13 @@ navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js")
 $("th").click(function(){
     $(this).addClass("selected").siblings().removeClass("selected");
 });
-</style>)
+</script>
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>
 <th align="center"><a  href="/"><b>[ HOME ]</a></b></th>
-<th align="center"><a href="/Poems/Poems"><b>[ POEMS ]</b></a></th>
-<th align="center"><a href="/Blog/Blog"><b>[ BLOG ]</b></a></th>
-<th align="center"><a href="/Gallery/Gallery"><b>[ GALLERY ]</b></a></th>
+<th align="center"><a href="Poems"><b>[ POEMS ]</b></a></th>
+<th align="center"><a href="Blog"><b>[ BLOG ]</b></a></th>
+<th align="center"><a href="Gallery"><b>[ GALLERY ]</b></a></th>
 </tr></table></div>
 
 <br><h1 align=center>Blog</h1>
@@ -44,14 +44,14 @@ $("th").click(function(){
 
 <h3>STORIES</h3>
 <ul>
-  <li><a href="CityTale1">The Store Run by ghost</a>
-  <li><a href="CityTale2">What is Truth ?</a>
+  <li><a href="/Blog/CityTale1">The Store Run by ghost</a>
+  <li><a href="/Blog/CityTale2">What is Truth ?</a>
 </ul>
 
 <h3>GUIDES</h3>
 <ul>
-  <li><a href="Packing">Packing for Travel</a>
-  <li><a href="Garden">Starting a garden: Tips for beginners</a>
+  <li><a href="/Blog/Packing">Packing for Travel</a>
+  <li><a href="/Blog/Garden">Starting a garden: Tips for beginners</a>
 </ul>
 
 

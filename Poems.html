@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<style>
+<script>
 	if ("serviceWorker" in navigator) {
 window.addEventListener("load", () => {
 navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
@@ -28,23 +28,23 @@ navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js")
 $("th").click(function(){
     $(this).addClass("selected").siblings().removeClass("selected");
 });
-</style>
+</script>
 <div align="center" class="header">
 <table width="100%" cellspacing="0"><tr>
 <th align="center"><a href="/"><b>[ HOME ]</a></b></th>
-<th align="center"><a href="/Poems/Poems"><b>[ POEMS ]</b></a></th>
-<th align="center"><a href="/Blog/Blog"><b>[ BLOG ]</b></a></th>
-<th align="center"><a href="/Gallery/Gallery"><b>[ GALLERY ]</b></a></th>
+<th align="center"><a href="Poems"><b>[ POEMS ]</b></a></th>
+<th align="center"><a href="Blog"><b>[ BLOG ]</b></a></th>
+<th align="center"><a href="Gallery"><b>[ GALLERY ]</b></a></th>
 </tr></table></div>
 
 <br><h1 align=center>Poems</h1>
 <ul>
-<li><a href="OnceAainInEternity">Once Again In Eternity</a>
-<li><a href="Resurrected">Resurrected</a>
-<li><a href="FillingEmptyness">Filling Emptyness</a>
-<li><a href="Ragnar%C3%B6k'sMercy">Ragnarök's Mercy</a>
-<li><a href="OneForTruth">One For Truth</a>
-<li><a href="Entangled">Entangled</a>
+<li><a href="Poems/OnceAainInEternity">Once Again In Eternity</a>
+<li><a href="Poems/Resurrected">Resurrected</a>
+<li><a href="Poems/FillingEmptyness">Filling Emptyness</a>
+<li><a href="Poems/Ragnar%C3%B6k'sMercy">Ragnarök's Mercy</a>
+<li><a href="Poems/OneForTruth">One For Truth</a>
+<li><a href="Poems/Entangled">Entangled</a>
 </ul>
 
 <p align='center'> Designed in Gnome Builder </p>
