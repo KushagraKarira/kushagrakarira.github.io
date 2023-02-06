@@ -2,7 +2,8 @@ name: AppImage
 
 on:
   push:
-    branches: ["master"]
+    paths:
+      - 'index.html'
 
 
 jobs:
