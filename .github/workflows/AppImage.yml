@@ -23,20 +23,25 @@ jobs:
         with:
           name: Kushagra-Karira-x86_64.AppImage
           path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
-      - name: Read release.md and use it as a body of new release
-        id: read_release
-        shell: bash
-        run: |
-          r=$(cat release.md)                               # <--- Read release.md (Provide correct path as per your repo)
-          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
-          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
-          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
-          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT          # <--- Set environment variable
-
-      - name: Upload Binaries to Release
-        uses: svenstaro/upload-release-action@master
+          
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
+          tag_name: ${{ github.ref }}-prelease
+          release_name: Release ${{ github.ref }} (prelease)
           body: |
-            ${{ steps.read_release.outputs.RELEASE_BODY }}  # <--- Use environment variables that was created earlier
+            Test upload-to-github-release works with `actions/create-release`
+          draft: false
+          prerelease: true
+      - uses: xresloader/upload-to-github-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "/home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage"
+          release_id: ${{ steps.create_release.outputs.id }}
+          overwrite: true
+          verbose: true
