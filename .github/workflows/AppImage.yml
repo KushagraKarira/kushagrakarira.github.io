@@ -36,7 +36,7 @@ jobs:
           body: |
             Test upload-to-github-release works with `actions/create-release`
           draft: false
-          prerelease: true
+          prerelease: false
       - uses: xresloader/upload-to-github-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
