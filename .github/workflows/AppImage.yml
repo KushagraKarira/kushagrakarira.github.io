@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@master
       
       - name: Fix Dependencies
-        run: ls && sudo apt install fuse libfuse2
+        run: sudo apt install fuse libfuse2
       - name: Prepare AppImage
         run: sudo apt-get install nodejs npm wget && npm install -g appnativefy && appnativefy --name "Kushagra Karira" --url "https://kushagrakarira.com/" --favicon
       - name: Upload a Build Artifact
@@ -27,7 +27,7 @@ jobs:
         id: read_release
         shell: bash
         run: |
-          r=$(cat path/to/release.md)                       # <--- Read release.md (Provide correct path as per your repo)
+          r=$(cat release.md)                               # <--- Read release.md (Provide correct path as per your repo)
           r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
           r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
