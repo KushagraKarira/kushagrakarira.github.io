@@ -22,3 +22,20 @@ jobs:
         with:
           name: Kushagra-Karira-x86_64.AppImage
           path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
+      - name: Read release.md and use it as a body of new release
+        id: read_release
+        shell: bash
+        run: |
+          r=$(cat path/to/release.md)                       # <--- Read release.md (Provide correct path as per your repo)
+          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
+          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
+          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT          # <--- Set environment variable
+
+      - name: Upload Binaries to Release
+        uses: svenstaro/upload-release-action@master
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          body: |
+            ${{ steps.read_release.outputs.RELEASE_BODY }}  # <--- Use environment variables that was created earlier
