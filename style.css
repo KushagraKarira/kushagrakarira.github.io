@@ -38,7 +38,7 @@ th:hover, th.selected {background-color: #1a5fb4;}
 
 
 @media (prefers-color-scheme:dark) {
-    body {background-color: 313131; font-family: "Inter",sans-serif}
+    body {background-color: #313131; font-family: "Inter",sans-serif}
     .text,a:active,a:link,a:visited,body {color: #f6f5f4}
     table, th, td {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px;}
     th:hover, th.selected {background-color: #99c1f1;}
