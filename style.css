@@ -37,7 +37,7 @@ th:hover, th.selected {background-color: #1a5fb4;}
 .footer {bottom: 0; position: fixed; left: -5px; padding:5px 5px 5px; width: 100%; text-align: center}
 .center {display: block; margin-left: auto;margin-right: auto}
 
-H1 { text-align: center }
+H1, H2 { text-align: center }
 
 @media (prefers-color-scheme:dark) {
     body {background-color: #313131; font-family: "Inter",sans-serif}
