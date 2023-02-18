@@ -29,7 +29,7 @@
 body {background-color: #f6f5f4; font-family: "Inter",sans-serif}
 .text,a:active,a:link,a:visited,body {color: #313131}
 
-table, th, td {background-color: #99c1f1; border: solid #99c1f1; border-radius: 25px; height: 10px;}
+table, th, td {background-color: #99c1f1; border: solid #99c1f1; border-radius: 25px; height: 10px; width: 100%;; text-align: center; vertical-align: middle; padding: 10px;}
 th:hover, th.selected {background-color: #1a5fb4;}
 
 .header {top: 0; position: fixed; left: -5px; padding:5px 5px 5px; width: 100%; text-align: center}
