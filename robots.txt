@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 Allow: /
-Sitemap: https://kushagrakarira.github.io/sitemap.xml
+Sitemap: https://kushagrakarira.com/sitemap.xml
