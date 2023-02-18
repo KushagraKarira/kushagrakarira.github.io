@@ -18,6 +18,12 @@
     <title>Kushagra Karira</title>
     <meta name="ocs-site-verification" content="a42c669c68fd15def9f4ceee712a0415">
 </head>
+<script>
+	if ("serviceWorker" in navigator) {
+	window.addEventListener("load", () => {
+	navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
+	});}
+</script>
 <body>
 <nav><div class="header"><table><tr>
     <th><a href="/"><b>[ HOME ]</b></a></th>

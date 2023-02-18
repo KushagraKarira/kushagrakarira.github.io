@@ -1,19 +1,19 @@
 :root { font-family: "Inter", sans-serif; }
 @supports (font-variation-settings: normal) {
-  :root { font-family: "InterVar", sans-serif; font-optical-sizing: auto; }
+	:root { font-family: "InterVar", sans-serif; }
 }
 @font-face {
-  font-family: "InterVar";
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: normal;
-  src: url("/fonts/Inter.var.woff2") format("woff2-variations"),
-       url("/fonts/Inter.var.woff2") format("woff2");
-  src: url("/fonts/Inter.var.woff2") format("woff2") tech("variations");
+	font-family: "InterVar";
+	font-weight: 100 900;
+	font-display: swap;
+	font-style: normal;
+  src: url("/fonts/Inter.var.woff2") format("woff2");
+	src: url("/fonts/Inter.var.woff2") format("woff2-variations");
+	src: url("/fonts/Inter.var.woff2") format("woff2") tech("variations");
 }
 
 body {background-color: #f6f5f4; font-family: 'Inter', sans-serif;}
-.text,a:active,a:link,a:visited,body {color: #313131}
+.text, a:active, a:link, a:visited, body {color: #313131}
 
 table {background-color: #99c1f1; border: solid #99c1f1; border-radius: 25px; height: 10px; width: 100%;; text-align: center; vertical-align: middle; padding: 0px;}
 th, td {background-color: #99c1f1; border: solid #99c1f1; border-radius: 25px; height: 10px; text-align: center;}
@@ -24,13 +24,13 @@ th:hover, th.selected {background-color: #1a5fb4;}
 .center {display: block; margin-left: auto;margin-right: auto}
 
 H1, H2 { text-align: center }
-P { ext-align: justify }
+P { text-align: justify }
 
 @media (prefers-color-scheme:dark) {
-    body {background-color: #313131; font-family: 'Inter', sans-serif;}
-    .text,a:active,a:link,a:visited,body {color: #f6f5f4}
-    table {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px; width: 100%;; text-align: center; vertical-align: middle; padding: 0px}
-    th, td {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px; text-align: center;}
-    th:hover, th.selected {background-color: #99c1f1;}
-    }
-html {overflow-x: hidden}
+		body {background-color: #313131; font-family: 'Inter', sans-serif;}
+		.text,a:active,a:link,a:visited,body {color: #f6f5f4}
+		table {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px; width: 100%;; text-align: center; vertical-align: middle; padding: 0px}
+		th, td {background-color: #1a5fb4; border: solid #1a5fb4; border-radius: 25px; height: 10px; text-align: center;}
+		th:hover, th.selected {background-color: #99c1f1;}
+		}
+/* html {overflow-x: hidden} */

@@ -23,6 +23,12 @@ div.gallery img {width: 100%; height: auto; border-radius: 25px}
 div.desc {text-align: center}
 </style>
 </head>
+<script>
+	if ("serviceWorker" in navigator) {
+	window.addEventListener("load", () => {
+	navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
+	});}
+</script>
 <body>
 <nav><div class="header"><table><tr>
     <th><a href="/"><b>[ HOME ]</b></a></th>
