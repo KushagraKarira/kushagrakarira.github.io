@@ -1,6 +1,6 @@
 {
     "name": "Kushagra Karira",
-    "short_name": "Karira",
+    "short_name": "iOTA",
     "start_url": "/",
     "theme_color": "#1a5fb4",
     "background_color": "#000000",
@@ -15,25 +15,25 @@
     "shortcuts" : [
 	  {
  	   "name": "Poems",
- 	   "url": "/Poems/Poems.html",
+ 	   "url": "/Poems.html",
  	   "icons": "/images/icons/pen.svg",
  	   "description": "Poems, Written by Me !!"
 	  },
  	 {
  	   "name": "Blog",
- 	   "url": "/Blog/Blog.html",
+ 	   "url": "/Blog.html",
  	   "icons": "/images/icons/book.svg",
  	   "description": "How, What, Why, When and Where to do, if do"
  	 },
 	  {
  	   "name": "Gallery",
- 	   "url": "/Gallery/Gallery.html",
+ 	   "url": "/Gallery.html",
  	   "icons": "/images/icons/grid.svg",
  	   "description": "My Designs"
  	 },
  	 {
  	   "name": "GAMES !!",
- 	   "url": "/games/index.html"
+ 	   "url": "/games"
  	 }
 	],
     "icons": [
