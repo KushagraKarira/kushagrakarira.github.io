@@ -1,187 +1,30 @@
-/* Define custom color variables */
-:root {
-  --WH: #FAFAFA; /* white */
-  --WH1: #E5E5E5; /* off-white */
+@import "https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap";
+:root{--blue1:#99c1f1;--blue2:#62a0ea;--blue3:#3584e4;--blue4:#1c71d8;--blue5:#1a5fb4;--green1:#8ff0a4;--green2:#57e389;--green3:#33d17a;--green4:#2ec27e;--green5:#26a269;--yellow1:#f9f06b;--yellow2:#f8e45c;--yellow3:#f6d32d;--yellow4:#f5c211;--yellow5:#e5a50a;--orange1:#ffbe6f;--orange2:#ffa348;--orange3:#ff7800;--orange4:#e66100;--orange5:#c64600;--red1:#f66151;--red2:#ed333b;--red3:#e01b24;--red4:#c01c28;--red5:#a51d2d;--purple1:#dc8add;--purple2:#c061cb;--purple3:#9141ac;--purple4:#813d9c;--purple5:#613583;--brown1:#cdab8f;--brown2:#b5835a;--brown3:#986a44;--brown4:#865e3c;--brown5:#63452c;--light1:#fff;--light2:#f5f5f5;--light3:#dedede;--light4:#bfbfbf;--light5:#999;--dark1:#7a7a7a;--dark2:#636363;--dark3:#454545;--dark4:#303030;--dark5:#000}
+body{background-color:var(--Light2);font-family:'Inter',sans-serif}
+.text,a:active,a:link,a:visited,body,svg{color:var(--Dark4)}
+table{background-color:var(--Light3);border-radius:25px;height:50px;width:100%;text-align:center;vertical-align:middle;padding:0;border-spacing:5px 5px}
+th{border-radius:25px;height:10px;text-align:center;background-color:var(--Blue1);vertical-align:middle;padding:0}
+th:hover,th.selected{background-color:var(--Blue5)}
+h1,h2{text-align:center;font-weight:700}
+p{text-align:justify}
+select,button,input,textarea{text-align:center;background-color:var(--Light3);color:var(--Dark4);height:50px;width:100%;border-radius:25px;border:0!important;box-shadow:none;padding:15px 25px;margin:10px 0;box-sizing:border-box}
+::placeholder{text-align:center}
+img{border-radius:25px;max-width:100%}
+mark{background-color:var(--Blue1)}
 
-  --Blue1: #99c1f1; /* light blue */
-  --Blue2: #62a0ea;
-  --Blue3: #3584e4;
-  --Blue4: #1c71d8;
-  --Blue5: #1a5fb4; /* dark blue */
-  --Green1: #8ff0a4; /* light green */
-  --Green2: #57e389;
-  --Green3: #33d17a;
-  --Green4: #2ec27e;
-  --Green5: #26a269; /* dark green */
-  --Yellow1: #f9f06b; /* light yellow */
-  --Yellow2: #f8e45c;
-  --Yellow3: #f6d32d;
-  --Yellow4: #f5c211;
-  --Yellow5: #e5a50a; /* dark yellow */
-  --Orange1: #ffbe6f; /* light orange */
-  --Orange2: #ffa348;
-  --Orange3: #ff7800;
-  --Orange4: #e66100;
-  --Orange5: #c64600; /* dark orange */
-  --Red1: #f66151; /* light red */
-  --Red2: #ed333b;
-  --Red3: #e01b24;
-  --Red4: #c01c28;
-  --Red5: #a51d2d; /* dark red */
-  --Purple1: #dc8add; /* light purple */
-  --Purple2: #c061cb;
-  --Purple3: #9141ac;
-  --Purple4: #813d9c;
-  --Purple5: #613583; /* dark purple */
-  --Brown1: #cdab8f; /* light brown */
-  --Brown2: #b5835a;
-  --Brown3: #986a44;
-  --Brown4: #865e3c;
-  --Brown5: #63452c; /* dark brown */
-  --Light1: #ffffff;
-  --Light2: #f5f5f5;
-  --Light3: #dedede;
-  --Light4: #bfbfbf;
-  --Light5: #999999;
-  --Dark1: #7a7a7a;
-  --Dark2: #636363;
-  --Dark3: #454545;
-  --Dark4: #303030;
-  --Dark5: #000000;
-}
-/* Imports the Inter font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+.header{top:0;position:fixed;left:-5px;padding:5px;width:100%;text-align:center}
+.footer{bottom:0;position:fixed;left:-5px;padding:5px;width:100%;text-align:center}
+.center{display:block;margin-left:auto;margin-right:auto}
 
-/* Sets the default font family and background color for the body */
-body {
-  background-color: var(--Light2); /* Uses a custom CSS variable for the background color */
-  font-family: 'Inter', sans-serif;
-}
+.Success {background-color:#33d17a}
+.Warning {background-color:#e5a50a}
+.Error {background-color:#e01b24}
+.Active {background-color:#3584e4}
 
-/* Sets the text color for various elements */
-.text, a:active, a:link, a:visited, body, svg {
-  color: var(--Dark4); /* Uses a custom CSS variable for the text color */
-}
-
-/* Styles for tables */
-table {
-  background-color: var(--Light3); /* Uses a custom CSS variable for the table background color */
-  border-radius: 25px;
-  height: 50px;
-  width: 100%;
-  text-align: center;
-  vertical-align: middle;
-  padding: 0;
-  border-spacing: 5px 5px;
-}
-
-/* Styles for table headers */
-th {
-  border-radius: 25px;
-  height: 10px;
-  text-align: center;
-  background-color: var(--Blue1); /* Uses a custom CSS variable for the header background color */
-  vertical-align: middle;
-  padding: 0;
-}
-
-/* Styles for table headers on hover and when selected */
-th:hover, th.selected {
-  background-color: var(--Blue5); /* Uses a custom CSS variable for the header background color when hovered/selected */
-}
-
-/* Styles for the header and footer */
-.header {
-  top: 0;
-  position: fixed;
-  left: -5px;
-  padding: 5px;
-  width: 100%;
-  text-align: center;
-}
-
-.footer {
-  bottom: 0;
-  position: fixed;
-  left: -5px;
-  padding: 5px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Centering utility class */
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Styles for headings */
-h1, h2 {
-  text-align: center;
-  font-weight: 700;
-}
-
-/* Styles for paragraphs */
-p {
-  text-align: justify;
-}
-
-/* Styles for form elements */
-select, button, input, textarea {
-  text-align: center;
-  background-color: var(--Light3); /* Uses a custom CSS variable for the form element background color */
-  color: var(--Dark4); /* Uses a custom CSS variable for the form element text color */
-  height: 50px;
-  width: 100%;
-  border-radius: 25px;
-  border: 0!important;
-  box-shadow: none;
-  padding: 15px 25px;
-  margin: 10px 0;
-  box-sizing: border-box;
-}
-
-/* Styles for placeholder text in form elements */
-::placeholder {
-  text-align: center;
-}
-
-/* Styles for images */
-img {
-  border-radius: 25px;
-  max-width: 100%;
-}
-
-/* Styles for highlighted text */
-mark {
-  background-color: var(--Blue1); /* Uses a custom CSS variable for the highlight color */
-}
-
-/* Media query for dark mode */
 @media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--Dark4); /* Sets the background color for dark mode */
-  }
-
-  .text, a:active, a:link, a:visited, body, svg {
-    color: var(--Light2); /* Sets the text color for dark mode */
-  }
-background-color: var(--Dark3); /* Sets the table background color for dark mode */
-}
-
-th {
-background-color: var(--Blue5); /* Sets the header background color for dark mode */
-}
-
-/* Styles for form elements in dark mode */
-select, button, input, textarea {
-background-color: var(--Dark3);
-color: var(--Light2);
-}
-
-/* Styles for highlighted text in dark mode */
-mark {
-background-color: var(--Blue5);
-}
+body{background-color:var(--Dark4)}
+.text,a:active,a:link,a:visited,body,svg{color:var(--Light2)}
+th{background-color:var(--Blue5)}
+select,button,input,textarea{background-color:var(--Dark3);color:var(--Light2)}
+mark{background-color:var(--Blue5)}
 }
