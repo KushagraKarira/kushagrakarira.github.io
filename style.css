@@ -1,18 +1,187 @@
-@font-face{font-family:'Cantarell';src:local('Cantarell Regular'),local(Cantarell-Regular),url(/fonts/Cantarell-Regular.woff2) format("woff2");font-weight:400;font-style:normal}
-body{background-color:#FAFAFA;font-family:'Cantarell',sans-serif}
-.text,a:active,a:link,a:visited,body,svg{color:#242424}
-table{background-color:#99c1f1;border:solid #99c1f1;border-radius:25px;height:10px;width:100%;text-align:center;vertical-align:middle;padding:0}
-th{border-radius:25px;height:10px;text-align:center}
-th:hover,th.selected{background-color:#1a5fb4}
-.header{top:0;position:fixed;left:-5px;padding:5px;width:100%;text-align:center}
-.footer{bottom:0;position:fixed;left:-5px;padding:5px;width:100%;text-align:center}
-.center{display:block;margin-left:auto;margin-right:auto}
-H1,H2{text-align:center; font-weight: bold;}
-P{text-align:justify}
+/* Define custom color variables */
+:root {
+  --WH: #FAFAFA; /* white */
+  --WH1: #E5E5E5; /* off-white */
 
-@media (prefers-color-scheme:dark) {
-body{background-color:#242424;}
-.text,a:active,a:link,a:visited,body,svg{color:#FAFAFA}
-table{background-color:#1a5fb4;border:solid #1a5fb4;}
-th:hover,th.selected{background-color:#99c1f1}
+  --Blue1: #99c1f1; /* light blue */
+  --Blue2: #62a0ea;
+  --Blue3: #3584e4;
+  --Blue4: #1c71d8;
+  --Blue5: #1a5fb4; /* dark blue */
+  --Green1: #8ff0a4; /* light green */
+  --Green2: #57e389;
+  --Green3: #33d17a;
+  --Green4: #2ec27e;
+  --Green5: #26a269; /* dark green */
+  --Yellow1: #f9f06b; /* light yellow */
+  --Yellow2: #f8e45c;
+  --Yellow3: #f6d32d;
+  --Yellow4: #f5c211;
+  --Yellow5: #e5a50a; /* dark yellow */
+  --Orange1: #ffbe6f; /* light orange */
+  --Orange2: #ffa348;
+  --Orange3: #ff7800;
+  --Orange4: #e66100;
+  --Orange5: #c64600; /* dark orange */
+  --Red1: #f66151; /* light red */
+  --Red2: #ed333b;
+  --Red3: #e01b24;
+  --Red4: #c01c28;
+  --Red5: #a51d2d; /* dark red */
+  --Purple1: #dc8add; /* light purple */
+  --Purple2: #c061cb;
+  --Purple3: #9141ac;
+  --Purple4: #813d9c;
+  --Purple5: #613583; /* dark purple */
+  --Brown1: #cdab8f; /* light brown */
+  --Brown2: #b5835a;
+  --Brown3: #986a44;
+  --Brown4: #865e3c;
+  --Brown5: #63452c; /* dark brown */
+  --Light1: #ffffff;
+  --Light2: #f5f5f5;
+  --Light3: #dedede;
+  --Light4: #bfbfbf;
+  --Light5: #999999;
+  --Dark1: #7a7a7a;
+  --Dark2: #636363;
+  --Dark3: #454545;
+  --Dark4: #303030;
+  --Dark5: #000000;
+}
+/* Imports the Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Sets the default font family and background color for the body */
+body {
+  background-color: var(--Light2); /* Uses a custom CSS variable for the background color */
+  font-family: 'Inter', sans-serif;
+}
+
+/* Sets the text color for various elements */
+.text, a:active, a:link, a:visited, body, svg {
+  color: var(--Dark4); /* Uses a custom CSS variable for the text color */
+}
+
+/* Styles for tables */
+table {
+  background-color: var(--Light3); /* Uses a custom CSS variable for the table background color */
+  border-radius: 25px;
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  border-spacing: 5px 5px;
+}
+
+/* Styles for table headers */
+th {
+  border-radius: 25px;
+  height: 10px;
+  text-align: center;
+  background-color: var(--Blue1); /* Uses a custom CSS variable for the header background color */
+  vertical-align: middle;
+  padding: 0;
+}
+
+/* Styles for table headers on hover and when selected */
+th:hover, th.selected {
+  background-color: var(--Blue5); /* Uses a custom CSS variable for the header background color when hovered/selected */
+}
+
+/* Styles for the header and footer */
+.header {
+  top: 0;
+  position: fixed;
+  left: -5px;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.footer {
+  bottom: 0;
+  position: fixed;
+  left: -5px;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Centering utility class */
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Styles for headings */
+h1, h2 {
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Styles for paragraphs */
+p {
+  text-align: justify;
+}
+
+/* Styles for form elements */
+select, button, input, textarea {
+  text-align: center;
+  background-color: var(--Light3); /* Uses a custom CSS variable for the form element background color */
+  color: var(--Dark4); /* Uses a custom CSS variable for the form element text color */
+  height: 50px;
+  width: 100%;
+  border-radius: 25px;
+  border: 0!important;
+  box-shadow: none;
+  padding: 15px 25px;
+  margin: 10px 0;
+  box-sizing: border-box;
+}
+
+/* Styles for placeholder text in form elements */
+::placeholder {
+  text-align: center;
+}
+
+/* Styles for images */
+img {
+  border-radius: 25px;
+  max-width: 100%;
+}
+
+/* Styles for highlighted text */
+mark {
+  background-color: var(--Blue1); /* Uses a custom CSS variable for the highlight color */
+}
+
+/* Media query for dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--Dark4); /* Sets the background color for dark mode */
+  }
+
+  .text, a:active, a:link, a:visited, body, svg {
+    color: var(--Light2); /* Sets the text color for dark mode */
+  }
+background-color: var(--Dark3); /* Sets the table background color for dark mode */
+}
+
+th {
+background-color: var(--Blue5); /* Sets the header background color for dark mode */
+}
+
+/* Styles for form elements in dark mode */
+select, button, input, textarea {
+background-color: var(--Dark3);
+color: var(--Light2);
+}
+
+/* Styles for highlighted text in dark mode */
+mark {
+background-color: var(--Blue5);
+}
 }
