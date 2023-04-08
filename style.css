@@ -8,7 +8,7 @@ body{background-color:#FAFAFA;font-family:'Inter',sans-serif}
 table{background-color:#E5E5E5;border-radius:25px;height:10px;width:100%;text-align:center;vertical-align:middle;padding:0}
 th,td{border-radius:25px;height:10px;text-align:center}
 th{background-color:#99c1f1;}
-th:hover,td:hover{background-color:#1a5fb4}
+th:hover,td:hover,button:hover{background-color:#1a5fb4}
 .header{top:0;position:fixed;left:-5px;padding:5px;width:100%;text-align:center}
 .footer{bottom:0;position:fixed;left:-5px;padding:5px;width:100%;text-align:center}
 .center{display:block;margin-left:auto;margin-right:auto}
@@ -21,7 +21,7 @@ body{background-color:#242424;}
 .text,a:active,a:link,a:visited,body,svg{color:#FAFAFA}
 table{background-color:#353535;}
 th{background-color:#1a5fb4;}
-th:hover,td:hover{background-color:#99c1f1}
+th:hover,td:hover,button:hover{background-color:#99c1f1}
 select,button,input,textarea{background-color:#353535;color:#fafafa}
 mark{background-color:#1a mark{background-color:#1a5fb4}
 }
