@@ -4,7 +4,7 @@
 	<head>
 		<meta charset=utf-8>
 		<meta content="IE=edge"http-equiv=X-UA-Compatible>
-		<meta content="width=device-width,initial-scale=1"name=viewport>
+		<meta content="width=device-width,initial-scale=1"name=viewport>"
 		<meta content=#00a0fc name=apple-mobile-web-app-status-bar>
 		<meta content=black name=theme-color>
 		<meta content="Gallery to showcase my works in Graphic Design"name=description>
@@ -16,7 +16,14 @@
 		<title>Gallery</title>
 		<link href=style.css rel=stylesheet>
 		<link href=manifest.webmanifest rel=manifest crossorigin=use-credentials>
-		<style>div.page{margin:auto;width:99%;border:3px;padding:10px}div.gallery{margin:5px;border:1px solid #ccc;float:left;width:180px;border-radius:25px}div.gallery:hover{border:1px solid #777}div.gallery img{width:100%;height:auto;border-radius:25px}div.desc{text-align:center}</style>
+		<style>
+body {text-align: center;}
+div.page{display: flex;flex-wrap: wrap;justify-content: center;gap: 10px;padding: 10px;}
+div.gallery{width: calc(47% - 10px);margin: 0 5px 10px;border-radius: 20px;border:1px solid #ccc}
+div.gallery:hover{transform: translateY(-5px);box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);border:1px solid #777}
+div.gallery img{width: 100%;height: auto;border-radius: 20px;}
+div.desc{text-align:center}
+		</style>
 	</head>
 	<script>
 		if ("serviceWorker" in navigator) {
