@@ -19,10 +19,11 @@
 		<style>
 body {text-align: center;}
 div.page{display: flex;flex-wrap: wrap;justify-content: center;gap: 10px;padding: 10px;}
-div.gallery{width: calc(47% - 10px);margin: 0 5px 10px;border-radius: 20px;border:1px solid #ccc}
-div.gallery:hover{transform: translateY(-5px);box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);border:1px solid #777}
+div.gallery{width: calc(47% - 10px);margin: 0 5px 10px;background-color:#E5E5E5;border-radius: 20px;}
+div.gallery:hover{background-color:#1a5fb4}
 div.gallery img{width: 100%;height: auto;border-radius: 20px;}
 div.desc{text-align:center}
+			@media (prefers-color-scheme:dark) {div.gallery{background-color:#353535;}div.gallery:hover{background-color:#99c1f1}
 		</style>
 	</head>
 	<script>
