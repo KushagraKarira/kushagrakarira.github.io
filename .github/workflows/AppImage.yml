@@ -6,30 +6,34 @@ on:
       - 'index.html'
       - '.github/workflows/AppImage.yml'
 
-
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
-      
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Fix Dependencies
         run: sudo apt install fuse libfuse2
+
       - name: Prepare AppImage
-        run: sudo apt-get install nodejs npm wget && npm install -g appnativefy && appnativefy --name "Kushagra Karira" --url "https://kushagrakarira.com/" --favicon
+        run: |
+          sudo apt-get install nodejs npm wget
+          npm install -g appnativefy
+          appnativefy --name "Kushagra Karira" --url "https://kushagrakarira.com/" --favicon
+
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: Kushagra-Karira-x86_64.AppImage
           path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
-          
-          
+
       - name: Create Release
         id: create_release
-        uses: actions/create-release@master
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}-release
           release_name: Release ${{ github.ref }} (release)
@@ -37,7 +41,9 @@ jobs:
             Test upload-to-github-release works with `actions/create-release`
           draft: false
           prerelease: false
-      - uses: xresloader/upload-to-github-release@main
+
+      - name: Upload to GitHub Release
+        uses: xresloader/upload-to-github-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
