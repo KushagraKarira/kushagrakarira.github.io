@@ -2,7 +2,7 @@ name: Generate xml sitemap
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   sitemap_job:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout the repo
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0 
 
@@ -22,7 +22,7 @@ jobs:
         base-url-path: https://kushagrakarira.com/
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@master
+      uses: peter-evans/create-pull-request@v3
       with:
         title: "Automated sitemap update"
         body: > 
