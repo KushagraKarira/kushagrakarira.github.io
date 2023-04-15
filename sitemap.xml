@@ -1,150 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-  <loc>https://kushagrakarira.com/</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>1.00</priority>
+<loc>https://kushagrakarira.com/</loc>
+<lastmod>2023-04-09T05:37:46+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://kushagrakarira.com/404.html</loc>
+<lastmod>2023-02-21T22:10:20+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Blog</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://kushagrakarira.com/Blog.html</loc>
+<lastmod>2023-04-09T03:03:44+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Gallery</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://kushagrakarira.com/Gallery.html</loc>
+<lastmod>2023-04-09T06:30:55+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/about.html</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://kushagrakarira.com/Poems.html</loc>
+<lastmod>2023-04-13T02:44:00+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems/OnceAainInEternity</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/about.html</loc>
+<lastmod>2023-04-09T02:15:33+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems/Resurrected</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/CityTale1.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems/FillingEmptyness</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/CityTale2.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems/Ragnar%C3%B6k'sMercy</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/DStress.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems/OneForTruth</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/Garden.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Poems/Entangled</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/Hello.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Blog/Hello</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/Kit.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Blog/CityTale1</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/NET.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Blog/CityTale2</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Blog/Packing.html</loc>
+<lastmod>2023-04-02T14:39:40+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Blog/Packing</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Poems/Entangled.html</loc>
+<lastmod>2023-02-19T01:03:56+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/Blog/Garden</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Poems/FillingEmptyness.html</loc>
+<lastmod>2023-02-19T01:03:56+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://kushagrakarira.com/Poems/Mercy.html</loc>
+<lastmod>2023-04-13T02:43:18+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/index.html</loc>
-  <lastmod>2023-02-09T11:46:42+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/Poems/OnceAainInEternity.html</loc>
+<lastmod>2023-02-19T01:03:56+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/2048/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/Poems/OneForTruth.html</loc>
+<lastmod>2023-02-19T01:03:56+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/bounce/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/Poems/Resurrected.html</loc>
+<lastmod>2023-02-19T01:03:56+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/defender/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/Poems/Self Conflict.html</loc>
+<lastmod>2023-02-19T01:03:56+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/pacman/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/puzzle/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/browser-not-supported.html</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/snake/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/embedapi.html</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/spider/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/xdomain-index.html</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/tetris/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/system/</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/chess/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/system/browser-not-supported.html</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
 <url>
-  <loc>https://kushagrakarira.com/games/diablo/index.html</loc>
-  <lastmod>2023-01-22T18:59:03+00:00</lastmod>
-  <priority>0.51</priority>
+<loc>https://kushagrakarira.com/SVGEdit/system/embedapi.html</loc>
+<lastmod>2023-03-02T01:44:17+05:30</lastmod>
 </url>
-
-
 </urlset>
