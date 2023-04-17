@@ -24,7 +24,7 @@ jobs:
           appnativefy --name "Kushagra Karira" --url "https://kushagrakarira.com/" --favicon
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Kushagra-Karira-x86_64.AppImage
           path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
