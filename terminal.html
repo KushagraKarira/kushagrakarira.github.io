@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Linux Terminal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 		body {
 			background-color: #000;
@@ -17,86 +17,43 @@
 			padding: 20px;
 		}
 		.prompt {
-			color: #0F0;
-			display: inline-block;
-			margin-right: 10px;
-			user-select: none;
-			vertical-align: top;
-			width: 220px;
+		  color: #0F0;
+		  display: inline-block;
+		  margin-right: 10px;
+		  user-select: none;
+		  vertical-align: top;
+		  width: 250px;
 		}
+
 		.input {
-			display: inline-block;
-			margin: 0;
-			padding: 0;
-			width: calc(100% - 220px);
+		    display: inline-block;
+		    margin: 0;
+		    padding: 0;
+		    width: calc(100% - 250px);
+		    outline: none;
+		}
+
+		.cursor {
+		    display: inline-block;
+		    width: 8px;
+		    height: 14px;
+		    background-color: #FFF;
+		    margin-left: 5px;
+		    animation: blink 1s infinite;
+		}
+
+		@keyframes blink {
+		    50% {
+		        opacity: 0;
+		    }
 		}
 	</style>
 </head>
 <body>
 	<div class="container">
-		<div><span class="prompt">[~/Projects/kushagrakarira.com]$</span><span class="input"/></div>
+		<div><span class="prompt">[~/Projects/kushagrakarira.com]$</span><span class="input" contentEditable="true"></span><span class="cursor"></span></div>
 	</div>
-	<script>
-		const inputElement = document.querySelector(".input");
-
-		document.addEventListener("keydown", (event) =&gt; {
-			if (event.key === "Enter") {
-				const command = inputElement.textContent.trim();
-				inputElement.textContent = "";
-
-				// Handle the command
-				handleCommand(command);
-			} else if (event.key === "Backspace") {
-				inputElement.textContent = inputElement.textContent.slice(0, -1);
-			} else {
-				inputElement.textContent += event.key;
-			}
-		});
-
-		function handleCommand(command) {
-			const outputElement = document.createElement("div");
-			outputElement.innerHTML = `<span class="prompt">[~/Projects/kushagrakarira.com]$</span><span>${command}</span>`;
-			document.querySelector(".container").appendChild(outputElement);
-
-			if (command === "ls") {
-				const files = ["file1.txt", "file2.txt", "file3.txt"];
-				files.forEach((file) =&gt; {
-					const fileElement = document.createElement("div");
-					fileElement.textContent = file;
-					document.querySelector(".container").appendChild(fileElement);
-				});
-			} else if (command === "pwd") {
-				const pwdElement = document.createElement("div");
-				pwdElement.textContent = "/home/user/Projects/kushagrakarira.com";
-				document.querySelector(".container").appendChild(pwdElement);
-			} else if (command === "cd") {
-				const errorElement = document.createElement("div");
-				errorElement.textContent = `cd: no such file or directory: `;
-				document.querySelector(".container").appendChild(errorElement);
-			} else if (command === "mkdir") {
-				const errorElement = document.createElement("div");
-				errorElement.textContent = `mkdir: missing operand`;
-				document.querySelector(".container").appendChild(errorElement);
-			} else if (command === "rm") {
-				const errorElement = document.createElement("div");
-				errorElement.textContent = `rm: missing operand`;
-				document.querySelector(".container").appendChild(errorElement);
-			} else if (command === "clear") {
-				document.querySelectorAll(".container &gt; div:not(:first-child)").forEach((div) =&gt; {
-					div.remove();
-				});
-			} else if (command === "time") {
-				const timeElement = document.createElement("div");
-				const now = new Date();
-				timeElement.textContent = now.toLocaleString();
-				document.querySelector(".container").appendChild(timeElement);
-			} else {
-				const errorElement = document.createElement("div");
-				errorElement.textContent = `command not found: ${command}`;
-				document.querySelector(".container").appendChild(errorElement);
-			}
-		}
-	</script>
+	<script src="./terminal.js"></script>
 </body>
 </html>
 
