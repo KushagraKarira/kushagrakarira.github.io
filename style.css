@@ -5,6 +5,7 @@
 
 body{background-color:#FAFAFA;font-family:'Inter',sans-serif;width:90%;max-width:500px;margin: auto;}
 .text,a:active,a:link,a:visited,body{color:#242424}
+a {display:inline-block;position:relative;z-index:1;padding:2em;margin:-2em;}
 table{background-color:#E5E5E5;border-radius:25px 25px 0px 0px;height:7.5%;width:100%;text-align:center;vertical-align:middle;padding:0; max-width:100%;}
 th,td{border-radius:25px;height:10px;text-align:center}
 th{background-color:#99c1f1;}
@@ -19,7 +20,8 @@ th:hover,td:hover,button:hover{background-color:#1a5fb4}
 H1,H2{text-align:center; font-weight: bold;}
 P{text-align:justify}
 img{height:15px;width:15px;vertical-align:middle;}
-select,button,input,textarea{max-width:100%;vertical-align:middle;text-align:left;background-color:#e5e5e5;color:#242424;height:40px;width:100%;border:0;box-shadow:none;margin-top: 1px;margin-bottom: 1px;}
+select,button,input,textarea{vertical-align:middle;text-align:left;background-color:#e5e5e5;color:#242424;height:40px;width:100%;border:0;box-shadow:none;margin-top: 1px;margin-bottom: 1px;}
+textarea{margin-left:10px;}
 
 @media (prefers-color-scheme:dark) {
 body{background-color:#242424;}
