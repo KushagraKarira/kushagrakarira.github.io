@@ -18,7 +18,7 @@ th:hover,td:hover,button:hover{background-color:#1a5fb4}
 .bottom{border-radius:0px 0px 20px 20px}
 .single{border-radius:20px 20px 20px 20px}
 H1,H2{text-align:center; font-weight: bold;}
-P{text-align:justify}
+P{text-align:justify; text-justify:inter-word;}
 img{height:15px;width:15px;vertical-align:middle;}
 select,button,input,textarea{vertical-align:middle;text-align:left;background-color:#e5e5e5;color:#242424;height:40px;width:100%;border:0;box-shadow:none;margin-top: 1px;margin-bottom: 1px;}
 textarea{margin-left:10px;}
