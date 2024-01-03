@@ -1,7 +1,9 @@
-:root {font-family: "Inter", sans-serif;}
-@supports (font-variation-settings: normal) {:root {font-family: "InterVar", sans-serif;font-optical-sizing: auto;}}
-@font-face {font-family: "InterVar";font-weight: 100 900;font-display: swap;font-style: normal;src: url("/fonts/Inter.var.woff2") format("woff2-variations"), url("/fonts/Inter.var.woff2") format("woff2"), url("/fonts/Inter.woff2") format("woff");}
-@font-face {font-family: "InterVar";font-weight: 100 900;font-display: swap;font-style: italic;src: url("/fonts/Inter-Italic.var.woff2") format("woff2-variations"), url("/fonts/Inter-Italic.var.woff2") format("woff2"), url("/fonts/Inter-Italic.woff2") format("woff");}
+:root {font-family: "Terminess Nerd Font Mono", sans-serif;}
+@font-face {font-family: 'Terminess Nerd Font Mono';src: url('fonts/TerminessNFM-Bold.woff2') format('woff2');font-weight: bold;font-style: normal;}
+@font-face {font-family: 'Terminess Nerd Font Mono';src: url('fonts/TerminessNFM-Italic.woff2') format('woff2');font-weight: 500;font-style: italic;}
+@font-face {font-family: 'Terminess Nerd Font Mono';src: url('fonts/TerminessNFM.woff2') format('woff2');font-weight: 500;font-style: normal;}
+@font-face {font-family: 'Terminess Nerd Font Mono';src: url('fonts/TerminessNFM-BoldItalic.woff2') format('woff2');font-weight: bold;font-style: italic;}
+
 
 body{background-color:#FAFAFA;font-family:'Inter',sans-serif;width:90%;max-width:500px;margin: auto;}
 .text,a:active,a:link,a:visited,body{color:#242424}
