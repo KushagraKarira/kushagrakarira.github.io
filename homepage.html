@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clock and Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        #time-container {
+            flex: 1;
+        }
+
+        #calendar-container {
+            flex: 1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="time-container">
+        <h2>World Clock</h2>
+        <ul id="world-clock">
+            <!-- Times for different cities will be added dynamically using JavaScript -->
+        </ul>
+    </div>
+
+    <div id="calendar-container">
+        <h2>Upcoming Events</h2>
+        <ul id="upcoming-events">
+            <!-- Upcoming events will be added dynamically using JavaScript -->
+        </ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.4.0/ical.js"></script>
+    <script>
+        const cities = {
+            'LA': 'America/Los_Angeles',
+            'NY': 'America/New_York',
+            'London': 'Europe/London',
+            'Moscow': 'Europe/Moscow',
+            'Dubai': 'Asia/Dubai',
+            'Delhi': 'Asia/Kolkata',
+            'HongKong': 'Asia/Hong_Kong',
+            'Tokyo': 'Asia/Tokyo'
+        };
+
+        const worldClock = document.getElementById('world-clock');
+        const upcomingEventsList = document.getElementById('upcoming-events');
+
+        // Display world clock
+        Object.entries(cities).forEach(([city, timeZone]) => {
+            const time = luxon.DateTime.now().setZone(timeZone).toLocaleString(luxon.DateTime.TIME_SIMPLE);
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${city}:</strong> ${time}`;
+            worldClock.appendChild(listItem);
+        });
+
+        // Fetch and display upcoming events
+        const calendarURL = 'https://calendar.google.com/calendar/ical/27s0kdhhnf5e2ge2u1qgcsoijo%40group.calendar.google.com/public/basic.ics';
+
+        fetch(calendarURL)
+            .then(response => response.text())
+            .then(icsData => {
+                const jcalData = ICAL.parse(icsData);
+                const comp = new ICAL.Component(jcalData);
+                const vevents = comp.getAllProperties('vevent');
+
+                vevents.forEach(vevent => {
+                    const summary = vevent.getFirstValue('summary');
+                    const startDate = vevent.getFirstValue('dtstart');
+                    const startDateString = startDate.toJSDate().toLocaleString();
+                    
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<strong>${summary}:</strong> ${startDateString}`;
+                    upcomingEventsList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching calendar data:', error));
+    </script>
+</body>
+</html>
+
