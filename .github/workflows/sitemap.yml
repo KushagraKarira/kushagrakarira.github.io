@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout the repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@main
       with:
         fetch-depth: 0 
 
@@ -22,7 +22,7 @@ jobs:
         base-url-path: https://kushagrakarira.com/
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@main
       with:
         title: "Automated sitemap update"
         body: > 
