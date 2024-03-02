@@ -1,3 +1,4 @@
+Options +MultiViews
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www.kushagrakarira.com [NC]
 RewriteRule ^(.*)$ http://kushagrakarira.com/$1 [L,R=301]
