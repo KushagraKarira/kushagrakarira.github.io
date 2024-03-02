@@ -1,22 +1,29 @@
 Options +MultiViews
+
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www.kushagrakarira.com [NC]
+
+# Redirect from www to non-www
+RewriteCond %{HTTP_HOST} ^www\.kushagrakarira\.com [NC]
 RewriteRule ^(.*)$ http://kushagrakarira.com/$1 [L,R=301]
 
+# Append .html extension
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^/]+)/$ $1.php
-RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2.php
+RewriteRule ^([^/]+)/$ $1.html
+RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2.html
+
+# Redirect URLs without trailing slash
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
-RewriteRule (.*)$ /$1/ [R=301,L]
+RewriteRule ^(.*[^/])$ /$1/ [R=301,L]
 
-<FilesMatch "\.(?i:gif|jpe?g|png|ico|css|js|swf)$">
-<IfModule mod_headers.c>
-Header set Cache-Control "max-age=172800, public, must-revalidate"
-</IfModule>
+# Set Cache-Control headers for static files
+<FilesMatch "\.(?i:gif|jpe?g|png|ico|css|js|swf|eot|ttf|woff|woff2|mp4|webm)$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "max-age=172800, public, must-revalidate"
+    </IfModule>
 </FilesMatch>
 
-<FilesMatch "\.(html?|txt|css|js|php|pl)$">
-SetOutputFilter DEFLATE
+# Enable compression for text-based files
+<FilesMatch "\.(html?|txt|css|js|php|pl|xml|json|svg)$">
+    SetOutputFilter DEFLATE
 </FilesMatch>
