@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
 
       - name: Fix Dependencies
         run: sudo apt install fuse libfuse2
@@ -24,14 +24,14 @@ jobs:
           appnativefy --name "Kushagra Karira" --url "https://kushagrakarira.com/" --favicon
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: Kushagra-Karira-x86_64.AppImage
           path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
