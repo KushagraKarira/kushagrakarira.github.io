@@ -29,14 +29,18 @@ jobs:
           name: Kushagra-Karira-x86_64.AppImage
           path: /home/runner/appnativefy/Kushagra-Karira-x86_64.AppImage
 
+      - name: Get current date
+        id: get_date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}-release
-          release_name: Release ${{ github.ref }} (release)
+          tag_name: ${{ steps.get_date.outputs.date }}
+          release_name: Release ${{ steps.get_date.outputs.date }}
           body: |
             Test upload-to-github-release works with `actions/create-release`
           draft: false
