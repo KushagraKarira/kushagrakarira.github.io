@@ -19,12 +19,12 @@ select,button,input,textarea{vertical-align:middle;text-align:left;background-co
 textarea{margin-left:10px;}
 
 @media (prefers-color-scheme:dark) {
-body{background-color:#242424;}
+body{background-color:#000000;}
 .text,a:active,a:link,a:visited,body{color:#FAFAFA}
-.header{background-color:#353535;}
+.header{background-color:#212121;}
 th{background-color:#1a5fb4;}
 th:hover,td:hover,button:hover{background-color:#99c1f1}
-select,button,input,textarea{background-color:#353535;color:#fafafa}
+select,button,input,textarea{background-color:#202020;color:#fafafa}
 mark{background-color:#1a mark{background-color:#1a5fb4}
 }
 
