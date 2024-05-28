@@ -50,9 +50,9 @@
 		"purpose": "monochrome"
 	},
 	{
-		"src": "../images/icon.svg",
+		"src": "../images/icon.png",
 		"sizes": "any",
-		"type": "image/svg+xml",
+		"type": "image/png",
 		"purpose": "any"
 	}
     ]
