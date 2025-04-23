@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Cost Estimator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/examples/js/controls/OrbitControls.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars during 3D scene interaction */
+        }
+        #stlViewer {
+            width: 100%;
+            height: 500px; /* Initial height, will adjust */
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            background-color: #f9fafb;
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            box-sizing: border-box; /* Ensure padding doesn't affect width */
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3b82f6; /* Tailwind's blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* Light blue shadow */
+        }
+
+        .button {
+            padding: 10px 20px;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+            color: white;
+        }
+        .button-blue {
+            background-color: #3b82f6; /* Tailwind's blue-500 */
+        }
+        .button-blue:hover {
+            background-color: #2563eb; /* Tailwind's blue-700 */
+        }
+        .button-green {
+            background-color: #10b981; /* Tailwind's green-500 */
+        }
+        .button-green:hover {
+            background-color: #059669; /* Tailwind's green-700 */
+        }
+
+        #costEstimate {
+            margin-top: 20px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        #emailMessage {
+            margin-top: 20px;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            background-color: #f9fafb;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            white-space: pre-wrap; /* Preserve line breaks */
+            word-break: break-word;  /* Handle long words */
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="container max-w-2xl mx-auto bg-white shadow-md rounded-lg p-8">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">3D Print Cost Estimator</h1>
+
+        <div class="input-group">
+            <label for="stlFile">STL File:</label>
+            <input type="file" id="stlFile" accept=".stl" class="border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <div id="stlViewer"></div>
+
+        <div class="input-group">
+            <label for="material">Material:</label>
+            <select id="material" class="border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                <option value="PLA">PLA</option>
+                <option value="ABS">ABS</option>
+                <option value="PETG">PETG</option>
+                <option value="Nylon">Nylon</option>
+                <option value="Resin">Resin</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="color">Color:</label>
+            <input type="text" id="color" placeholder="e.g., Red, Blue, Black" class="border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <div class="input-group">
+            <label for="infill">Infill Density (%):</label>
+            <input type="number" id="infill" value="20" min="0" max="100" class="border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <button id="estimateButton" class="button button-blue w-full mb-4">Estimate Cost & Send Email</button>
+
+        <div id="costEstimate" class="text-center"></div>
+
+        <div id="emailMessage" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-gray-700"></div>
+
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf9fafb); // Match body background
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 500, 0.1, 1000); // height of stlViewer
+        camera.position.set(0, 0, 5);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('stlViewer'), antialias: true });
+        renderer.setSize(window.innerWidth, 500); // height of stlViewer
+        renderer.shadowMap.enabled = true; // Enable shadows for realism
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Use soft shadows
+
+        // Lighting
+        const ambientLight = new THREE.HemisphereLight(0xffffff, 0x404040, 0.7); // Sky color, ground color, intensity
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5); // Slightly dimmer directional light
+        directionalLight.position.set(1, 1, 2);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 1024;
+        directionalLight.shadow.mapSize.height = 1024;
+        directionalLight.shadow.camera.near = 0.5;
+        directionalLight.shadow.camera.far = 10;
+        scene.add(directionalLight);
+
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true; // Add damping for smoother interaction
+        controls.dampingFactor = 0.1;
+        controls.rotateSpeed = 0.5;
+
+        let stlObject;
+        let stlFileName = ""; // Store the file name
+
+        const fileInput = document.getElementById('stlFile');
+        const viewer = document.getElementById('stlViewer');
+        const materialSelect = document.getElementById('material');
+        const colorInput = document.getElementById('color');
+        const infillInput = document.getElementById('infill');
+        const estimateButton = document.getElementById('estimateButton');
+        const costEstimateDisplay = document.getElementById('costEstimate');
+        const emailMessageDisplay = document.getElementById('emailMessage');
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            stlFileName = file.name; // Store the file name
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function(event) {
+                const contents = event.target.result;
+                loadSTL(contents);
+            });
+
+            reader.readAsArrayBuffer(file);
+        });
+
+        function loadSTL(data) {
+            if (stlObject) {
+                scene.remove(stlObject);
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            const material = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.4, roughness: 0.7 }); // Default grey material
+
+            try {
+                const stl = parseSTL(data);
+                geometry.setAttribute('position', new THREE.BufferAttribute(stl.vertices, 3));
+                geometry.computeVertexNormals();
+                stlObject = new THREE.Mesh(geometry, material);
+                stlObject.castShadow = true;
+                stlObject.receiveShadow = true;
+                scene.add(stlObject);
+
+                // Calculate and set the camera's target and position for better viewing
+                const boundingBox = new THREE.Box3();
+                boundingBox.setFromBufferAttribute(geometry.attributes.position);
+                const center = new THREE.Vector3();
+                boundingBox.getCenter(center);
+                const size = new THREE.Vector3();
+                boundingBox.getSize(size);
+
+                const maxSize = Math.max(size.x, size.y, size.z);
+                const fitHeightDistance = maxSize / (2 * Math.atan(Math.PI * camera.fov / 360));
+                const fitWidthDistance = fitHeightDistance / camera.aspect;
+                const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.2; // Add a bit of padding
+
+                const direction = controls.target.clone()
+                    .sub(camera.position)
+                    .normalize()
+                    .multiplyScalar(distance);
+
+                controls.target.copy(center);
+                camera.position.copy(center).sub(direction);
+                controls.update();
+
+
+            } catch (error) {
+                console.error('Error loading or parsing STL:', error);
+                alert('Error loading STL file. Please ensure it is a valid STL file.');
+                return; // Stop processing if STL loading fails
+            }
+        }
+
+        // Simplified STL parser (for binary STL) - assumes little-endian
+        function parseSTL(data) {
+            const buffer = data;
+            const reader = new DataView(buffer);
+            let faces = reader.getUint32(8, true); // Number of triangles, read as little-endian.
+
+            if (faces === 0) {
+                throw new Error('Invalid STL: 0 faces detected.');
+            }
+            const vertices = new Float32Array(faces * 9); // 3 vertices per triangle, 3 coordinates per vertex
+            let offset = 84; // Skip the header
+
+            for (let i = 0; i < faces; i++) {
+                //normal: Float32Array(3) - Not used for now.
+                offset += 12;
+                for (let j = 0; j < 3; j++) {
+                    vertices[i * 9 + j * 3] = reader.getFloat32(offset, true);     // x
+                    vertices[i * 9 + j * 3 + 1] = reader.getFloat32(offset + 4, true); // y
+                    vertices[i * 9 + j * 3 + 2] = reader.getFloat32(offset + 8, true); // z
+                    offset += 12;
+                }
+                offset += 2; // Skip the attribute byte count
+            }
+            return { vertices: vertices };
+        }
+
+        estimateButton.addEventListener('click', function() {
+            if (!stlObject) {
+                alert('Please upload an STL file first.');
+                return;
+            }
+
+            const material = materialSelect.value;
+            const color = colorInput.value;
+            const infill = parseInt(infillInput.value);
+
+            if (isNaN(infill) || infill < 0 || infill > 100) {
+                alert('Please enter a valid infill percentage (0-100).');
+                return;
+            }
+
+            // 1. Calculate Volume (Simplified -  using bounding box)
+             const geometry = stlObject.geometry;
+            geometry.computeBoundingBox();
+            const boundingBox = geometry.boundingBox;
+            const volume = (boundingBox.max.x - boundingBox.min.x) * (boundingBox.max.y - boundingBox.min.y) * (boundingBox.max.z - boundingBox.min.z);
+
+            // 2. Estimate Weight (using material density and infill)
+            let density = 1.25; // PLA density in g/cm^3 (default)
+            if (material === 'ABS') density = 1.04;
+            else if (material === 'PETG') density = 1.27;
+            else if (material === 'Nylon') density = 1.15;
+            else if (material === 'Resin') density = 1.10;  //added resin density
+
+            const volumeCM3 = volume * 1000; // Convert m^3 to cm^3
+            const weight = volumeCM3 * density * (infill / 100); // in grams
+
+            // 3. Calculate Cost
+            const costPerGram = 10;  // RS per gram
+            const cost = weight * costPerGram;
+
+            // 4. Display Cost
+            costEstimateDisplay.textContent = `Estimated Cost: RS ${cost.toFixed(2)}`;
+
+            // 5. Create Email Message
+            const emailBody = `
+                STL File Name: ${stlFileName}
+                Material: ${material}
+                Color: ${color}
+                Infill Density: ${infill}%
+                Estimated Weight: ${weight.toFixed(2)} grams
+                Estimated Cost: RS ${cost.toFixed(2)}
+
+                3D Model Data:
+                (Note: The actual 3D model data is not included here for brevity.  In a real application, you would send the STL file data.)
+            `;
+            emailMessageDisplay.textContent = emailBody;
+
+            // 6. Send Email (Simplified -  mailto link)
+            const mailtoLink = `mailto:your-email@example.com?subject=3D%20Print%20Request&body=${encodeURIComponent(emailBody)}`;
+            //window.location.href = mailtoLink; //open default email client
+            console.log("Mailto link:", mailtoLink); // For testing
+
+            alert('Cost estimated and email message prepared.  Click the link in the console to open your email client (for testing).');
+
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize to adjust camera and renderer
+        window.addEventListener('resize', () => {
+            const newWidth = window.innerWidth;
+            const newHeight = 500; // Keep the height consistent with the viewer's initial height
+
+            camera.aspect = newWidth / newHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(newWidth, newHeight);
+        });
+    </script>
+</body>
+</html>
