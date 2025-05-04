@@ -27,31 +27,53 @@
 	</script>
 
 	<body>
-<table class="header">
-<tr>
-<td><a href="./index.html"><img src="./images/icons/home.svg" alt="Mastodon"></a></td>
-<td><a href="./Poems/Poems.html"><img src="./images/icons/pen.svg" alt="Mastodon"></a></td>
-<td><a href="./Blog/Blog.html"><img src="./images/icons/blog.svg" alt="Mastodon"></a></td>
-<td><a href="./Gallery/Gallery.html"><img src="./images/icons/grid.svg" alt="Mastodon"></a></td>
-</tr>
-</table>
+        <table class="header">
+        <tr>
+        <td><a href="./index.html"><img src="./images/icons/home.svg" alt="Home"></a></td>
+        <td><a href="./Poems/Poems.html"><img src="./images/icons/pen.svg" alt="Poems"></a></td>
+        <td><a href="./Blog/Blog.html"><img src="./images/icons/blog.svg" alt="Blog"></a></td>
+        <td><a href="./Gallery/Gallery.html"><img src="./images/icons/grid.svg" alt="Gallery"></a></td>
+        </tr>
+        </table>
 		<br>
-		  <iframe src="https://global-mind.org/gcpdot/gcp.html" height="48" width="48" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" ></iframe>
-		  <script>
-    function displayTime() {
-      const now = new Date();
-      const options = {
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        timeZoneName: 'short'
-      };
-      const formattedTime = now.toLocaleString('en-US', options);
-      document.getElementById("currentTime").textContent = formattedTime;
-    }
+		  {/* Centered iframe */}
+		  <iframe style="display: block; margin-left: auto; margin-right: auto;" src="https://global-mind.org/gcpdot/gcp.html" height="48" width="48" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" ></iframe>
 
-    setInterval(displayTime, 1000); // Update time every second
-    displayTime(); // Initial display
-  </script>
+          {/* Added div to display the time */}
+          <div id="currentTime" style="text-align: center; margin-top: 10px;">
+              {/* Time will be inserted here by JavaScript */}
+          </div>
+
+		  <script>
+            function displayTime() {
+              const now = new Date();
+              // You might want to adjust options based on desired format/timezone
+              const options = {
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZoneName: 'short' // Shows timezone abbreviation like IST, GMT etc.
+                // timeZone: 'Asia/Kolkata' // Example: Explicitly set timezone if needed
+              };
+              // Using 'en-IN' locale for India, fallback to 'en-US'
+              const formattedTime = now.toLocaleString(['en-IN', 'en-US'], options);
+              const timeElement = document.getElementById("currentTime");
+              if (timeElement) { // Check if element exists before updating
+                timeElement.textContent = formattedTime;
+              } else {
+                console.error("Element with ID 'currentTime' not found.");
+              }
+            }
+
+            // Ensure the DOM is loaded before trying to find the element
+            // Although placing the script at the end of body often suffices
+            // it's safer to wrap in DOMContentLoaded or place script after the element
+            document.addEventListener('DOMContentLoaded', (event) => {
+                 setInterval(displayTime, 1000); // Update time every second
+                 displayTime(); // Initial display immediately
+            });
+
+          </script>
 			<br><br>
-</body></html>
+	</body>
+</html>
