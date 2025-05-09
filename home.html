@@ -1,77 +1,105 @@
 <!DOCTYPE HTML>
 <html lang="en">
 
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="apple-mobile-web-app-status-bar" content="#aa7700">
-		<meta name="theme-color" content="black">
-		<meta name="description" content="...">
-		<meta name="author" content="Kushagra Karira">
-		<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
-		<link rel="stylesheet" href="./style.css">
-		<link rel="apple-touch-icon" href="favicon.svg" color="#00a0fc">
-		<link rel="icon" href="./favicon.svg" type="image/svg+xml">
-		<meta name="theme-color" content="#00a0fc">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-		<title>About</title>
-		<script src="script.js"></script>
-	</head>
-	<script>
-		if ("serviceWorker" in navigator) {
-			window.addEventListener("load", () => {
-				navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
-			});
-		}
-	</script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar" content="#aa7700">
+    <meta name="theme-color" content="black">
+    <meta name="description" content="...">
+    <meta name="author" content="Kushagra Karira">
+    <link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="apple-touch-icon" href="favicon.svg" color="#00a0fc">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#00a0fc">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <title>About</title>
+    <script src="script.js"></script>
+    <style>
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
 
-	<body>
-        <table class="header">
+        .shortcut-item {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .shortcut-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+    </style>
+</head>
+<script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
+        });
+    }
+</script>
+
+<body>
+    <table class="header">
         <tr>
-        <td><a href="./index.html"><img src="./images/icons/home.svg" alt="Home"></a></td>
-        <td><a href="./Poems/Poems.html"><img src="./images/icons/pen.svg" alt="Poems"></a></td>
-        <td><a href="./Blog/Blog.html"><img src="./images/icons/blog.svg" alt="Blog"></a></td>
-        <td><a href="./Gallery/Gallery.html"><img src="./images/icons/grid.svg" alt="Gallery"></a></td>
+            <td><a href="./index.html"><img src="./images/icons/home.svg" alt="Home"></a></td>
+            <td><a href="./Poems/Poems.html"><img src="./images/icons/pen.svg" alt="Poems"></a></td>
+            <td><a href="./Blog/Blog.html"><img src="./images/icons/blog.svg" alt="Blog"></a></td>
+            <td><a href="./Gallery/Gallery.html"><img src="./images/icons/grid.svg" alt="Gallery"></a></td>
         </tr>
-        </table>
-		<br>
-		  <iframe style="display: block; margin-left: auto; margin-right: auto;" src="https://global-mind.org/gcpdot/gcp.html" height="48" width="48" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" ></iframe>
+    </table>
+    <br>
+    <iframe style="display: block; margin-left: auto; margin-right: auto;" src="https://global-mind.org/gcpdot/gcp.html"
+        height="48" width="48" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
 
-          
-          <h1><div id="currentTime" style="text-align: center; margin-top: 10px;">
-          </div></h1>
 
-		  <script>
-            function displayTime() {
-              const now = new Date();
-              // You might want to adjust options based on desired format/timezone
-              const options = {
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                // timeZoneName: 'short' // Shows timezone abbreviation like IST, GMT etc.
-                // timeZone: 'Asia/Kolkata' // Example: Explicitly set timezone if needed
-              };
-              // Using 'en-IN' locale for India, fallback to 'en-US'
-              const formattedTime = now.toLocaleString(['en-IN', 'en-US'], options);
-              const timeElement = document.getElementById("currentTime");
-              if (timeElement) { // Check if element exists before updating
+    <h1>
+        <div id="currentTime" style="text-align: center; margin-top: 10px;">
+        </div>
+    </h1>
+
+    <script>
+        function displayTime() {
+            const now = new Date();
+            const options = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false // Use 24-hour format
+            };
+            const formattedTime = now.toLocaleString(['en-IN', 'en-US'], options);
+            const timeElement = document.getElementById("currentTime");
+            if (timeElement) {
                 timeElement.textContent = formattedTime;
-              } else {
+            } else {
                 console.error("Element with ID 'currentTime' not found.");
-              }
             }
+        }
 
-            // Ensure the DOM is loaded before trying to find the element
-            // Although placing the script at the end of body often suffices
-            // it's safer to wrap in DOMContentLoaded or place script after the element
-            document.addEventListener('DOMContentLoaded', (event) => {
-                 setInterval(displayTime, 1000); // Update time every second
-                 displayTime(); // Initial display immediately
-            });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            setInterval(displayTime, 1000);
+            displayTime();
+        });
+    </script>
+    <br><br>
 
-          </script>
-			<br><br>
-	</body>
+    <div class="shortcuts-grid">
+        <div class="shortcut-item"><a href="https://www.google.com">Google</a></div>
+        <div class="shortcut-item"><a href="https://www.youtube.com">YouTube</a></div>
+        <div class="shortcut-item"><a href="https://www.facebook.com">Facebook</a></div>
+        <div class="shortcut-item"><a href="https://www.twitter.com">Twitter</a></div>
+        <div class="shortcut-item"><a href="https://www.instagram.com">Instagram</a></div>
+        <div class="shortcut-item"><a href="https://www.linkedin.com">LinkedIn</a></div>
+        </div>
+
+</body>
+
 </html>
