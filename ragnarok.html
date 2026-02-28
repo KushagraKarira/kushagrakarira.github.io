@@ -17,7 +17,8 @@
 		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 		<title>About</title>
 		<script src="script.js"></script>
-	</head>
+		<script src="./header.js" defer></script>
+</head>
 	<script>
 		if ("serviceWorker" in navigator) {
 			window.addEventListener("load", () => {
@@ -27,14 +28,7 @@
 	</script>
 
 	<body>
-<table class="header">
-<tr>
-<td><a href="./index.html"><img src="./images/icons/home.svg" alt="Mastodon"></a></td>
-<td><a href="./Poems/Poems.html"><img src="./images/icons/pen.svg" alt="Mastodon"></a></td>
-<td><a href="./Blog/Blog.html"><img src="./images/icons/blog.svg" alt="Mastodon"></a></td>
-<td><a href="./Gallery/Gallery.html"><img src="./images/icons/grid.svg" alt="Mastodon"></a></td>
-</tr>
-</table>
+<table class="header" data-site-header></table>
 		<br>
 <h1>Ragnarok</h1>
 <h2>What ?</h2>

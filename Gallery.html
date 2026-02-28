@@ -24,7 +24,8 @@ div.gallery img{width: 100%;height: auto;border-radius: 20px;}
 div.desc{text-align:center}
 			@media (prefers-color-scheme:dark) {div.gallery{background-color:#353535;}div.gallery:hover{background-color:#99c1f1}
 		</style>
-	</head>
+		<script src="./header.js" defer></script>
+</head>
 	<script>
 		if ("serviceWorker" in navigator) {
 			window.addEventListener("load", () => {
@@ -34,14 +35,7 @@ div.desc{text-align:center}
 	</script>
 
 	<body>
-<table class="header">
-<tr>
-<td><a href="./index.html"><img src="./images/icons/home.svg" alt="HOME"></a></td>
-<td><a href="./Poems.html"><img src="./images/icons/pen.svg" alt="POEMS"></a></td>
-<td><a href="./Blog.html"><img src="./images/icons/blog.svg" alt="BLOG"></a></td>
-<th><a href="./Gallery.html"><img src="./images/icons/grid.svg" alt="GALLERY"></a></th>
-</tr>
-</table>
+<table class="header" data-site-header></table>
 		</br>
 		<div class=page>
 			<div class=gallery>
