@@ -1,32 +1,38 @@
-const CACHE_NAME = 'my-cache';
+const CACHE_NAME = 'site-cache-v2';
+const STATIC_EXTENSIONS = /\.(?:css|js|svg|png|jpg|jpeg|gif|webp|ico|woff2?)$/i;
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        // If the response is valid, cache it for later use
-        if (response && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              // Set the cache-control header to cache the response for 68 years !!
-              const headers = new Headers(response.headers);
-              headers.set('cache-control', 'max-age=2147483647');
-              const responseWithHeaders = new Response(responseToCache.body, {
-                status: responseToCache.status,
-                statusText: responseToCache.statusText,
-                headers: headers,
-              });
-              cache.put(event.request, responseWithHeaders);
-            });
-        }
-
-        return response;
-      })
-      .catch(() => {
-        // If the network request fails, try to retrieve the resource from the cache
-        return caches.match(event.request);
-      })
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
+    )
   );
+  self.clients.claim();
 });
 
+self.addEventListener('fetch', event => {
+  const { request } = event;
+
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  const isStaticAsset = STATIC_EXTENSIONS.test(url.pathname);
+
+  event.respondWith(
+    caches.match(request).then(cachedResponse => {
+      const networkFetch = fetch(request)
+        .then(networkResponse => {
+          if (networkResponse.ok && isStaticAsset) {
+            const cloned = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, cloned));
+          }
+          return networkResponse;
+        })
+        .catch(() => cachedResponse);
+
+      return cachedResponse || networkFetch;
+    })
+  );
+});
