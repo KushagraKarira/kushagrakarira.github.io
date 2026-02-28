@@ -38,6 +38,7 @@
             display: block;
         }
     </style>
+	<script src="./header.js" defer></script>
 </head>
 <script>
     if ("serviceWorker" in navigator) {
@@ -48,14 +49,7 @@
 </script>
 
 <body>
-    <table class="header">
-        <tr>
-            <td><a href="./index.html"><img src="./images/icons/home.svg" alt="Home"></a></td>
-            <td><a href="./Poems/Poems.html"><img src="./images/icons/pen.svg" alt="Poems"></a></td>
-            <td><a href="./Blog/Blog.html"><img src="./images/icons/blog.svg" alt="Blog"></a></td>
-            <td><a href="./Gallery/Gallery.html"><img src="./images/icons/grid.svg" alt="Gallery"></a></td>
-        </tr>
-    </table>
+    <table class="header" data-site-header></table>
     <br>
     <iframe style="display: block; margin-left: auto; margin-right: auto;" src="https://global-mind.org/gcpdot/gcp.html"
         height="48" width="48" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
