@@ -141,40 +141,26 @@
             font-size: 11pt;
             line-height: 1.5;
             word-wrap: break-word;
-            overflow: visible !important; /* Prevent internal clipping */
         }
         
-        /* Strict page break handling */
+        /* Fix for page breaks cutting text or creating white space */
         .pdf-export-box pre, 
         .pdf-export-box blockquote, 
         .pdf-export-box h1, 
         .pdf-export-box h2, 
         .pdf-export-box h3, 
         .pdf-export-box table, 
-        .pdf-export-box li,
-        .pdf-export-box p {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-            display: block; /* Ensure it stays a block element */
-            position: relative; /* Stability for html2canvas */
+        .pdf-export-box li {
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
         
         .pdf-export-box pre { 
-            white-space: pre-wrap !important; 
-            word-wrap: break-word !important; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
             border: 1px solid #ccc; 
             padding: 10px; 
-            background-color: #f9f9f9 !important;
-            margin: 10px 0;
-            overflow: visible !important; /* Crucial: ensures full text is visible even if wrapped */
-        }
-
-        /* Ensure images don't get cut */
-        .pdf-export-box img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            page-break-inside: avoid;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -288,22 +274,13 @@ function hello() {
         container.className = 'pdf-export-box';
         container.innerHTML = marked.parse(ed.value);
         
-        // Configuration to minimize white artifacts and handle breaks
         const opt = {
             margin: [20, 20, 20, 20],
             filename: 'document.pdf',
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { 
-                scale: 3, 
-                useCORS: true, 
-                logging: false,
-                windowWidth: 800 // Stable width for consistent wrapping
-            },
+            html2canvas: { scale: 3, useCORS: true, logging: false },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { 
-                mode: ['css', 'legacy'], // Avoid "avoid-all" if it causes large blank spaces
-                before: '.page-break-before'
-            }
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
         try {
