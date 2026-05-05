@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --gnome-bg: #f6f5f4;
+            --gnome-header: #ebebeb;
+            --gnome-accent: #3584e4;
+            --gnome-text: #2e3436;
+            --gnome-border: rgba(0,0,0,0.1);
+            --gnome-card: #ffffff;
+        }
+
+        body {
+            font-family: "Cantarell", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--gnome-bg);
+            color: var(--gnome-text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* GNOME Header Bar */
+        header {
+            background-color: var(--gnome-header);
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--gnome-border);
+            padding: 0 12px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 15px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .actions {
+            position: absolute;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+        }
+
+        /* Buttons */
+        button, .file-label {
+            background-color: #ffffff;
+            border: 1px solid var(--gnome-border);
+            border-radius: 5px;
+            padding: 5px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover, .file-label:hover {
+            background-color: #f0f0f0;
+        }
+
+        button.primary {
+            background-color: var(--gnome-accent);
+            color: white;
+            border: none;
+        }
+
+        button.primary:hover {
+            background-color: #1c71d8;
+        }
+
+        /* Layout */
+        main {
+            display: flex;
+            flex: 1;
+            padding: 24px;
+            gap: 18px;
+            overflow: hidden;
+        }
+
+        .pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--gnome-card);
+            border: 1px solid var(--gnome-border);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .pane-title {
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #888a85;
+            border-bottom: 1px solid var(--gnome-border);
+            background: #fafafa;
+        }
+
+        textarea {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            resize: none;
+            font-family: "Source Code Pro", monospace;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #preview {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* PDF Stylesheet shim */
+        #pdf-content {
+            padding: 40px;
+            color: black;
+            font-family: serif;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Markdown Editor</h1>
+    <div class="actions">
+        <label for="file-upload" class="file-label">Open .md</label>
+        <input type="file" id="file-upload" accept=".md">
+        <button class="primary" onclick="exportPDF()">Export PDF</button>
+    </div>
+</header>
+
+<main>
+    <section class="pane">
+        <div class="pane-title">Markdown Input</div>
+        <textarea id="markdown-input" placeholder="Type markdown here..." oninput="updatePreview()"></textarea>
+    </section>
+
+    <section class="pane">
+        <div class="pane-title">Preview</div>
+        <div id="preview"></div>
+    </section>
+</main>
+
+<script>
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const fileUpload = document.getElementById('file-upload');
+
+    function updatePreview() {
+        const mdText = input.value;
+        preview.innerHTML = marked.parse(mdText);
+    }
+
+    fileUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            input.value = e.target.result;
+            updatePreview();
+        };
+        reader.readAsText(file);
+    });
+
+    function exportPDF() {
+        const element = document.createElement('div');
+        element.id = 'pdf-content';
+        element.innerHTML = marked.parse(input.value);
+        
+        const opt = {
+            margin:       1,
+            filename:     'document.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save();
+    }
+
+    // Initialize with sample content
+    input.value = "# Hello GNOME\n\nType your markdown here or upload a `.md` file to begin.";
+    updatePreview();
+</script>
+
+</body>
+</html>
