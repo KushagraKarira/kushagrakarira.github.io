@@ -1,285 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MD2PDF | Professional Markdown Export</title>
+const ed = document.getElementById('editor');
+const pre = document.getElementById('preview');
+
+// Simplified Highlight Integration
+function render() {
+    const val = ed.value;
     
-    <!-- External Assets -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    // 1. Parse Markdown
+    pre.innerHTML = marked.parse(val);
     
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css" id="hljs-theme">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-
-    <style>
-        :root {
-            /* Adwaita Dark Colors */
-            --bg: #1e1e1e;
-            --header: #242424;
-            --card: #2d2d2d;
-            --text: #eeeeec;
-            --text-dim: #9a9996;
-            --accent: #3584e4;
-            --border: rgba(255, 255, 255, 0.1);
-            --scrollbar: rgba(255, 255, 255, 0.05);
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Header bar */
-        header {
-            background-color: var(--header);
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-
-        .logo { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim); }
-        .actions { display: flex; gap: 8px; }
-
-        button, .btn-file {
-            background-color: #353535;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 14px;
-            font-size: 13px;
-            font-weight: 500;
-            color: white;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: flex;
-            align-items: center;
-        }
-
-        button:hover { background-color: #454545; border-color: rgba(255,255,255,0.2); }
-        button.primary { background-color: var(--accent); border: none; }
-        button.primary:hover { background-color: #1c71d8; }
-        button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
-        button.secondary:hover { color: white; }
-
-        /* Workspace */
-        main {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding: 16px;
-            gap: 16px;
-            overflow: hidden;
-        }
-
-        @media (min-width: 900px) {
-            main { flex-direction: row; padding: 24px; gap: 24px; }
-        }
-
-        .pane {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .label {
-            padding: 12px 16px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--text-dim);
-            background: rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-        }
-
-        textarea {
-            flex: 1;
-            border: none;
-            padding: 24px;
-            resize: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            line-height: 1.7;
-            outline: none;
-            background: transparent;
-            color: #dcdccc;
-            scrollbar-width: thin;
-            scrollbar-color: var(--scrollbar) transparent;
-        }
-
-        #preview {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            background: #ffffff;
-            color: #1a1a1a;
-            line-height: 1.6;
-            word-wrap: break-word;
-        }
-
-        /* Preview Markdown Styling */
-        #preview h1, #preview h2 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        #preview blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding: 0 1em; margin: 0; }
-        #preview code { background: #f3f3f3; padding: 0.2em 0.4em; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 85%; }
-        #preview pre code { background: none; padding: 0; }
-        #preview pre { background: #282c34; padding: 16px; border-radius: 8px; overflow: auto; }
-
-        input[type="file"] { display: none; }
-
-        /* PDF Specific - High Contrast */
-        .pdf-export-box {
-            width: 170mm;
-            padding: 0;
-            color: black !important;
-            background: white !important;
-            font-family: 'Inter', sans-serif;
-            font-size: 11pt;
-            line-height: 1.5;
-        }
-        .pdf-export-box pre { 
-            white-space: pre-wrap !important; 
-            word-wrap: break-word !important; 
-            border: 1px solid #ddd; 
-            padding: 12px;
-            background: #f8f8f8 !important;
-            color: black !important;
-        }
-        .pdf-export-box code { color: black !important; background: #eee !important; }
-    </style>
-</head>
-<body>
-
-<header>
-    <div class="logo">MD2PDF</div>
-    <div class="actions">
-        <button class="secondary" onclick="clearEditor()">Clear</button>
-        <button class="secondary" onclick="downloadMd()">Download .md</button>
-        <label for="file-up" class="btn-file">Open</label>
-        <input type="file" id="file-up" accept=".md">
-        <button class="primary" onclick="doExport()">Export PDF</button>
-    </div>
-</header>
-
-<main>
-    <section class="pane">
-        <div class="label">Markdown Editor</div>
-        <textarea id="editor" placeholder="Start typing..." oninput="render()"></textarea>
-    </section>
-
-    <section class="pane">
-        <div class="label">A4 Preview</div>
-        <div id="preview"></div>
-    </section>
-</main>
-
-<script>
-    const ed = document.getElementById('editor');
-    const pre = document.getElementById('preview');
-
-    // Marked Configuration
-    marked.setOptions({
-        breaks: true,
-        gfm: true,
-        headerIds: false,
-        mangle: false,
-        highlight: function(code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
-        }
+    // 2. Apply Highlighting to the rendered HTML
+    pre.querySelectorAll('pre code').forEach((el) => {
+        hljs.highlightElement(el);
     });
 
-    function render() {
-        const val = ed.value;
-        pre.innerHTML = marked.parse(val);
-        localStorage.setItem('md2pdf_content', val);
-        // Re-trigger highlighting for dynamic content
-        pre.querySelectorAll('pre code').forEach((el) => {
-            hljs.highlightElement(el);
-        });
-    }
+    localStorage.setItem('md2pdf_content', val);
+}
 
-    function clearEditor() {
-        if(confirm("Clear all content?")) {
-            ed.value = "";
-            render();
-        }
-    }
+// Updated Export Function with Error Handling
+async function doExport() {
+    if (!ed.value.trim()) return alert("Editor is empty");
 
-    function downloadMd() {
-        const blob = new Blob([ed.value], { type: 'text/markdown' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'document.md';
-        a.click();
-    }
+    const container = document.createElement('div');
+    container.className = 'pdf-export-box';
+    
+    // Use the already highlighted preview content to ensure PDF matches UI
+    container.innerHTML = pre.innerHTML;
+    
+    // PDF Styling Fixes
+    const styles = `
+        <style>
+            .pdf-export-box { color: black; background: white; font-family: sans-serif; }
+            pre { background: #f4f4f4 !important; border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+            code { font-family: monospace; }
+        </style>
+    `;
+    container.insertAdjacentHTML('afterbegin', styles);
 
-    document.getElementById('file-up').onchange = function(e) {
-        const f = e.target.files[0];
-        if (!f) return;
-        const r = new FileReader();
-        r.onload = (ev) => { ed.value = ev.target.result; render(); };
-        r.readAsText(f);
+    const opt = {
+        margin: [20, 20, 20, 20],
+        filename: 'document.pdf',
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    async function doExport() {
-        const container = document.createElement('div');
-        container.className = 'pdf-export-box';
-        // Force a light theme for PDF code blocks
-        container.innerHTML = marked.parse(ed.value);
-        
-        // PDF-specific cleanup
-        container.querySelectorAll('pre').forEach(block => {
-            block.style.background = '#f4f4f4';
-            block.style.color = '#000';
-        });
-
-        const opt = {
-            margin: [20, 20, 20, 20], // 20mm margins
-            filename: 'document.pdf',
-            image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 3, useCORS: true, letterRendering: true },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-        };
-
-        try {
-            await html2pdf().set(opt).from(container).save();
-        } catch (e) {
-            console.error("Export Error:", e);
-        }
+    try {
+        await html2pdf().set(opt).from(container).save();
+    } catch (err) {
+        console.error("PDF Export Failed:", err);
+        alert("Export failed. Check console for details.");
     }
-
-    window.onload = () => {
-        const saved = localStorage.getItem('md2pdf_content');
-        ed.value = saved || "# MD2PDF\n\n## Getting Started\n1. Type in the **Editor** pane.\n2. Preview updates in real-time.\n3. Click **Export PDF** for an A4 document.\n\n```javascript\n// Syntax highlighting is active\nfunction helloWorld() {\n  console.log(\"Hello from MD2PDF\");\n}\n
-```\n\n### PDF Specifications\n- **Margins:** 20mm\n- **Format:** A4 Portrait\n- **Typography:** Inter & JetBrains Mono";
-        render();
-    };
-</script>
-
-</body>
-</html>
+}
