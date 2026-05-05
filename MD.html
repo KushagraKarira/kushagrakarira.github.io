@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adwaita Markdown Professional</title>
+    <title>MD2PDF</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="prism-theme">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
 
     <style>
         :root {
@@ -22,100 +17,91 @@
             --header: #ebebeb;
             --text: #2e3436;
             --accent: #3584e4;
-            --border: rgba(0,0,0,0.12);
+            --border: rgba(0,0,0,0.1);
             --card: #ffffff;
-            --sidebar-title: #6e6e6e;
-            --font-main: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #1e1e1e;
+                --bg: #242424;
                 --header: #303030;
-                --text: #eeeeec;
-                --accent: #3584e4;
+                --text: #ffffff;
                 --border: rgba(255,255,255,0.1);
-                --card: #242424;
-                --sidebar-title: #9a9996;
+                --card: #1e1e1e;
             }
         }
 
         body {
-            font-family: var(--font-main);
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
         }
 
-        /* Header Bar */
+        /* Simplified Header */
         header {
             background-color: var(--header);
-            height: 48px;
+            height: 52px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid var(--border);
+            justify-content: space-between;
             padding: 0 16px;
-            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
         }
 
-        header h1 { font-size: 14px; font-weight: 700; margin: 0; }
-
-        .actions { position: absolute; right: 12px; display: flex; gap: 8px; }
+        .title { font-size: 15px; font-weight: 600; }
+        
+        .controls { display: flex; gap: 8px; }
 
         button, .btn {
-            background-color: var(--card);
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 12px;
+            border-radius: 8px;
+            padding: 6px 16px;
             font-size: 13px;
             font-weight: 500;
             color: var(--text);
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.2s;
         }
 
-        button:hover { background-color: rgba(0,0,0,0.05); }
-        button.primary { background-color: var(--accent); color: white; border: none; }
-        button.primary:hover { background-color: #1c71d8; filter: brightness(1.1); }
+        button.primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
 
-        /* Main Workspace */
+        button:active { opacity: 0.7; }
+
+        /* Responsive Layout */
         main {
             display: flex;
+            flex-direction: column; /* Mobile Default */
             flex: 1;
-            padding: 16px;
-            gap: 16px;
             overflow: hidden;
-            box-sizing: border-box;
+        }
+
+        @media (min-width: 850px) {
+            main { flex-direction: row; }
         }
 
         .pane {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: var(--card);
         }
 
-        .pane-header {
-            padding: 8px 16px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--sidebar-title);
-            background: rgba(0,0,0,0.02);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
+        .editor-pane { border-bottom: 1px solid var(--border); }
+
+        @media (min-width: 850px) {
+            .editor-pane { border-bottom: none; border-right: 1px solid var(--border); }
         }
 
         textarea {
@@ -123,8 +109,8 @@
             border: none;
             padding: 20px;
             resize: none;
-            font-family: var(--font-mono);
-            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
             line-height: 1.6;
             outline: none;
             background: transparent;
@@ -133,138 +119,95 @@
 
         #preview {
             flex: 1;
-            padding: 30px;
+            padding: 24px;
             overflow-y: auto;
-            background: #ffffff;
-            color: #1a1a1a; /* Standard PDF contrast */
+            background: #ffffff; /* Always white for clarity */
+            color: #000000;    /* Always black for contrast */
         }
 
-        /* Markdown Elements */
-        .markdown-body h1 { border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
-        .markdown-body blockquote { border-left: 4px solid var(--accent); padding-left: 16px; color: #666; }
-        .markdown-body pre { border-radius: 6px; }
+        /* PDF High-Contrast Styles */
+        .pdf-export-container {
+            font-family: 'Inter', sans-serif;
+            color: #000 !important;
+            background: #fff !important;
+            line-height: 1.5;
+        }
+        .pdf-export-container h1, .pdf-export-container h2 { color: #000 !important; border-bottom: 1px solid #ccc; }
+        .pdf-export-container code { background: #f0f0f0; padding: 2px 4px; border-radius: 4px; }
 
         input[type="file"] { display: none; }
-        
-        .drag-over { border: 2px dashed var(--accent) !important; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Adwaita Markdown</h1>
-    <div class="actions">
+    <div class="title">Markdown</div>
+    <div class="controls">
         <label for="file-upload" class="btn">Open</label>
         <input type="file" id="file-upload" accept=".md">
-        <button class="primary" onclick="exportPDF()">Export A4 PDF</button>
+        <button class="primary" onclick="exportPDF()">Export</button>
     </div>
 </header>
 
 <main>
-    <section class="pane" id="editor-pane">
-        <div class="pane-header">
-            Editor
-            <span id="stats">0 words</span>
-        </div>
-        <textarea id="markdown-input" placeholder="Drop a .md file or start typing..." oninput="processUpdate()"></textarea>
+    <section class="pane editor-pane">
+        <textarea id="editor" placeholder="Start typing..." oninput="update()"></textarea>
     </section>
 
     <section class="pane">
-        <div class="pane-header">A4 Live Preview</div>
-        <div id="preview" class="markdown-body"></div>
+        <div id="preview"></div>
     </section>
 </main>
 
 <script>
-    const input = document.getElementById('markdown-input');
+    const editor = document.getElementById('editor');
     const preview = document.getElementById('preview');
-    const stats = document.getElementById('stats');
-    const editorPane = document.getElementById('editor-pane');
 
-    // 1. Persistence & Live Rendering
-    function processUpdate() {
-        const val = input.value;
-        preview.innerHTML = marked.parse(val);
-        
-        // Syntax highlighting trigger
-        Prism.highlightAllUnder(preview);
-        
-        // Stats
-        const words = val.trim() ? val.trim().split(/\s+/).length : 0;
-        stats.innerText = `${words} words`;
-
-        // Local Storage
-        localStorage.setItem('gnome_md_data', val);
+    // Live update and storage
+    function update() {
+        const content = editor.value;
+        preview.innerHTML = marked.parse(content);
+        localStorage.setItem('md_content', content);
     }
 
-    // 2. Drag and Drop Support
-    editorPane.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        editorPane.classList.add('drag-over');
-    });
-
-    editorPane.addEventListener('dragleave', () => {
-        editorPane.classList.remove('drag-over');
-    });
-
-    editorPane.addEventListener('drop', (e) => {
-        e.preventDefault();
-        editorPane.classList.remove('drag-over');
-        const file = e.dataTransfer.files[0];
-        if (file && (file.name.endsWith('.md') || file.name.endsWith('.txt'))) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                input.value = ev.target.result;
-                processUpdate();
-            };
-            reader.readAsText(file);
-        }
-    });
-
-    // 3. File Input Support
+    // File Handling
     document.getElementById('file-upload').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-            input.value = ev.target.result;
-            processUpdate();
+            editor.value = ev.target.result;
+            update();
         };
         reader.readAsText(file);
     });
 
-    // 4. High-Quality A4 PDF Export
+    // High-Contrast PDF Generation
     async function exportPDF() {
         const element = document.createElement('div');
-        element.className = 'markdown-body';
-        element.style.padding = '0';
-        element.innerHTML = marked.parse(input.value);
-        Prism.highlightAllUnder(element);
+        element.className = 'pdf-export-container';
+        element.innerHTML = marked.parse(editor.value);
         
         const opt = {
-            margin:       [20, 20, 20, 20],
-            filename:     'document.pdf',
-            image:        { type: 'jpeg', quality: 1.0 },
-            html2canvas:  { scale: 3, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            margin: [15, 15, 15, 15],
+            filename: 'document.pdf',
+            image: { type: 'jpeg', quality: 1.0 },
+            html2canvas: { scale: 3, useCORS: true, logging: false },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         try {
             await html2pdf().set(opt).from(element).save();
         } catch (err) {
-            console.error("Export failed:", err);
+            alert("Export failed. Check console for details.");
         }
     }
 
-    // Initialize
+    // Initialization
     window.onload = () => {
-        const saved = localStorage.getItem('gnome_md_data');
-        if (saved) {
-            input.value = saved;
-        } else {
-            input.value = `# Welcome\n\n- **Drag & Drop** a .md file here\n- Code blocks feature **Syntax Highlighting**\n- Exports to **A4 PDF**\n\n\`\`\`javascript\nconst hello = "GNOME";\nconsole.log(hello);\n\`\`\``;
-        }
-        processUpdate();
+        const saved = localStorage.getItem('md_content');
+        editor.value = saved || "# Welcome\n\nThis interface adapts to your screen size. \n\n### PDF Contrast\nExports now use **pure black text** on a **pure white background** regardless of your system theme.";
+        update();
     };
 </script>
 
