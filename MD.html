@@ -3,201 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown to PDF</title>
+    <title>Adwaita Markdown Professional</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="prism-theme">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+
     <style>
         :root {
-            --gnome-bg: #f6f5f4;
-            --gnome-header: #ebebeb;
-            --gnome-accent: #3584e4;
-            --gnome-text: #2e3436;
-            --gnome-border: rgba(0,0,0,0.1);
-            --gnome-card: #ffffff;
+            --bg: #f6f5f4;
+            --header: #ebebeb;
+            --text: #2e3436;
+            --accent: #3584e4;
+            --border: rgba(0,0,0,0.12);
+            --card: #ffffff;
+            --sidebar-title: #6e6e6e;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1e1e;
+                --header: #303030;
+                --text: #eeeeec;
+                --accent: #3584e4;
+                --border: rgba(255,255,255,0.1);
+                --card: #242424;
+                --sidebar-title: #9a9996;
+            }
         }
 
         body {
-            font-family: "Cantarell", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--gnome-bg);
-            color: var(--gnome-text);
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* GNOME Header Bar */
+        /* Header Bar */
         header {
-            background-color: var(--gnome-header);
-            height: 46px;
+            background-color: var(--header);
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid var(--gnome-border);
-            padding: 0 12px;
-            position: relative;
+            border-bottom: 1px solid var(--border);
+            padding: 0 16px;
+            z-index: 100;
         }
 
-        header h1 {
-            font-size: 15px;
-            font-weight: bold;
-            margin: 0;
-        }
+        header h1 { font-size: 14px; font-weight: 700; margin: 0; }
 
-        .actions {
-            position: absolute;
-            right: 12px;
-            display: flex;
-            gap: 6px;
-        }
+        .actions { position: absolute; right: 12px; display: flex; gap: 8px; }
 
-        /* Buttons */
-        button, .file-label {
-            background-color: #ffffff;
-            border: 1px solid var(--gnome-border);
-            border-radius: 5px;
-            padding: 5px 12px;
+        button, .btn {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
             font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        button:hover, .file-label:hover {
-            background-color: #f0f0f0;
-        }
+        button:hover { background-color: rgba(0,0,0,0.05); }
+        button.primary { background-color: var(--accent); color: white; border: none; }
+        button.primary:hover { background-color: #1c71d8; filter: brightness(1.1); }
 
-        button.primary {
-            background-color: var(--gnome-accent);
-            color: white;
-            border: none;
-        }
-
-        button.primary:hover {
-            background-color: #1c71d8;
-        }
-
-        /* Layout */
+        /* Main Workspace */
         main {
             display: flex;
             flex: 1;
-            padding: 24px;
-            gap: 18px;
+            padding: 16px;
+            gap: 16px;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         .pane {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--gnome-card);
-            border: 1px solid var(--gnome-border);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .pane-title {
-            padding: 8px 12px;
-            font-size: 12px;
-            font-weight: bold;
+        .pane-header {
+            padding: 8px 16px;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            color: #888a85;
-            border-bottom: 1px solid var(--gnome-border);
-            background: #fafafa;
+            letter-spacing: 0.04em;
+            color: var(--sidebar-title);
+            background: rgba(0,0,0,0.02);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
         }
 
         textarea {
             flex: 1;
             border: none;
-            padding: 15px;
+            padding: 20px;
             resize: none;
-            font-family: "Source Code Pro", monospace;
-            font-size: 14px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.6;
             outline: none;
+            background: transparent;
+            color: inherit;
         }
 
         #preview {
             flex: 1;
-            padding: 20px;
+            padding: 30px;
             overflow-y: auto;
-            background: white;
+            background: #ffffff;
+            color: #1a1a1a; /* Standard PDF contrast */
         }
 
-        input[type="file"] {
-            display: none;
-        }
+        /* Markdown Elements */
+        .markdown-body h1 { border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        .markdown-body blockquote { border-left: 4px solid var(--accent); padding-left: 16px; color: #666; }
+        .markdown-body pre { border-radius: 6px; }
 
-        /* PDF Stylesheet shim */
-        #pdf-content {
-            padding: 40px;
-            color: black;
-            font-family: serif;
-        }
+        input[type="file"] { display: none; }
+        
+        .drag-over { border: 2px dashed var(--accent) !important; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Markdown Editor</h1>
+    <h1>Adwaita Markdown</h1>
     <div class="actions">
-        <label for="file-upload" class="file-label">Open .md</label>
+        <label for="file-upload" class="btn">Open</label>
         <input type="file" id="file-upload" accept=".md">
-        <button class="primary" onclick="exportPDF()">Export PDF</button>
+        <button class="primary" onclick="exportPDF()">Export A4 PDF</button>
     </div>
 </header>
 
 <main>
-    <section class="pane">
-        <div class="pane-title">Markdown Input</div>
-        <textarea id="markdown-input" placeholder="Type markdown here..." oninput="updatePreview()"></textarea>
+    <section class="pane" id="editor-pane">
+        <div class="pane-header">
+            Editor
+            <span id="stats">0 words</span>
+        </div>
+        <textarea id="markdown-input" placeholder="Drop a .md file or start typing..." oninput="processUpdate()"></textarea>
     </section>
 
     <section class="pane">
-        <div class="pane-title">Preview</div>
-        <div id="preview"></div>
+        <div class="pane-header">A4 Live Preview</div>
+        <div id="preview" class="markdown-body"></div>
     </section>
 </main>
 
 <script>
     const input = document.getElementById('markdown-input');
     const preview = document.getElementById('preview');
-    const fileUpload = document.getElementById('file-upload');
+    const stats = document.getElementById('stats');
+    const editorPane = document.getElementById('editor-pane');
 
-    function updatePreview() {
-        const mdText = input.value;
-        preview.innerHTML = marked.parse(mdText);
+    // 1. Persistence & Live Rendering
+    function processUpdate() {
+        const val = input.value;
+        preview.innerHTML = marked.parse(val);
+        
+        // Syntax highlighting trigger
+        Prism.highlightAllUnder(preview);
+        
+        // Stats
+        const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+        stats.innerText = `${words} words`;
+
+        // Local Storage
+        localStorage.setItem('gnome_md_data', val);
     }
 
-    fileUpload.addEventListener('change', function(e) {
+    // 2. Drag and Drop Support
+    editorPane.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        editorPane.classList.add('drag-over');
+    });
+
+    editorPane.addEventListener('dragleave', () => {
+        editorPane.classList.remove('drag-over');
+    });
+
+    editorPane.addEventListener('drop', (e) => {
+        e.preventDefault();
+        editorPane.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file && (file.name.endsWith('.md') || file.name.endsWith('.txt'))) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                input.value = ev.target.result;
+                processUpdate();
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    // 3. File Input Support
+    document.getElementById('file-upload').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = function(e) {
-            input.value = e.target.result;
-            updatePreview();
+        reader.onload = (ev) => {
+            input.value = ev.target.result;
+            processUpdate();
         };
         reader.readAsText(file);
     });
 
-    function exportPDF() {
+    // 4. High-Quality A4 PDF Export
+    async function exportPDF() {
         const element = document.createElement('div');
-        element.id = 'pdf-content';
+        element.className = 'markdown-body';
+        element.style.padding = '0';
         element.innerHTML = marked.parse(input.value);
+        Prism.highlightAllUnder(element);
         
         const opt = {
-            margin:       1,
+            margin:       [20, 20, 20, 20],
             filename:     'document.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            image:        { type: 'jpeg', quality: 1.0 },
+            html2canvas:  { scale: 3, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        html2pdf().set(opt).from(element).save();
+        try {
+            await html2pdf().set(opt).from(element).save();
+        } catch (err) {
+            console.error("Export failed:", err);
+        }
     }
 
-    // Initialize with sample content
-    input.value = "# Hello GNOME\n\nType your markdown here or upload a `.md` file to begin.";
-    updatePreview();
+    // Initialize
+    window.onload = () => {
+        const saved = localStorage.getItem('gnome_md_data');
+        if (saved) {
+            input.value = saved;
+        } else {
+            input.value = `# Welcome\n\n- **Drag & Drop** a .md file here\n- Code blocks feature **Syntax Highlighting**\n- Exports to **A4 PDF**\n\n\`\`\`javascript\nconst hello = "GNOME";\nconsole.log(hello);\n\`\`\``;
+        }
+        processUpdate();
+    };
 </script>
 
 </body>
