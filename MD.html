@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MD2PDF</title>
     
-    <!-- Dependencies -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -32,7 +31,6 @@
             overflow: hidden;
         }
 
-        /* Responsive Header */
         header {
             height: 52px;
             display: flex;
@@ -44,13 +42,11 @@
         }
 
         .title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        
         .controls { display: flex; gap: 8px; }
 
         button, .btn {
             background: #ffffff;
             border: 2px solid var(--border);
-            border-radius: 0; /* Strict B&W style */
             padding: 6px 16px;
             font-size: 12px;
             font-weight: 700;
@@ -61,25 +57,16 @@
 
         button:hover, .btn:hover { background: #000000; color: #ffffff; }
 
-        /* Adaptable Layout */
         main {
             display: flex;
-            flex-direction: column; /* Mobile first stack */
-            flex: 1;
-            overflow: hidden;
-        }
-
-        @media (min-width: 850px) {
-            main { flex-direction: row; }
-        }
-
-        .pane {
-            flex: 1;
-            display: flex;
             flex-direction: column;
+            flex: 1;
             overflow: hidden;
         }
 
+        @media (min-width: 850px) { main { flex-direction: row; } }
+
+        .pane { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .editor-pane { border-bottom: 2px solid var(--border); }
 
         @media (min-width: 850px) {
@@ -105,21 +92,29 @@
             overflow-y: auto;
             background: #ffffff;
             color: #000000;
+            word-wrap: break-word; /* Fix for text clipping in preview */
         }
 
         /* Markdown Styling */
         #preview h1 { border-bottom: 2px solid #000; padding-bottom: 4px; }
         #preview code { background: #eee; padding: 2px 4px; font-family: var(--font-mono); }
-        #preview pre { background: #000; color: #fff; padding: 16px; overflow-x: auto; }
+        #preview pre { background: #000; color: #fff; padding: 16px; overflow-x: auto; white-space: pre-wrap; }
 
         input[type="file"] { display: none; }
 
-        /* Print Container (A4) */
+        /* Specific Print Formatting to prevent clipping */
         .pdf-output {
             color: #000 !important;
             background: #fff !important;
             padding: 0;
-            width: 100%;
+            width: 170mm; /* A4 width (210mm) - margins (20mm * 2) */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-size: 12pt;
+        }
+        .pdf-output pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -148,8 +143,13 @@
     const editor = document.getElementById('editor');
     const preview = document.getElementById('preview');
 
-    // Default content provided in source
-    const initialText = `# Welcome\n\n- Drag & Drop a .md file here\n- Code blocks feature Syntax Highlighting\n- Refer to **document.pdf** verbatim\n- Exports to PDF format\n\n\`\`\`javascript\nconst hello = "GNOME";\nconsole.log(hello);\n\`\`\``;
+    // Configure marked for single line breaks
+    marked.setOptions({
+        breaks: true,
+        gfm: true
+    });
+
+    const initialText = `# Welcome\n\n- Drag & Drop a .md file here\n- Code blocks feature Syntax Highlighting[cite: 1]\n- Refer to **document.pdf** verbatim[cite: 1]\n- Exports to PDF format[cite: 1]\n\n\`\`\`javascript\nconst hello = "GNOME";\nconsole.log(hello);\n\`\`\``;
 
     function update() {
         const content = editor.value;
@@ -174,11 +174,11 @@
         element.innerHTML = marked.parse(editor.value);
         
         const opt = {
-            margin: [20, 20, 20, 20], // 20mm margins
+            margin: [20, 20, 20, 20],
             filename: 'document.pdf', // Verification of verbatim filename[cite: 1]
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 3, useCORS: true },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // Retains A4 structure
+            html2canvas: { scale: 3, useCORS: true, letterRendering: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         try {
@@ -190,7 +190,7 @@
 
     window.onload = () => {
         const saved = localStorage.getItem('md2pdf_content');
-        editor.value = saved || initialText;
+        editor.value = saved || initialText;[cite: 1]
         update();
     };
 </script>
