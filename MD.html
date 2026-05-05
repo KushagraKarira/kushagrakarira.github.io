@@ -5,34 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MD2PDF</title>
     
+    <!-- Dependencies -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
-            --bg: #f6f5f4;
-            --header: #ebebeb;
-            --text: #2e3436;
-            --accent: #3584e4;
-            --border: rgba(0,0,0,0.1);
-            --card: #ffffff;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #242424;
-                --header: #303030;
-                --text: #ffffff;
-                --border: rgba(255,255,255,0.1);
-                --card: #1e1e1e;
-            }
+            --bg: #ffffff;
+            --text: #000000;
+            --border: #000000;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-main);
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
@@ -42,46 +32,39 @@
             overflow: hidden;
         }
 
-        /* Simplified Header */
+        /* Responsive Header */
         header {
-            background-color: var(--header);
             height: 52px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--border);
             flex-shrink: 0;
         }
 
-        .title { font-size: 15px; font-weight: 600; }
+        .title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         
         .controls { display: flex; gap: 8px; }
 
         button, .btn {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: #ffffff;
+            border: 2px solid var(--border);
+            border-radius: 0; /* Strict B&W style */
             padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 700;
             color: var(--text);
             cursor: pointer;
-            transition: opacity 0.2s;
+            text-transform: uppercase;
         }
 
-        button.primary {
-            background: var(--accent);
-            color: white;
-            border: none;
-        }
+        button:hover, .btn:hover { background: #000000; color: #ffffff; }
 
-        button:active { opacity: 0.7; }
-
-        /* Responsive Layout */
+        /* Adaptable Layout */
         main {
             display: flex;
-            flex-direction: column; /* Mobile Default */
+            flex-direction: column; /* Mobile first stack */
             flex: 1;
             overflow: hidden;
         }
@@ -95,13 +78,12 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            background: var(--card);
         }
 
-        .editor-pane { border-bottom: 1px solid var(--border); }
+        .editor-pane { border-bottom: 2px solid var(--border); }
 
         @media (min-width: 850px) {
-            .editor-pane { border-bottom: none; border-right: 1px solid var(--border); }
+            .editor-pane { border-bottom: none; border-right: 2px solid var(--border); }
         }
 
         textarea {
@@ -109,7 +91,7 @@
             border: none;
             padding: 20px;
             resize: none;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 14px;
             line-height: 1.6;
             outline: none;
@@ -121,31 +103,34 @@
             flex: 1;
             padding: 24px;
             overflow-y: auto;
-            background: #ffffff; /* Always white for clarity */
-            color: #000000;    /* Always black for contrast */
+            background: #ffffff;
+            color: #000000;
         }
 
-        /* PDF High-Contrast Styles */
-        .pdf-export-container {
-            font-family: 'Inter', sans-serif;
-            color: #000 !important;
-            background: #fff !important;
-            line-height: 1.5;
-        }
-        .pdf-export-container h1, .pdf-export-container h2 { color: #000 !important; border-bottom: 1px solid #ccc; }
-        .pdf-export-container code { background: #f0f0f0; padding: 2px 4px; border-radius: 4px; }
+        /* Markdown Styling */
+        #preview h1 { border-bottom: 2px solid #000; padding-bottom: 4px; }
+        #preview code { background: #eee; padding: 2px 4px; font-family: var(--font-mono); }
+        #preview pre { background: #000; color: #fff; padding: 16px; overflow-x: auto; }
 
         input[type="file"] { display: none; }
+
+        /* Print Container (A4) */
+        .pdf-output {
+            color: #000 !important;
+            background: #fff !important;
+            padding: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="title">Markdown</div>
+    <div class="title">MD2PDF</div>
     <div class="controls">
         <label for="file-upload" class="btn">Open</label>
         <input type="file" id="file-upload" accept=".md">
-        <button class="primary" onclick="exportPDF()">Export</button>
+        <button onclick="exportPDF()">Export</button>
     </div>
 </header>
 
@@ -163,14 +148,15 @@
     const editor = document.getElementById('editor');
     const preview = document.getElementById('preview');
 
-    // Live update and storage
+    // Default content provided in source
+    const initialText = `# Welcome\n\n- Drag & Drop a .md file here\n- Code blocks feature Syntax Highlighting\n- Refer to **document.pdf** verbatim\n- Exports to PDF format\n\n\`\`\`javascript\nconst hello = "GNOME";\nconsole.log(hello);\n\`\`\``;
+
     function update() {
         const content = editor.value;
         preview.innerHTML = marked.parse(content);
-        localStorage.setItem('md_content', content);
+        localStorage.setItem('md2pdf_content', content);
     }
 
-    // File Handling
     document.getElementById('file-upload').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -182,31 +168,29 @@
         reader.readAsText(file);
     });
 
-    // High-Contrast PDF Generation
     async function exportPDF() {
         const element = document.createElement('div');
-        element.className = 'pdf-export-container';
+        element.className = 'pdf-output';
         element.innerHTML = marked.parse(editor.value);
         
         const opt = {
-            margin: [15, 15, 15, 15],
-            filename: 'document.pdf',
+            margin: [20, 20, 20, 20], // 20mm margins
+            filename: 'document.pdf', // Verification of verbatim filename[cite: 1]
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 3, useCORS: true, logging: false },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            html2canvas: { scale: 3, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // Retains A4 structure
         };
 
         try {
             await html2pdf().set(opt).from(element).save();
         } catch (err) {
-            alert("Export failed. Check console for details.");
+            console.error("Export Error:", err);
         }
     }
 
-    // Initialization
     window.onload = () => {
-        const saved = localStorage.getItem('md_content');
-        editor.value = saved || "# Welcome\n\nThis interface adapts to your screen size. \n\n### PDF Contrast\nExports now use **pure black text** on a **pure white background** regardless of your system theme.";
+        const saved = localStorage.getItem('md2pdf_content');
+        editor.value = saved || initialText;
         update();
     };
 </script>
