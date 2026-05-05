@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MD2PDF</title>
-    
     <!-- External Assets -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+    
     <style>
         :root {
-            /* Adwaita Dark Colors */
             --bg: #242424;
             --header: #303030;
             --card: #2d2d2d;
@@ -35,7 +31,6 @@
             overflow: hidden;
         }
 
-        /* Header bar */
         header {
             background-color: var(--header);
             height: 52px;
@@ -66,10 +61,9 @@
         button.primary { background-color: var(--accent); border: none; }
         button.primary:hover { background-color: #1c71d8; }
 
-        /* Workspace */
         main {
             display: flex;
-            flex-direction: column; /* Vertical on Mobile */
+            flex-direction: column;
             flex: 1;
             padding: 12px;
             gap: 12px;
@@ -113,14 +107,35 @@
             color: white;
         }
 
+        /* Preview and PDF Export Styles */
+        #preview, .pdf-export-box {
+            background: white !important;
+            color: black !important;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
         #preview {
             flex: 1;
             padding: 30px;
             overflow-y: auto;
-            background: white; /* Always white for preview accuracy */
-            color: black;
-            line-height: 1.6;
-            word-wrap: break-word;
+        }
+
+        /* Table Styling Requirements */
+        #preview table, .pdf-export-box table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1em;
+            border: 1px solid black !important;
+            break-inside: avoid; /* Prevents splitting across pages */
+            page-break-inside: avoid;
+        }
+
+        #preview th, #preview td, 
+        .pdf-export-box th, .pdf-export-box td {
+            border: 1px solid black !important;
+            padding: 8px;
+            text-align: left;
         }
 
         #preview h1 { border-bottom: 1px solid #eee; margin-top: 0; }
@@ -128,18 +143,15 @@
 
         input[type="file"] { display: none; }
 
-        /* Hidden export-only styles */
         .pdf-export-box {
-            width: 170mm; /* A4 (210) - Margins (40) */
+            width: 170mm;
             padding: 0;
-            color: black !important;
-            background: white !important;
             font-family: 'Inter', sans-serif;
             font-size: 11pt;
-            line-height: 1.5;
-            word-wrap: break-word;
+            position: absolute;
+            left: -9999px;
+            top: 0;
         }
-        .pdf-export-box pre { white-space: pre-wrap; word-wrap: break-word; border: 1px solid black; padding: 10px; }
     </style>
 </head>
 <body>
@@ -149,14 +161,14 @@
     <div class="actions">
         <label for="file-up" class="btn-file">Open</label>
         <input type="file" id="file-up" accept=".md">
-        <button class="primary" onclick="doExport()">Export</button>
+        <button id="export-btn" class="primary" onclick="doExport()">Export</button>
     </div>
 </header>
 
 <main>
     <section class="pane">
         <div class="label">Editor</div>
-        <textarea id="editor" placeholder="Type here..." oninput="render()"></textarea>
+        <textarea id="editor" placeholder="Type here..."></textarea>
     </section>
 
     <section class="pane">
@@ -168,15 +180,24 @@
 <script>
     const ed = document.getElementById('editor');
     const pre = document.getElementById('preview');
+    const exportBtn = document.getElementById('export-btn');
+    let debounceTimer;
 
-    // Requirement: GFM Line breaks and verbatim naming[cite: 1]
     marked.setOptions({ breaks: true, gfm: true });
 
     function render() {
         const val = ed.value;
-        pre.innerHTML = marked.parse(val);
+        const dirtyHtml = marked.parse(val);
+        const cleanHtml = DOMPurify.sanitize(dirtyHtml);
+        pre.innerHTML = cleanHtml;
         localStorage.setItem('md2pdf_content', val);
     }
+
+    // Input debouncing for performance
+    ed.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(render, 150);
+    });
 
     document.getElementById('file-up').onchange = function(e) {
         const f = e.target.files[0];
@@ -187,33 +208,37 @@
     };
 
     async function doExport() {
-        // Requirement: Black and white high contrast[cite: 1]
+        exportBtn.disabled = true;
         const container = document.createElement('div');
         container.className = 'pdf-export-box';
-        container.innerHTML = marked.parse(ed.value);
         
+        // Ensure export-only container has sanitized content
+        container.innerHTML = DOMPurify.sanitize(marked.parse(ed.value));
+        document.body.appendChild(container);
+                
         const opt = {
-            margin: [20, 20, 20, 20], // 20mm Margins[cite: 1]
-            filename: 'document.pdf', // Verbatim[cite: 1]
+            margin: [20, 20, 20, 20],
+            filename: 'document.pdf',
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 3, useCORS: true },
+            html2canvas: { scale: 3, useCORS: true, letterRendering: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         try {
             await html2pdf().set(opt).from(container).save();
         } catch (e) {
-            console.error(e);
+            console.error("PDF Export Failed:", e);
+        } finally {
+            document.body.removeChild(container);
+            exportBtn.disabled = false;
         }
     }
 
-    // Load persisted data or default
     window.onload = () => {
         const saved = localStorage.getItem('md2pdf_content');
-        ed.value = saved || "# MD2PDF\n\n- Type or upload a `.md` file[cite: 1].\n- Real-time **Libadwaita** preview.\n- Export to `document.pdf`[cite: 1].\n\n### Formatting\nSingle breaks work.\nLike this.";
+        ed.value = saved || "# MD2PDF\n\n| Feature | Status |\n| :--- | :--- |\n| Borders | Black |\n| Page Breaks | Avoided |\n\n- Type or upload a `.md` file.\n- Real-time preview.\n- Export to `document.pdf`.";
         render();
     };
 </script>
-
 </body>
 </html>
