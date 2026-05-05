@@ -5,81 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MD2PDF</title>
     
+    <!-- Fonts & Dependencies -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #000000;
-            --border: #000000;
+            /* GNOME Adwaita Light Palette */
+            --gnome-bg: #f6f5f4;
+            --gnome-header: #ebebeb;
+            --gnome-card: #ffffff;
+            --gnome-text: #2e3436;
+            --gnome-accent: #3584e4;
+            --gnome-border: rgba(0,0,0,0.12);
             --font-main: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* GNOME Adwaita Dark Palette */
+                --gnome-bg: #242424;
+                --gnome-header: #303030;
+                --gnome-card: #1e1e1e;
+                --gnome-text: #eeeeec;
+                --gnome-border: rgba(255,255,255,0.08);
+            }
+        }
+
         body {
             font-family: var(--font-main);
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--gnome-bg);
+            color: var(--gnome-text);
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* GNOME Header Bar */
         header {
-            height: 52px;
+            background-color: var(--gnome-header);
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            border-bottom: 2px solid var(--border);
-            flex-shrink: 0;
+            border-bottom: 1px solid var(--gnome-border);
+            z-index: 100;
         }
 
-        .title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .title { font-size: 14px; font-weight: 700; }
         .controls { display: flex; gap: 8px; }
 
+        /* Adwaita Style Buttons */
         button, .btn {
-            background: #ffffff;
-            border: 2px solid var(--border);
-            padding: 6px 16px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text);
+            background-color: var(--gnome-card);
+            border: 1px solid var(--gnome-border);
+            border-radius: 6px;
+            padding: 5px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gnome-text);
             cursor: pointer;
-            text-transform: uppercase;
+            transition: background 0.2s;
         }
 
-        button:hover, .btn:hover { background: #000000; color: #ffffff; }
+        button:hover { background-color: rgba(0,0,0,0.05); }
+        button.primary { background-color: var(--gnome-accent); color: white; border: none; }
+        button.primary:hover { filter: brightness(1.05); }
 
+        /* Adaptive Layout */
         main {
             display: flex;
             flex-direction: column;
             flex: 1;
+            padding: 12px;
+            gap: 12px;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
-        @media (min-width: 850px) { main { flex-direction: row; } }
-
-        .pane { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .editor-pane { border-bottom: 2px solid var(--border); }
-
         @media (min-width: 850px) {
-            .editor-pane { border-bottom: none; border-right: 2px solid var(--border); }
+            main { flex-direction: row; padding: 20px; gap: 20px; }
+        }
+
+        .pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--gnome-card);
+            border: 1px solid var(--gnome-border);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .pane-label {
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #888;
+            border-bottom: 1px solid var(--gnome-border);
+            background: rgba(0,0,0,0.02);
         }
 
         textarea {
             flex: 1;
             border: none;
-            padding: 20px;
+            padding: 16px;
             resize: none;
             font-family: var(--font-mono);
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
             outline: none;
             background: transparent;
@@ -90,32 +134,28 @@
             flex: 1;
             padding: 24px;
             overflow-y: auto;
-            background: #ffffff;
+            background: #ffffff; /* Contrast for previewing final look */
             color: #000000;
-            word-wrap: break-word; /* Fix for text clipping in preview */
+            word-wrap: break-word;
         }
 
-        /* Markdown Styling */
-        #preview h1 { border-bottom: 2px solid #000; padding-bottom: 4px; }
-        #preview code { background: #eee; padding: 2px 4px; font-family: var(--font-mono); }
-        #preview pre { background: #000; color: #fff; padding: 16px; overflow-x: auto; white-space: pre-wrap; }
+        /* UI Preview Styling */
+        #preview h1 { border-bottom: 1px solid #eee; padding-bottom: 4px; }
+        #preview pre { background: #f6f8fa; padding: 12px; border-radius: 6px; white-space: pre-wrap; }
 
         input[type="file"] { display: none; }
 
-        /* Specific Print Formatting to prevent clipping */
-        .pdf-output {
-            color: #000 !important;
-            background: #fff !important;
-            padding: 0;
-            width: 170mm; /* A4 width (210mm) - margins (20mm * 2) */
+        /* STRICT PDF EXPORT STYLING (B&W ONLY) */
+        .pdf-render-engine {
+            color: #000000 !important;
+            background: #ffffff !important;
+            width: 170mm; /* A4 Width - Margins */
             word-wrap: break-word;
-            overflow-wrap: break-word;
-            font-size: 12pt;
+            font-size: 11pt;
+            line-height: 1.5;
         }
-        .pdf-output pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+        .pdf-render-engine h1, .pdf-render-engine h2 { color: #000 !important; border-bottom: 1px solid #000; }
+        .pdf-render-engine pre { white-space: pre-wrap; word-wrap: break-word; border: 1px solid #000; padding: 10px; }
     </style>
 </head>
 <body>
@@ -125,16 +165,18 @@
     <div class="controls">
         <label for="file-upload" class="btn">Open</label>
         <input type="file" id="file-upload" accept=".md">
-        <button onclick="exportPDF()">Export</button>
+        <button class="primary" onclick="exportPDF()">Export</button>
     </div>
 </header>
 
 <main>
-    <section class="pane editor-pane">
-        <textarea id="editor" placeholder="Start typing..." oninput="update()"></textarea>
+    <section class="pane">
+        <div class="pane-label">Editor</div>
+        <textarea id="editor" placeholder="Type or drop markdown..." oninput="update()"></textarea>
     </section>
 
     <section class="pane">
+        <div class="pane-label">Preview</div>
         <div id="preview"></div>
     </section>
 </main>
@@ -143,13 +185,13 @@
     const editor = document.getElementById('editor');
     const preview = document.getElementById('preview');
 
-    // Configure marked for single line breaks
+    // Configure Marked for Newlines and GFM
     marked.setOptions({
         breaks: true,
         gfm: true
     });
 
-    const initialText = `# Welcome\n\n- Drag & Drop a .md file here\n- Code blocks feature Syntax Highlighting[cite: 1]\n- Refer to **document.pdf** verbatim[cite: 1]\n- Exports to PDF format[cite: 1]\n\n\`\`\`javascript\nconst hello = "GNOME";\nconsole.log(hello);\n\`\`\``;
+    const initialText = `# Welcome to MD2PDF\n\n- Drag & Drop files directly here\n- Real-time **GNOME Adwaita** preview\n- Exports to **document.pdf** verbatim\n\n### Formatting Test\nSingle breaks now render correctly.\nThis line is right below the previous one.\n\n\`\`\`javascript\nconst app = "MD2PDF";\nconsole.log(app);\n\`\`\``;
 
     function update() {
         const content = editor.value;
@@ -157,6 +199,7 @@
         localStorage.setItem('md2pdf_content', content);
     }
 
+    // File Handling
     document.getElementById('file-upload').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -168,10 +211,11 @@
         reader.readAsText(file);
     });
 
+    // High-Contrast PDF Export Logic[cite: 1]
     async function exportPDF() {
-        const element = document.createElement('div');
-        element.className = 'pdf-output';
-        element.innerHTML = marked.parse(editor.value);
+        const container = document.createElement('div');
+        container.className = 'pdf-render-engine';
+        container.innerHTML = marked.parse(editor.value);
         
         const opt = {
             margin: [20, 20, 20, 20],
@@ -182,9 +226,9 @@
         };
 
         try {
-            await html2pdf().set(opt).from(element).save();
+            await html2pdf().set(opt).from(container).save();
         } catch (err) {
-            console.error("Export Error:", err);
+            console.error("Export Failed:", err);
         }
     }
 
