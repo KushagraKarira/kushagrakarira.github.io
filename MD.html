@@ -111,8 +111,8 @@
             color: black !important;
         }
 
-        /* Consistent Table and Export Styles */
-        #preview table, .pdf-export-box table {
+        /* Table & Export Formatting */
+        #preview table {
             border-collapse: collapse;
             width: 100%;
             margin-bottom: 1em;
@@ -121,29 +121,19 @@
             break-inside: avoid;
         }
 
-        #preview th, #preview td, 
-        .pdf-export-box th, .pdf-export-box td {
+        #preview th, #preview td {
             border: 1px solid black;
             padding: 8px;
         }
 
-        input[type="file"] { display: none; }
-
-        /* Hidden Export Box: Ensures capture engine sees dimensions */
-        .pdf-export-box {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 170mm; /* A4 minus margins */
-            z-index: -1;
-            opacity: 0;
-            pointer-events: none;
-            background: white;
-            color: black;
-            font-family: 'Inter', sans-serif;
-            font-size: 11pt;
-            line-height: 1.5;
+        /* Printing State: Forces expansion of the scrollable area */
+        #preview.printing {
+            height: auto !important;
+            overflow: visible !important;
+            width: 170mm !important;
         }
+
+        input[type="file"] { display: none; }
     </style>
 </head>
 <body>
@@ -164,7 +154,8 @@
     </section>
     <section class="pane">
         <div class="label">Preview</div>
-        <div id="preview"></section>
+        <div id="preview"></div>
+    </section>
 </main>
 
 <script>
@@ -197,10 +188,8 @@
     async function doExport() {
         exportBtn.disabled = true;
         
-        const container = document.createElement('div');
-        container.className = 'pdf-export-box';
-        container.innerHTML = DOMPurify.sanitize(marked.parse(ed.value));
-        document.body.appendChild(container);
+        // Preparation: Force preview to expand for full capture
+        pre.classList.add('printing');
                 
         const opt = {
             margin: [20, 20, 20, 20],
@@ -209,21 +198,19 @@
             html2canvas: { 
                 scale: 2, 
                 useCORS: true, 
+                logging: false,
                 letterRendering: true,
-                scrollX: 0,
-                scrollY: 0
+                windowWidth: pre.scrollWidth
             },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         try {
-            // Tiny delay ensures the DOM has painted the new container
-            await new Promise(resolve => setTimeout(resolve, 100));
-            await html2pdf().set(opt).from(container).save();
+            await html2pdf().set(opt).from(pre).save();
         } catch (e) {
             console.error("Export Error:", e);
         } finally {
-            document.body.removeChild(container);
+            pre.classList.remove('printing');
             exportBtn.disabled = false;
         }
     }
