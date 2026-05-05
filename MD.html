@@ -65,6 +65,9 @@
         button:hover { background-color: #4d4d4d; }
         button.primary { background-color: var(--accent); border: none; }
         button.primary:hover { background-color: #1c71d8; }
+        
+        button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+        button.secondary:hover { background: rgba(255,255,255,0.05); color: white; }
 
         /* Workspace */
         main {
@@ -138,26 +141,40 @@
             font-size: 11pt;
             line-height: 1.5;
             word-wrap: break-word;
+            overflow: visible !important; /* Prevent internal clipping */
         }
         
-        /* Fix for page breaks cutting text or creating white space */
+        /* Strict page break handling */
         .pdf-export-box pre, 
         .pdf-export-box blockquote, 
         .pdf-export-box h1, 
         .pdf-export-box h2, 
         .pdf-export-box h3, 
         .pdf-export-box table, 
-        .pdf-export-box li {
-            page-break-inside: avoid;
-            break-inside: avoid;
+        .pdf-export-box li,
+        .pdf-export-box p {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            display: block; /* Ensure it stays a block element */
+            position: relative; /* Stability for html2canvas */
         }
         
         .pdf-export-box pre { 
-            white-space: pre-wrap; 
-            word-wrap: break-word; 
+            white-space: pre-wrap !important; 
+            word-wrap: break-word !important; 
             border: 1px solid #ccc; 
             padding: 10px; 
-            background-color: #f9f9f9;
+            background-color: #f9f9f9 !important;
+            margin: 10px 0;
+            overflow: visible !important; /* Crucial: ensures full text is visible even if wrapped */
+        }
+
+        /* Ensure images don't get cut */
+        .pdf-export-box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            page-break-inside: avoid;
         }
     </style>
 </head>
@@ -166,6 +183,8 @@
 <header>
     <div class="logo">MD2PDF</div>
     <div class="actions">
+        <button class="secondary" onclick="clearEditor()">Clear</button>
+        <button class="secondary" onclick="downloadMd()">Save MD</button>
         <label for="file-up" class="btn-file">Open</label>
         <input type="file" id="file-up" accept=".md">
         <button class="primary" onclick="doExport()">Export</button>
@@ -190,10 +209,70 @@
 
     marked.setOptions({ breaks: true, gfm: true });
 
+    const SAMPLE_TEXT = `# Markdown Help Guide
+
+## Text Formatting
+- **Bold text** using \`**text**\` or \`__text__\`
+- *Italic text* using \`*text*\` or \`_text_\`
+- ~~Strikethrough~~ using \`~~text~~\`
+
+## Lists
+### Unordered
+- Item 1
+- Item 2
+  - Sub-item A
+
+### Ordered
+1. First
+2. Second
+3. Third
+
+## Links & Images
+- [Google](https://google.com)
+- Inline images: \`![Alt text](url)\`
+
+## Blockquotes
+> "Intelligence is the ability to adapt to change." 
+> — Stephen Hawking
+
+## Code Blocks
+Inline \`code\` blocks.
+
+Multi-line code:
+\\\`\\\`\\\`javascript
+function hello() {
+  console.log("Hello World");
+}
+\\\`\\\`\\\`
+
+## Tables
+| Feature | Status |
+| :--- | :--- |
+| PDF Export | Working |
+| Page Breaks | Fixed |
+| Adwaita UI | Active |`;
+
     function render() {
         const val = ed.value;
         pre.innerHTML = marked.parse(val);
         localStorage.setItem('md2pdf_content', val);
+    }
+
+    function clearEditor() {
+        ed.value = "";
+        render();
+    }
+
+    function downloadMd() {
+        const blob = new Blob([ed.value], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'document.md';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 
     document.getElementById('file-up').onchange = function(e) {
@@ -209,14 +288,22 @@
         container.className = 'pdf-export-box';
         container.innerHTML = marked.parse(ed.value);
         
+        // Configuration to minimize white artifacts and handle breaks
         const opt = {
             margin: [20, 20, 20, 20],
             filename: 'document.pdf',
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 3, useCORS: true, logging: false },
+            html2canvas: { 
+                scale: 3, 
+                useCORS: true, 
+                logging: false,
+                windowWidth: 800 // Stable width for consistent wrapping
+            },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            // Improved page break logic
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            pagebreak: { 
+                mode: ['css', 'legacy'], // Avoid "avoid-all" if it causes large blank spaces
+                before: '.page-break-before'
+            }
         };
 
         try {
@@ -228,7 +315,7 @@
 
     window.onload = () => {
         const saved = localStorage.getItem('md2pdf_content');
-        ed.value = saved || "# MD2PDF\n\n- Type or upload a `.md` file.\n- Real-time **Libadwaita** preview.\n- Export to `document.pdf`.\n\n### Formatting\nSingle breaks work.\nLike this.";
+        ed.value = saved || SAMPLE_TEXT;
         render();
     };
 </script>
