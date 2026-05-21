@@ -1,60 +1,55 @@
 {
     "name": "Kushagra Karira",
-    "short_name": "iOTA",
+    "short_name": "Kushagra",
     "start_url": "/",
     "theme_color": "#1a5fb4",
     "background_color": "#000000",
-    "display": "fullscreen",
+    "display": "standalone",
     "scope": "/",
     "orientation": "any",
     "dir": "ltr",
     "lang": "en",
-    "description": "Humanoid Biological Lifeform",
+    "description": "The personal website, blog, and portfolio of Kushagra Karira.",
     "prefer_related_applications": false,
-    "categories": ["design", "developer", "games", "education", "entertainment"],
+    "categories": ["design", "developer", "personal", "blog", "portfolio"],
     "shortcuts" : [
 	  {
  	   "name": "Poems",
  	   "url": "/Poems.html",
- 	   "icons": "/images/icons/pen.svg",
- 	   "description": "Poems, Written by Me !!"
+ 	   "icons": [{ "src": "/images/icons/pen.svg", "type": "image/svg+xml", "purpose": "any" }],
+ 	   "description": "A collection of original poems."
 	  },
  	 {
  	   "name": "Blog",
  	   "url": "/Blog.html",
- 	   "icons": "/images/icons/book.svg",
- 	   "description": "How, What, Why, When and Where to do, if do"
+ 	   "icons": [{ "src": "/images/icons/blog.svg", "type": "image/svg+xml", "purpose": "any" }],
+ 	   "description": "Stories, guides, and thoughts."
  	 },
 	  {
  	   "name": "Gallery",
  	   "url": "/Gallery.html",
- 	   "icons": "/images/icons/grid.svg",
- 	   "description": "My Designs"
- 	 },
- 	 {
- 	   "name": "GAMES !!",
- 	   "url": "/games"
+ 	   "icons": [{ "src": "/images/icons/grid.svg", "type": "image/svg+xml", "purpose": "any" }],
+ 	   "description": "A showcase of graphic design work."
  	 }
 	],
     "icons": [
-	{
-		"src": "../images/icon.svg",
-		"sizes": "any",
-		"type": "image/svg+xml",
-		"purpose": "maskable"
-	},
-	{
-		"src": "../images/icon.svg",
-		"sizes": "any",
-		"type": "image/svg+xml",
-		"purpose": "monochrome"
-	},
-	{
-		"src": "../images/icon.png",
-		"sizes": "any",
-		"type": "image/png",
-		"purpose": "any"
-	}
+        {
+            "src": "/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "maskable"
+        }
     ]
 }
-
