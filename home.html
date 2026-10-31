@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Udaipur Weather, Time & City Telemetry Dashboard</title>
+  <title>Udaipur Weather, Time & World Clocks Dashboard</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,12 @@
   <style>
     html, body {
       font-family: 'Inter', system-ui, sans-serif;
-      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 55%, #090d16 100%);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(245, 158, 11, 0.28) 0%, transparent 42%),
+        radial-gradient(circle at 82% 16%, rgba(56, 189, 248, 0.26) 0%, transparent 42%),
+        radial-gradient(circle at 50% 54%, rgba(99, 102, 241, 0.22) 0%, transparent 48%),
+        radial-gradient(circle at 80% 88%, rgba(16, 185, 129, 0.18) 0%, transparent 40%),
+        linear-gradient(160deg, #0f172a 0%, #090d18 55%, #050811 100%);
       color: #f8fafc;
       height: 100vh;
       max-height: 100vh;
@@ -35,17 +40,29 @@
       overflow: hidden;
     }
     .glass-card {
-      background: rgba(15, 23, 42, 0.72);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(148, 163, 184, 0.14);
-      box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 55%, rgba(15, 23, 42, 0.28) 100%);
+      backdrop-filter: blur(26px) saturate(190%);
+      -webkit-backdrop-filter: blur(26px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-top-color: rgba(255, 255, 255, 0.32);
+      border-left-color: rgba(255, 255, 255, 0.26);
+      box-shadow: 0 8px 32px -6px rgba(0, 0, 0, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.22);
     }
     .glass-card-highlight {
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(251, 191, 36, 0.28);
-      box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.65), 0 0 28px -10px rgba(251, 191, 36, 0.14);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(251, 191, 36, 0.06) 50%, rgba(15, 23, 42, 0.32) 100%);
+      backdrop-filter: blur(30px) saturate(200%);
+      -webkit-backdrop-filter: blur(30px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-top-color: rgba(251, 191, 36, 0.45);
+      border-left-color: rgba(255, 255, 255, 0.32);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55), 0 0 32px -10px rgba(251, 191, 36, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.28);
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
     }
     .clock-glow {
       text-shadow: 0 0 32px rgba(251, 191, 36, 0.24), 0 3px 12px rgba(0, 0, 0, 0.6);
@@ -100,24 +117,14 @@
         </div>
       </div>
 
-      <!-- Day Selector & Unit Toggles -->
+      <!-- Day Selector -->
       <div class="flex items-center gap-1.5">
-        <div class="inline-flex rounded-lg bg-slate-900/90 p-0.5 border border-slate-800" id="dayTabs">
+        <div class="inline-flex rounded-lg glass-pill p-0.5" id="dayTabs">
           <button type="button" data-day="0" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all bg-amber-500 text-slate-950 font-semibold">Sat 31 Oct</button>
           <button type="button" data-day="1" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-400 hover:text-white">Sun 01 Nov</button>
           <button type="button" data-day="2" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-400 hover:text-white">Mon 02 Nov</button>
           <button type="button" data-day="3" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-400 hover:text-white">Tue 03 Nov</button>
         </div>
-
-        <button type="button" id="unitToggleBtn" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-[11px] font-semibold text-slate-200 transition flex items-center gap-1">
-          <span id="unitLabelC" class="text-amber-400 font-bold">°C</span>
-          <span class="text-slate-600">/</span>
-          <span id="unitLabelF" class="text-slate-400">°F</span>
-        </button>
-
-        <button type="button" id="timeFormatBtn" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-[11px] font-semibold text-slate-200 transition">
-          12H / 24H
-        </button>
       </div>
     </header>
 
@@ -130,15 +137,19 @@
           <div class="flex items-baseline gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse self-center"></span>
             <h2 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Hourly Temp Curve</h2>
-            <span id="selectedHourTemp" class="text-lg sm:text-xl font-bold text-white font-mono">21°C</span>
-            <span id="selectedHourSummary" class="text-[11px] text-amber-300 font-medium truncate">08:00 AM • Pleasant & Clear</span>
+            <span id="selectedHourTemp" class="text-lg sm:text-xl font-bold text-white font-mono">23°C</span>
+            <span id="selectedHourSummary" class="text-[11px] text-amber-300 font-medium truncate">09:00 • Pleasant & Clear</span>
           </div>
 
-          <div class="flex items-center gap-2">
-            <span id="highLowBadge" class="text-[11px] text-slate-400 font-mono hidden sm:inline">H: 28°C • L: 18°C</span>
-            <div class="flex items-center gap-1 bg-slate-900/80 p-0.5 rounded-lg border border-slate-800">
-              <button type="button" id="chartModeTemp" class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">Temp Curve</button>
-              <button type="button" id="chartModeBoth" class="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 hover:text-slate-200 transition">+ Feels Like</button>
+          <div class="flex items-center gap-2.5">
+            <span id="highLowBadge" class="text-[11px] text-slate-200/90 font-mono hidden sm:inline">H: 28°C • L: 18°C</span>
+            <div class="glass-pill px-2.5 py-1 rounded-lg flex items-center gap-2.5 text-[10px] font-medium">
+              <span class="flex items-center gap-1 text-amber-300">
+                <span class="w-2.5 h-0.5 bg-amber-400 rounded-full inline-block"></span>Temp
+              </span>
+              <span class="flex items-center gap-1 text-sky-300">
+                <span class="w-2.5 h-0.5 border-b-2 border-dashed border-sky-400 inline-block"></span>Feels Like
+              </span>
             </div>
           </div>
         </div>
@@ -149,8 +160,8 @@
         </div>
 
         <div class="shrink-0 mt-1 pt-1 border-t border-slate-800/70 flex items-center justify-between text-[10px] text-slate-400">
-          <span>Click any point on the curve to sync Udaipur time</span>
-          <span id="windHumidityMeta" class="font-mono text-slate-300">Wind: 11 km/h NE • Humidity: 60%</span>
+          <span>Click any point on the curve to sync Udaipur & world clocks</span>
+          <span id="windHumidityMeta" class="font-mono text-slate-300">Wind: 11 km/h NE • AQI: 132</span>
         </div>
       </div>
 
@@ -176,20 +187,20 @@
               <line x1="12" y1="60" x2="208" y2="60" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/>
               <path d="M 20 60 Q 110 -15 200 60" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3"/>
               <path id="sunArcActive" d="M 20 60 Q 110 -15 200 60" fill="none" stroke="url(#sunArcGrad)" stroke-width="3" stroke-linecap="round"/>
-              <circle id="sunDotGlow" cx="55" cy="36" r="9" fill="#fbbf24" fill-opacity="0.25"/>
-              <circle id="sunDot" cx="55" cy="36" r="5" fill="#fbbf24" stroke="#fff" stroke-width="1.5"/>
-              <text x="110" y="72" fill="#cbd5e1" font-size="10" font-family="JetBrains Mono" text-anchor="middle" id="solarNoonLabel">Noon 12:18 PM</text>
+              <circle id="sunDotGlow" cx="68" cy="27" r="9" fill="#fbbf24" fill-opacity="0.25"/>
+              <circle id="sunDot" cx="68" cy="27" r="5" fill="#fbbf24" stroke="#fff" stroke-width="1.5"/>
+              <text x="110" y="72" fill="#cbd5e1" font-size="10" font-family="JetBrains Mono" text-anchor="middle" id="solarNoonLabel">Noon 12:18</text>
             </svg>
           </div>
 
           <div class="grid grid-cols-2 gap-1 pt-1 border-t border-slate-800/70">
             <div>
               <p class="text-[9px] text-slate-400">Sunrise</p>
-              <p id="sunriseVal" class="text-xs font-bold font-mono text-amber-300">06:41 AM</p>
+              <p id="sunriseVal" class="text-xs font-bold font-mono text-amber-300">06:41</p>
             </div>
             <div class="text-right">
               <p class="text-[9px] text-slate-400">Sunset</p>
-              <p id="sunsetVal" class="text-xs font-bold font-mono text-orange-300">05:56 PM</p>
+              <p id="sunsetVal" class="text-xs font-bold font-mono text-orange-300">17:56</p>
             </div>
           </div>
         </div>
@@ -213,7 +224,7 @@
             </div>
           </div>
 
-          <p id="moonMetaText" class="text-[9px] text-slate-400 font-mono truncate pt-1 border-t border-slate-800/70">Rise: 09:48 PM • 20.4d</p>
+          <p id="moonMetaText" class="text-[9px] text-slate-400 font-mono truncate pt-1 border-t border-slate-800/70">Rise: 21:48 • 20.4d</p>
         </div>
 
         <!-- Card 3: Rain Chance -->
@@ -251,7 +262,7 @@
 
         <!-- Top row inside Center Hub: Live Badge & Date -->
         <div class="relative z-10 flex flex-wrap items-center justify-between gap-2">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-[10px] font-medium text-slate-300">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full glass-pill text-[10px] font-medium text-slate-200">
             <span id="clockLiveDot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
             <span id="clockModeLabel">LIVE INDIAN STANDARD TIME (UDAIPUR)</span>
             <button type="button" id="resetLiveBtn" class="hidden ml-1 text-amber-400 hover:text-amber-300 underline font-semibold">Return to Live</button>
@@ -265,27 +276,27 @@
         <div class="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-8 my-auto">
           <div class="flex items-baseline justify-center gap-2">
             <div id="centerTimeDisplay" class="font-mono text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white clock-glow select-all leading-none">
-              08:17:16
+              09:31:13
             </div>
             <div class="flex flex-col items-start">
-              <span id="centerAmPm" class="font-mono text-base sm:text-xl font-bold text-amber-400 leading-none">AM</span>
+              <span id="centerAmPm" class="font-mono text-base sm:text-xl font-bold text-amber-400 leading-none">24H</span>
               <span class="font-mono text-[10px] text-slate-400">IST</span>
             </div>
           </div>
 
           <div class="flex flex-wrap items-center justify-center gap-2">
-            <div class="px-2.5 py-1 rounded-lg bg-slate-900/75 border border-slate-700/70 flex items-center gap-1.5 text-xs">
-              <span class="text-amber-400 font-semibold">Temp:</span>
-              <span id="centerCurrentTemp" class="font-mono font-bold text-white">21°C</span>
-              <span id="centerFeelsLike" class="text-slate-400 text-[11px] font-mono">(Feels 21°C)</span>
+            <div class="px-2.5 py-1 rounded-lg glass-pill flex items-center gap-1.5 text-xs">
+              <span class="text-amber-300 font-semibold">Temp:</span>
+              <span id="centerCurrentTemp" class="font-mono font-bold text-white">23°C</span>
+              <span id="centerFeelsLike" class="text-sky-200 text-[11px] font-mono">(Feels 24°C)</span>
             </div>
-            <div class="px-2.5 py-1 rounded-lg bg-slate-900/75 border border-slate-700/70 flex items-center gap-1.5 text-xs">
-              <span class="text-sky-400 font-semibold">Sky:</span>
+            <div class="px-2.5 py-1 rounded-lg glass-pill flex items-center gap-1.5 text-xs">
+              <span class="text-sky-300 font-semibold">Sky:</span>
               <span id="centerSkyText" class="font-medium text-white">Pleasant & Clear</span>
             </div>
-            <div class="px-2.5 py-1 rounded-lg bg-slate-900/75 border border-slate-700/70 flex items-center gap-1.5 text-xs">
-              <span class="text-indigo-300 font-semibold">Sun Alt:</span>
-              <span id="centerSunAlt" class="font-mono font-bold text-white">+18.5° ESE</span>
+            <div class="px-2.5 py-1 rounded-lg glass-pill flex items-center gap-1.5 text-xs">
+              <span class="text-indigo-200 font-semibold">Sun Alt:</span>
+              <span id="centerSunAlt" class="font-mono font-bold text-white">+32.4° ESE</span>
             </div>
           </div>
         </div>
@@ -293,24 +304,65 @@
         <!-- Bottom row inside Center Hub: Compact Interactive Time Scrubber -->
         <div class="relative z-10 w-full max-w-2xl mx-auto pt-1.5 border-t border-slate-800/70">
           <div class="flex items-center justify-between text-[10px] text-slate-400 mb-0.5">
-            <span>Interactive Udaipur Time Scrubber (Drag to preview any hour)</span>
+            <span>Interactive Udaipur Time Scrubber (Syncs Sun Arc, Temp & World Clocks)</span>
             <span id="scrubberValueLabel" class="font-mono text-amber-300">Live Clock Synced</span>
           </div>
-          <input id="timeScrubber" type="range" min="0" max="1439" value="497" class="w-full" aria-label="Simulate time of day in minutes" />
-          <div class="flex justify-between text-[9px] font-mono text-slate-500">
-            <span>12:00 AM</span>
-            <span>06:41 AM (Rise)</span>
-            <span>12:18 PM (Noon)</span>
-            <span>05:56 PM (Set)</span>
-            <span>11:59 PM</span>
+          <input id="timeScrubber" type="range" min="0" max="1439" value="571" class="w-full" aria-label="Simulate time of day in minutes" />
+          <div id="scrubberTicks" class="flex justify-between text-[9px] font-mono text-slate-500">
+            <span>00:00</span>
+            <span>06:41 (Rise)</span>
+            <span>12:18 (Noon)</span>
+            <span>17:56 (Set)</span>
+            <span>23:59</span>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- ROW 4 (BOTTOM): 6-Card Udaipur City & Atmospheric Telemetry Strip -->
-    <footer class="shrink-0 grid grid-cols-3 sm:grid-cols-6 gap-2">
-      <!-- 1. Air Quality Index (AQI) - Interactive -->
+    <!-- ROW 4 (BOTTOM): World Time Zones (Washington, UTC, Moscow, Beijing) + Udaipur City Telemetry -->
+    <footer class="shrink-0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2">
+      
+      <!-- World Clock 1: Washington, D.C. -->
+      <div class="glass-card rounded-xl p-2 flex items-center justify-between border-l-2 border-l-blue-400/60">
+        <div class="min-w-0">
+          <p class="text-[9px] uppercase tracking-wider text-blue-300 font-semibold truncate">Washington, D.C.</p>
+          <p id="tzWashingtonTime" class="text-xs sm:text-sm font-bold font-mono text-white truncate">00:04:39</p>
+          <p id="tzWashingtonMeta" class="text-[9px] text-slate-400 font-mono truncate">EDT (UTC-4) • -9h 30m</p>
+        </div>
+        <div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-blue-300 font-mono text-[10px] font-bold shrink-0">IAD</div>
+      </div>
+
+      <!-- World Clock 2: UTC -->
+      <div class="glass-card rounded-xl p-2 flex items-center justify-between border-l-2 border-l-slate-400/60">
+        <div class="min-w-0">
+          <p class="text-[9px] uppercase tracking-wider text-slate-300 font-semibold truncate">Universal Time</p>
+          <p id="tzUtcTime" class="text-xs sm:text-sm font-bold font-mono text-white truncate">04:04:39</p>
+          <p class="text-[9px] text-slate-400 font-mono truncate">UTC+00:00 • -5h 30m</p>
+        </div>
+        <div class="w-7 h-7 rounded-lg bg-slate-500/10 border border-slate-500/25 flex items-center justify-center text-slate-300 font-mono text-[10px] font-bold shrink-0">UTC</div>
+      </div>
+
+      <!-- World Clock 3: Moscow -->
+      <div class="glass-card rounded-xl p-2 flex items-center justify-between border-l-2 border-l-rose-400/60">
+        <div class="min-w-0">
+          <p class="text-[9px] uppercase tracking-wider text-rose-300 font-semibold truncate">Moscow, Russia</p>
+          <p id="tzMoscowTime" class="text-xs sm:text-sm font-bold font-mono text-white truncate">07:04:39</p>
+          <p class="text-[9px] text-slate-400 font-mono truncate">MSK (UTC+3) • -2h 30m</p>
+        </div>
+        <div class="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-300 font-mono text-[10px] font-bold shrink-0">MSK</div>
+      </div>
+
+      <!-- World Clock 4: Beijing -->
+      <div class="glass-card rounded-xl p-2 flex items-center justify-between border-l-2 border-l-amber-400/60">
+        <div class="min-w-0">
+          <p class="text-[9px] uppercase tracking-wider text-amber-300 font-semibold truncate">Beijing, China</p>
+          <p id="tzBeijingTime" class="text-xs sm:text-sm font-bold font-mono text-white truncate">12:04:39</p>
+          <p class="text-[9px] text-slate-400 font-mono truncate">CST (UTC+8) • +2h 30m</p>
+        </div>
+        <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-300 font-mono text-[10px] font-bold shrink-0">PEK</div>
+      </div>
+
+      <!-- City Telemetry 5: Air Quality Index (AQI) - Interactive -->
       <button type="button" id="aqiCycleBtn" class="glass-card rounded-xl p-2 text-left hover:border-amber-500/40 transition flex items-center justify-between group">
         <div class="min-w-0">
           <p class="text-[9px] uppercase tracking-wider text-slate-400 flex items-center gap-1">
@@ -323,7 +375,7 @@
         <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-300 font-mono text-[10px] font-bold shrink-0">AQI</div>
       </button>
 
-      <!-- 2. Lake Pichola Hydrology - Interactive -->
+      <!-- City Telemetry 6: Lake Pichola Hydrology - Interactive -->
       <button type="button" id="lakeCycleBtn" class="glass-card rounded-xl p-2 text-left hover:border-sky-400/40 transition flex items-center justify-between group">
         <div class="min-w-0">
           <p class="text-[9px] uppercase tracking-wider text-slate-400 flex items-center gap-1">
@@ -336,45 +388,16 @@
         <div class="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-300 font-mono text-[10px] font-bold shrink-0">H2O</div>
       </button>
 
-      <!-- 3. Humidity & Dew Point -->
-      <div class="glass-card rounded-xl p-2 flex items-center justify-between">
+      <!-- City Telemetry 7: Wind & Gusts -->
+      <div class="glass-card rounded-xl p-2 flex items-center justify-between col-span-2 sm:col-span-1">
         <div class="min-w-0">
-          <p class="text-[9px] uppercase tracking-wider text-slate-400 truncate">Humidity & Dew</p>
-          <p id="footerHumidity" class="text-xs sm:text-sm font-bold font-mono text-white truncate">60%</p>
-          <p id="footerDewPoint" class="text-[9px] text-slate-400 font-mono truncate">Dew point: 13°C</p>
-        </div>
-        <div class="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-mono text-[10px] font-bold shrink-0">RH</div>
-      </div>
-
-      <!-- 4. Wind & Gusts -->
-      <div class="glass-card rounded-xl p-2 flex items-center justify-between">
-        <div class="min-w-0">
-          <p class="text-[9px] uppercase tracking-wider text-slate-400 truncate">Wind & Gusts</p>
+          <p class="text-[9px] uppercase tracking-wider text-slate-400 truncate">Wind & Breeze</p>
           <p id="footerWind" class="text-xs sm:text-sm font-bold font-mono text-white truncate">11 km/h</p>
           <p class="text-[9px] text-slate-400 font-mono truncate">Dir: 49° NE • Gust 7</p>
         </div>
         <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-mono text-[10px] font-bold shrink-0">NE</div>
       </div>
 
-      <!-- 5. Pressure & Visibility -->
-      <div class="glass-card rounded-xl p-2 flex items-center justify-between">
-        <div class="min-w-0">
-          <p class="text-[9px] uppercase tracking-wider text-slate-400 truncate">Pressure & Vis</p>
-          <p class="text-xs sm:text-sm font-bold font-mono text-white truncate">1018 hPa</p>
-          <p class="text-[9px] text-slate-400 font-mono truncate">Vis: 4.0 km (Haze)</p>
-        </div>
-        <div class="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300 font-mono text-[10px] font-bold shrink-0">hPa</div>
-      </div>
-
-      <!-- 6. UV, Comfort & Aravalli Basin -->
-      <div class="glass-card rounded-xl p-2 flex items-center justify-between">
-        <div class="min-w-0">
-          <p class="text-[9px] uppercase tracking-wider text-slate-400 truncate">UV & Comfort</p>
-          <p id="footerUv" class="text-xs sm:text-sm font-bold font-mono text-emerald-300 truncate">UV 6 • Ideal</p>
-          <p class="text-[9px] text-slate-400 font-mono truncate">Peak 51° • Rain 647mm/yr</p>
-        </div>
-        <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-mono text-[10px] font-bold shrink-0">UV</div>
-      </div>
     </footer>
 
   </div>
@@ -398,10 +421,10 @@
         precipMm: '0.0 mm',
         rainSlots: [0, 4, 2, 0],
         wind: '11 km/h NE',
-        humidity: 60,
-        uv: 'UV 6 • Ideal',
         aqi: '132 (Mod-Poor)',
         aqiSub: 'PM2.5: 63 • PM10: 53',
+        washOffsetMin: -9 * 60 - 30,
+        washLabel: 'EDT (UTC-4) • -9h 30m',
         tempsC: [20, 20, 19, 19, 19, 19, 18, 19, 21, 23, 24, 26, 27, 27, 28, 28, 28, 26, 24, 23, 22, 22, 21, 20],
         feelsC: [19, 19, 18, 18, 18, 18, 18, 19, 21, 24, 25, 27, 28, 29, 29, 29, 28, 26, 24, 23, 22, 22, 21, 20],
         rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 4, 4, 4, 4, 3, 2, 2, 0, 0, 0, 0, 0, 0]
@@ -423,10 +446,10 @@
         precipMm: '0.0 mm',
         rainSlots: [0, 2, 1, 0],
         wind: '10 km/h NE',
-        humidity: 53,
-        uv: 'UV 6 • Ideal',
         aqi: '118 (Moderate)',
         aqiSub: 'PM2.5: 54 • PM10: 49',
+        washOffsetMin: -10 * 60 - 30,
+        washLabel: 'EST (UTC-5) • -10h 30m',
         tempsC: [20, 19, 19, 18, 18, 18, 18, 19, 21, 23, 25, 27, 28, 28, 29, 29, 28, 26, 25, 23, 22, 21, 21, 20],
         feelsC: [19, 19, 18, 18, 18, 18, 18, 19, 21, 23, 26, 27, 29, 29, 30, 29, 28, 26, 25, 23, 22, 21, 21, 20],
         rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0]
@@ -448,10 +471,10 @@
         precipMm: '0.0 mm',
         rainSlots: [0, 0, 0, 0],
         wind: '9 km/h ENE',
-        humidity: 48,
-        uv: 'UV 7 • High',
         aqi: '112 (Moderate)',
         aqiSub: 'PM2.5: 44 • PM10: 46',
+        washOffsetMin: -10 * 60 - 30,
+        washLabel: 'EST (UTC-5) • -10h 30m',
         tempsC: [19, 19, 18, 18, 18, 17, 17, 19, 22, 24, 26, 27, 28, 29, 29, 29, 28, 27, 25, 24, 22, 21, 20, 20],
         feelsC: [19, 19, 18, 18, 18, 17, 17, 19, 22, 24, 26, 28, 29, 30, 30, 29, 28, 27, 25, 24, 22, 21, 20, 20],
         rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -473,10 +496,10 @@
         precipMm: '0.0 mm',
         rainSlots: [0, 0, 0, 0],
         wind: '9 km/h NE',
-        humidity: 41,
-        uv: 'UV 7 • High',
         aqi: '108 (Moderate)',
         aqiSub: 'PM2.5: 40 • PM10: 45',
+        washOffsetMin: -10 * 60 - 30,
+        washLabel: 'EST (UTC-5) • -10h 30m',
         tempsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 24, 26, 28, 29, 29, 30, 30, 29, 27, 25, 24, 23, 22, 21, 20],
         feelsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 24, 26, 28, 29, 30, 30, 30, 29, 27, 25, 24, 23, 22, 21, 20],
         rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -498,11 +521,11 @@
     let state = {
       dayIndex: 0,
       useFahrenheit: false,
-      use24Hour: false,
-      showFeelsLike: false,
+      use24Hour: true,
+      showFeelsLike: true,
       isSimulatingTime: false,
-      simulatedMinutes: 8 * 60 + 17,
-      selectedHour: 8,
+      simulatedMinutes: 9 * 60 + 39,
+      selectedHour: 9,
       aqiViewIdx: 0,
       cityStatIdx: 0
     };
@@ -525,6 +548,22 @@
       const suffix = h >= 12 ? 'PM' : 'AM';
       const h12 = h % 12 || 12;
       return h12 + ' ' + suffix;
+    }
+
+    function formatWorldClock(istTotalMin, seconds, offsetFromIstMin) {
+      let targetMin = (istTotalMin + offsetFromIstMin) % 1440;
+      if (targetMin < 0) targetMin += 1440;
+      const h24 = Math.floor(targetMin / 60);
+      const m = targetMin % 60;
+      const sStr = String(seconds).padStart(2, '0');
+      const mStr = String(m).padStart(2, '0');
+
+      if (state.use24Hour) {
+        return `${String(h24).padStart(2, '0')}:${mStr}:${sStr}`;
+      }
+      const suffix = h24 >= 12 ? 'PM' : 'AM';
+      const h12 = h24 % 12 || 12;
+      return `${String(h12).padStart(2, '0')}:${mStr}:${sStr} ${suffix}`;
     }
 
     function getSkyDescription(hour, rainProb) {
@@ -703,16 +742,33 @@
       document.getElementById('selectedHourTemp').textContent = formatTemp(curTempC);
       document.getElementById('selectedHourSummary').textContent = `${formatHourLabel(hr)} • ${skyDesc}`;
       document.getElementById('highLowBadge').textContent = `H: ${formatTemp(maxC)} • L: ${formatTemp(minC)}`;
-      document.getElementById('windHumidityMeta').textContent = `Wind: ${dayObj.wind} • Humidity: ${dayObj.humidity}%`;
+      document.getElementById('windHumidityMeta').textContent = `Wind: ${dayObj.wind} • AQI: ${dayObj.aqi}`;
 
-      document.getElementById('sunriseVal').textContent = dayObj.sunrise;
-      document.getElementById('sunsetVal').textContent = dayObj.sunset;
+      const to24 = (tStr) => {
+        if (!state.use24Hour) return tStr;
+        return tStr.replace(/(\d{2}):(\d{2})\s*(AM|PM)/g, (_, hh, mm, ap) => {
+          let h = parseInt(hh, 10);
+          if (ap === 'PM' && h < 12) h += 12;
+          if (ap === 'AM' && h === 12) h = 0;
+          return `${String(h).padStart(2, '0')}:${mm}`;
+        });
+      };
+
+      document.getElementById('sunriseVal').textContent = to24(dayObj.sunrise);
+      document.getElementById('sunsetVal').textContent = to24(dayObj.sunset);
       document.getElementById('daylengthBadge').textContent = dayObj.daylength;
-      document.getElementById('solarNoonLabel').textContent = `Noon ${dayObj.solarNoon}`;
+      document.getElementById('solarNoonLabel').textContent = `Noon ${to24(dayObj.solarNoon)}`;
 
       document.getElementById('moonPctVal').textContent = `${dayObj.moonPct}%`;
       document.getElementById('moonPhaseName').textContent = dayObj.moonPhase;
-      document.getElementById('moonMetaText').textContent = dayObj.moonMeta;
+      document.getElementById('moonMetaText').textContent = to24(dayObj.moonMeta);
+
+      const ticksEl = document.getElementById('scrubberTicks');
+      if (ticksEl) {
+        ticksEl.innerHTML = state.use24Hour
+          ? `<span>00:00</span><span>${to24(dayObj.sunrise)} (Rise)</span><span>${to24(dayObj.solarNoon)} (Noon)</span><span>${to24(dayObj.sunset)} (Set)</span><span>23:59</span>`
+          : `<span>12:00 AM</span><span>${dayObj.sunrise} (Rise)</span><span>${dayObj.solarNoon} (Noon)</span><span>${dayObj.sunset} (Set)</span><span>11:59 PM</span>`;
+      }
       updateMoonSvg(dayObj.moonPct);
 
       document.getElementById('rainChanceVal').textContent = `${dayObj.rainChance}%`;
@@ -729,10 +785,7 @@
       document.getElementById('centerSkyText').textContent = skyDesc;
       document.getElementById('centerDateDisplay').textContent = `${dayObj.label} • ${skyDesc}`;
 
-      document.getElementById('footerHumidity').textContent = `${dayObj.humidity}%`;
-      document.getElementById('footerDewPoint').textContent = `Dew point: ${formatTemp(13)}`;
       document.getElementById('footerWind').textContent = dayObj.wind.split(' ')[0] + ' km/h';
-      document.getElementById('footerUv').textContent = dayObj.uv;
 
       if (state.aqiViewIdx === 0) {
         document.getElementById('footerAqi').textContent = dayObj.aqi;
@@ -747,8 +800,7 @@
       document.getElementById('footerLakeVal').textContent = cityView.val;
       document.getElementById('footerLakeSub').textContent = cityView.sub;
 
-      document.getElementById('unitLabelC').className = state.useFahrenheit ? 'text-slate-400' : 'text-amber-400 font-bold';
-      document.getElementById('unitLabelF').className = state.useFahrenheit ? 'text-amber-400 font-bold' : 'text-slate-400';
+
 
       initOrUpdateChart();
       updateClockDisplay();
@@ -799,6 +851,13 @@
       ].join(':');
 
       document.getElementById('centerTimeDisplay').textContent = timeStr;
+
+      // Update World Time Zones (Washington, UTC, Moscow, Beijing)
+      document.getElementById('tzWashingtonTime').textContent = formatWorldClock(totalMinutes, seconds, dayObj.washOffsetMin);
+      document.getElementById('tzWashingtonMeta').textContent = dayObj.washLabel;
+      document.getElementById('tzUtcTime').textContent = formatWorldClock(totalMinutes, seconds, -330);
+      document.getElementById('tzMoscowTime').textContent = formatWorldClock(totalMinutes, seconds, -150);
+      document.getElementById('tzBeijingTime').textContent = formatWorldClock(totalMinutes, seconds, 150);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -813,30 +872,9 @@
         });
       });
 
-      document.getElementById('unitToggleBtn').addEventListener('click', () => {
-        state.useFahrenheit = !state.useFahrenheit;
-        renderAll();
-      });
 
-      document.getElementById('timeFormatBtn').addEventListener('click', () => {
-        state.use24Hour = !state.use24Hour;
-        renderAll();
-      });
 
-      const btnTemp = document.getElementById('chartModeTemp');
-      const btnBoth = document.getElementById('chartModeBoth');
-      btnTemp.addEventListener('click', () => {
-        state.showFeelsLike = false;
-        btnTemp.className = 'px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30 transition';
-        btnBoth.className = 'px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 hover:text-slate-200 transition';
-        initOrUpdateChart();
-      });
-      btnBoth.addEventListener('click', () => {
-        state.showFeelsLike = true;
-        btnBoth.className = 'px-2 py-0.5 rounded-md text-[10px] font-medium bg-sky-500/20 text-sky-300 border border-sky-500/30 transition';
-        btnTemp.className = 'px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 hover:text-slate-200 transition';
-        initOrUpdateChart();
-      });
+
 
       document.getElementById('aqiCycleBtn').addEventListener('click', () => {
         state.aqiViewIdx = (state.aqiViewIdx + 1) % AQI_VIEWS.length;
