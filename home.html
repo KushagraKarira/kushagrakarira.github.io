@@ -1,99 +1,859 @@
-<!DOCTYPE HTML>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-status-bar" content="#aa7700">
-    <meta name="theme-color" content="black">
-    <meta name="description" content="...">
-    <meta name="author" content="Kushagra Karira">
-    <link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
-    <link rel="stylesheet" href="./style.css">
-    <link rel="apple-touch-icon" href="favicon.svg" color="#00a0fc">
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <meta name="theme-color" content="#00a0fc">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <title>About</title>
-    <script src="script.js"></script>
-    <style>
-        .shortcuts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            padding: 10px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Udaipur Weather & Astronomical Time Dashboard</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
         }
-
-        .shortcut-item {
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .shortcut-item a {
-            text-decoration: none;
-            color: #333;
-            display: block;
-        }
-    </style>
-	<script src="./header.js" defer></script>
-</head>
-<script>
-    if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-            navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
-        });
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 55%, #090d16 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-</script>
-
-<body>
-    <table class="header" data-site-header></table>
-    <br>
-    <iframe style="display: block; margin-left: auto; margin-right: auto;" src="https://global-mind.org/gcpdot/gcp.html"
-        height="48" width="48" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-
-    <h1>
-        <div id="currentTime" style="text-align: center; margin-top: 10px;">
+    .glass-card {
+      background: rgba(15, 23, 42, 0.68);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+    .glass-card-highlight {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.78) 0%, rgba(15, 23, 42, 0.88) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.65), 0 0 35px -10px rgba(251, 191, 36, 0.12);
+    }
+    .clock-glow {
+      text-shadow: 0 0 40px rgba(251, 191, 36, 0.22), 0 4px 16px rgba(0, 0, 0, 0.6);
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3b82f6 0%, #fbbf24 50%, #6366f1 100%);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 3px solid #f59e0b;
+      margin-top: -6px;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-amber-500/30 selection:text-amber-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-5 min-h-screen justify-between">
+    
+    <!-- Header Bar: Location & Controls -->
+    <header class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-400 shadow-inner">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
         </div>
-    </h1>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">Udaipur, Rajasthan</h1>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">City of Lakes</span>
+          </div>
+          <p class="text-xs text-slate-400 font-mono">24.5854° N, 73.7125° E • Elevation 598m • IST (UTC+05:30)</p>
+        </div>
+      </div>
 
-    <script>
-        function displayTime() {
-            const now = new Date();
-            const options = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false // Use 24-hour format
-            };
-            const formattedTime = now.toLocaleString(['en-IN', 'en-US'], options);
-            const timeElement = document.getElementById("currentTime");
-            if (timeElement) {
-                timeElement.textContent = formattedTime;
-            } else {
-                console.error("Element with ID 'currentTime' not found.");
-            }
+      <!-- Day Selector & Unit Toggles -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="inline-flex rounded-xl bg-slate-900/90 p-1 border border-slate-800" id="dayTabs">
+          <button type="button" data-day="0" class="day-tab px-2.5 py-1 rounded-lg text-xs font-medium transition-all bg-amber-500 text-slate-950 font-semibold">Sat 31 Oct</button>
+          <button type="button" data-day="1" class="day-tab px-2.5 py-1 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">Sun 01 Nov</button>
+          <button type="button" data-day="2" class="day-tab px-2.5 py-1 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">Mon 02 Nov</button>
+          <button type="button" data-day="3" class="day-tab px-2.5 py-1 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">Tue 03 Nov</button>
+        </div>
+
+        <button type="button" id="unitToggleBtn" class="px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-slate-200 transition flex items-center gap-1.5">
+          <span id="unitLabelC" class="text-amber-400 font-bold">°C</span>
+          <span class="text-slate-600">/</span>
+          <span id="unitLabelF" class="text-slate-400">°F</span>
+        </button>
+
+        <button type="button" id="timeFormatBtn" class="px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-slate-200 transition">
+          12H / 24H
+        </button>
+      </div>
+    </header>
+
+    <!-- TOP SECTION: Weather Temperature Graph + Sunrise/Sunset + Moon % + Rain Chance -->
+    <section aria-label="Top Weather & Astronomical Metrics" class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      
+      <!-- Top-Left/Main: Hourly Weather Temperature Graph (7 cols on lg) -->
+      <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">24-Hour Temperature & Rain Trend</h2>
+            </div>
+            <div class="flex items-baseline gap-3 mt-1">
+              <span id="selectedHourTemp" class="text-2xl sm:text-3xl font-bold text-white font-mono">21°C</span>
+              <span id="selectedHourSummary" class="text-xs sm:text-sm text-amber-300 font-medium">08:00 AM • Pleasant & Clear</span>
+              <span id="highLowBadge" class="text-xs text-slate-400 font-mono ml-auto">H: 28°C • L: 18°C</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+            <button type="button" id="chartModeTemp" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">Temp Curve</button>
+            <button type="button" id="chartModeBoth" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition">+ Feels Like</button>
+          </div>
+        </div>
+
+        <!-- Fixed height chart container per guidelines -->
+        <div class="relative h-52 sm:h-56 w-full">
+          <canvas id="tempChart"></canvas>
+        </div>
+
+        <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2">
+          <span class="flex items-center gap-1.5">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            Hover or click any hour on the curve to inspect Udaipur conditions
+          </span>
+          <span id="windHumidityMeta" class="font-mono text-slate-300">Wind: 11 km/h NE • Humidity: 60%</span>
+        </div>
+      </div>
+
+      <!-- Top-Right: Sunrise/Sunset, Moon %, and Rain Chance Cards (5 cols on lg) -->
+      <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3.5">
+        
+        <!-- Card 1: Sunrise & Sunset with Live Solar Horizon Arc -->
+        <div class="glass-card rounded-2xl p-4 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-amber-300/90 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+              </svg>
+              Sunrise & Sunset
+            </span>
+            <span id="daylengthBadge" class="text-[11px] font-mono text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded-md">11h 15m daylight</span>
+          </div>
+
+          <!-- SVG Solar Arc -->
+          <div class="my-1.5 flex items-center justify-center">
+            <svg viewBox="0 0 220 74" class="w-full max-w-[230px] h-16 overflow-visible">
+              <defs>
+                <linearGradient id="sunArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.35"/>
+                  <stop offset="50%" stop-color="#fbbf24" stop-opacity="0.95"/>
+                  <stop offset="100%" stop-color="#f97316" stop-opacity="0.35"/>
+                </linearGradient>
+              </defs>
+              <!-- Horizon Line -->
+              <line x1="12" y1="60" x2="208" y2="60" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <!-- Background Dashed Arc -->
+              <path d="M 20 60 Q 110 -15 200 60" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3"/>
+              <!-- Active Lit Solar Path -->
+              <path id="sunArcActive" d="M 20 60 Q 110 -15 200 60" fill="none" stroke="url(#sunArcGrad)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Sun Position Dot -->
+              <circle id="sunDotGlow" cx="55" cy="36" r="9" fill="#fbbf24" fill-opacity="0.25"/>
+              <circle id="sunDot" cx="55" cy="36" r="5" fill="#fbbf24" stroke="#fff" stroke-width="1.5"/>
+              <text x="20" y="72" fill="#94a3b8" font-size="9" font-family="JetBrains Mono" text-anchor="start">105° E</text>
+              <text x="110" y="72" fill="#cbd5e1" font-size="9" font-family="JetBrains Mono" text-anchor="middle" id="solarNoonLabel">Noon 12:18 PM</text>
+              <text x="200" y="72" fill="#94a3b8" font-size="9" font-family="JetBrains Mono" text-anchor="end">255° W</text>
+            </svg>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/70">
+            <div>
+              <p class="text-[11px] text-slate-400">Sunrise</p>
+              <p id="sunriseVal" class="text-sm sm:text-base font-bold font-mono text-amber-300">06:41 AM</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[11px] text-slate-400">Sunset</p>
+              <p id="sunsetVal" class="text-sm sm:text-base font-bold font-mono text-orange-300">05:56 PM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Moon Illumination % & Phase Visual -->
+        <div class="glass-card rounded-2xl p-4 flex items-center justify-between gap-3">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-indigo-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+              </svg>
+              <span class="text-xs font-semibold uppercase tracking-wider text-indigo-300">Moon Illumination</span>
+            </div>
+            <div class="mt-1.5 flex items-baseline gap-2">
+              <span id="moonPctVal" class="text-2xl sm:text-3xl font-bold font-mono text-white">72%</span>
+              <span id="moonPhaseName" class="text-xs font-medium text-indigo-200 bg-indigo-500/20 border border-indigo-400/30 px-2 py-0.5 rounded-full">Waning Gibbous</span>
+            </div>
+            <p id="moonMetaText" class="text-[11px] text-slate-400 font-mono mt-1.5">Moonrise: 09:48 PM • Age: 20.4d</p>
+          </div>
+
+          <!-- Dynamic SVG Moon Disc -->
+          <div class="w-14 h-14 rounded-full bg-slate-900/90 border border-indigo-400/30 flex items-center justify-center p-1.5 shadow-inner shrink-0">
+            <svg id="moonSvg" viewBox="0 0 64 64" class="w-11 h-11">
+              <circle cx="32" cy="32" r="28" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+              <!-- Lit portion rendered dynamically via JS -->
+              <path id="moonLitPath" d="M 32 4 A 28 28 0 0 0 32 60 A 13 28 0 0 0 32 4 Z" fill="#e2e8f0"/>
+              <!-- Subtle lunar craters -->
+              <circle cx="24" cy="22" r="4" fill="#94a3b8" fill-opacity="0.35"/>
+              <circle cx="38" cy="40" r="5.5" fill="#94a3b8" fill-opacity="0.28"/>
+              <circle cx="22" cy="42" r="3" fill="#94a3b8" fill-opacity="0.3"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 3: Rain Chance & Precipitation Probability -->
+        <div class="glass-card rounded-2xl p-4 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+              </svg>
+              <span class="text-xs font-semibold uppercase tracking-wider text-sky-300">Rain Chance</span>
+            </div>
+            <span id="rainStatusBadge" class="text-[11px] font-medium text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full">Dry & Clear</span>
+          </div>
+
+          <div class="my-1.5 flex items-baseline justify-between">
+            <div class="flex items-baseline gap-2">
+              <span id="rainChanceVal" class="text-2xl sm:text-3xl font-bold font-mono text-white">4%</span>
+              <span class="text-xs text-slate-400">daily probability</span>
+            </div>
+            <span id="precipMmVal" class="text-xs font-mono text-sky-300">0.0 mm expected</span>
+          </div>
+
+          <!-- Rain chance progress bar & mini timeframe breakdown -->
+          <div class="w-full bg-slate-800/90 h-2 rounded-full overflow-hidden">
+            <div id="rainProgressBar" class="bg-gradient-to-r from-sky-400 to-indigo-400 h-full rounded-full transition-all duration-300" style="width: 4%"></div>
+          </div>
+          <div class="grid grid-cols-4 gap-1 mt-2 text-[11px] font-mono text-slate-400 text-center">
+            <div class="bg-slate-900/60 rounded py-0.5"><span class="text-slate-500">Morn</span> <span id="rainMorn" class="text-slate-200">0%</span></div>
+            <div class="bg-slate-900/60 rounded py-0.5"><span class="text-slate-500">Noon</span> <span id="rainNoon" class="text-slate-200">4%</span></div>
+            <div class="bg-slate-900/60 rounded py-0.5"><span class="text-slate-500">Eve</span> <span id="rainEve" class="text-slate-200">2%</span></div>
+            <div class="bg-slate-900/60 rounded py-0.5"><span class="text-slate-500">Night</span> <span id="rainNight" class="text-slate-200">0%</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CENTER HERO SECTION: Live Udaipur Time in the Center -->
+    <main aria-label="Center Udaipur Clock Hub" class="my-auto py-1">
+      <div class="glass-card-highlight rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+        <!-- Ambient decorative radial glow -->
+        <div id="ambientCenterGlow" class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-amber-500/10 blur-3xl transition-all duration-700"></div>
+
+        <div class="relative z-10 flex flex-col items-center">
+          <!-- Mode Pill -->
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs font-medium text-slate-300 mb-3">
+            <span id="clockLiveDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span id="clockModeLabel">LIVE INDIAN STANDARD TIME (UDAIPUR)</span>
+            <button type="button" id="resetLiveBtn" class="hidden ml-1.5 text-amber-400 hover:text-amber-300 underline font-semibold">Return to Live</button>
+          </div>
+
+          <!-- Centerpiece Digital Time -->
+          <div class="flex items-baseline justify-center gap-2 sm:gap-4 my-1">
+            <div id="centerTimeDisplay" class="font-mono text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-white clock-glow select-all">
+              08:06:29
+            </div>
+            <div class="flex flex-col items-start">
+              <span id="centerAmPm" class="font-mono text-lg sm:text-2xl font-bold text-amber-400">AM</span>
+              <span class="font-mono text-xs text-slate-400">IST</span>
+            </div>
+          </div>
+
+          <!-- Date & Current Solar Phase Subtitle -->
+          <p id="centerDateDisplay" class="text-sm sm:text-base text-slate-300 font-medium mt-1">
+            Saturday, 31 October 2026 • Golden Morning over Lake Pichola
+          </p>
+
+          <!-- Current Center Weather Snapshot Pills -->
+          <div class="flex flex-wrap items-center justify-center gap-2.5 mt-4">
+            <div class="px-3.5 py-1.5 rounded-xl bg-slate-900/75 border border-slate-700/70 flex items-center gap-2 text-xs sm:text-sm">
+              <span class="text-amber-400 font-semibold">Current Temp:</span>
+              <span id="centerCurrentTemp" class="font-mono font-bold text-white">21°C</span>
+              <span id="centerFeelsLike" class="text-slate-400 text-xs font-mono">(Feels 21°C)</span>
+            </div>
+            <div class="px-3.5 py-1.5 rounded-xl bg-slate-900/75 border border-slate-700/70 flex items-center gap-2 text-xs sm:text-sm">
+              <span class="text-sky-400 font-semibold">Sky:</span>
+              <span id="centerSkyText" class="font-medium text-white">Clear & Sunny</span>
+            </div>
+            <div class="px-3.5 py-1.5 rounded-xl bg-slate-900/75 border border-slate-700/70 flex items-center gap-2 text-xs sm:text-sm">
+              <span class="text-indigo-300 font-semibold">Sun Altitude:</span>
+              <span id="centerSunAlt" class="font-mono font-bold text-white">+16.4° ESE</span>
+            </div>
+          </div>
+
+          <!-- Interactive Time Scrubber (Explore any hour in Udaipur) -->
+          <div class="w-full max-w-xl mt-6 pt-4 border-t border-slate-800/80">
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+              <span class="font-medium text-slate-300">Interactive Time Scrubber (Simulate Udaipur Sky & Temp)</span>
+              <span id="scrubberValueLabel" class="font-mono text-amber-300">Live Clock Synced</span>
+            </div>
+            <input id="timeScrubber" type="range" min="0" max="1439" value="486" class="w-full" aria-label="Simulate time of day in minutes" />
+            <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+              <span>12:00 AM</span>
+              <span>06:41 AM (Rise)</span>
+              <span>12:18 PM (Noon)</span>
+              <span>05:56 PM (Set)</span>
+              <span>11:59 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- BOTTOM SECTION: Atmospheric Telemetry & Sources -->
+    <footer class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+      <div class="glass-card rounded-xl p-3.5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] uppercase tracking-wider text-slate-400">Humidity & Dew</p>
+          <p id="footerHumidity" class="text-base sm:text-lg font-bold font-mono text-white mt-0.5">60%</p>
+          <p id="footerDewPoint" class="text-[11px] text-slate-400 font-mono">Dew point: 13°C</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-mono text-xs font-bold">RH</div>
+      </div>
+
+      <div class="glass-card rounded-xl p-3.5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] uppercase tracking-wider text-slate-400">Wind & Gusts</p>
+          <p id="footerWind" class="text-base sm:text-lg font-bold font-mono text-white mt-0.5">11 km/h</p>
+          <p class="text-[11px] text-slate-400 font-mono">Direction: 49° NE</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-mono text-xs font-bold">NE</div>
+      </div>
+
+      <div class="glass-card rounded-xl p-3.5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] uppercase tracking-wider text-slate-400">Pressure & Vis</p>
+          <p class="text-base sm:text-lg font-bold font-mono text-white mt-0.5">1018 hPa</p>
+          <p class="text-[11px] text-slate-400 font-mono">Visibility: 10 km</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300 font-mono text-xs font-bold">hPa</div>
+      </div>
+
+      <div class="glass-card rounded-xl p-3.5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] uppercase tracking-wider text-slate-400">UV & Solar Peak</p>
+          <p id="footerUv" class="text-base sm:text-lg font-bold font-mono text-white mt-0.5">UV 6 (High)</p>
+          <p class="text-[11px] text-slate-400 font-mono">Max Alt: 51.0° S</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-mono text-xs font-bold">UV</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Grounded Multi-Day Udaipur Dataset (Oct 31 - Nov 3, 2026)
+    const UDAIPUR_DAYS = [
+      {
+        label: 'Saturday, 31 October 2026',
+        shortLabel: 'Sat 31 Oct',
+        sunrise: '06:41 AM',
+        sunset: '05:56 PM',
+        sunriseMin: 6 * 60 + 41,
+        sunsetMin: 17 * 60 + 56,
+        solarNoon: '12:18 PM',
+        daylength: '11h 15m',
+        moonPct: 72,
+        moonPhase: 'Waning Gibbous',
+        moonMeta: 'Moonrise: 09:48 PM • Age: 20.4d',
+        rainChance: 4,
+        rainStatus: 'Dry & Clear',
+        precipMm: '0.0 mm expected',
+        rainSlots: [0, 4, 2, 0],
+        wind: '11 km/h NE',
+        humidity: 60,
+        uv: 'UV 6 (High)',
+        // 24 hourly temperatures in °C (00:00 to 23:00)
+        tempsC: [20, 20, 19, 19, 19, 19, 18, 19, 21, 23, 24, 26, 27, 27, 28, 28, 28, 26, 24, 23, 22, 22, 21, 20],
+        feelsC: [19, 19, 18, 18, 18, 18, 18, 19, 21, 24, 25, 27, 28, 29, 29, 29, 28, 26, 24, 23, 22, 22, 21, 20],
+        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 4, 4, 4, 4, 3, 2, 2, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        label: 'Sunday, 1 November 2026',
+        shortLabel: 'Sun 01 Nov',
+        sunrise: '06:41 AM',
+        sunset: '05:55 PM',
+        sunriseMin: 6 * 60 + 41,
+        sunsetMin: 17 * 60 + 55,
+        solarNoon: '12:18 PM',
+        daylength: '11h 14m',
+        moonPct: 62,
+        moonPhase: 'Waning Gibbous',
+        moonMeta: 'Moonrise: 10:44 PM • Age: 21.4d',
+        rainChance: 2,
+        rainStatus: 'Mostly Sunny',
+        precipMm: '0.0 mm expected',
+        rainSlots: [0, 2, 1, 0],
+        wind: '10 km/h NE',
+        humidity: 53,
+        uv: 'UV 6 (High)',
+        tempsC: [20, 19, 19, 18, 18, 18, 18, 19, 21, 23, 25, 27, 28, 28, 29, 29, 28, 26, 25, 23, 22, 21, 21, 20],
+        feelsC: [19, 19, 18, 18, 18, 18, 18, 19, 21, 23, 26, 27, 29, 29, 30, 29, 28, 26, 25, 23, 22, 21, 21, 20],
+        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        label: 'Monday, 2 November 2026',
+        shortLabel: 'Mon 02 Nov',
+        sunrise: '06:42 AM',
+        sunset: '05:55 PM',
+        sunriseMin: 6 * 60 + 42,
+        sunsetMin: 17 * 60 + 55,
+        solarNoon: '12:18 PM',
+        daylength: '11h 13m',
+        moonPct: 51,
+        moonPhase: 'Last Quarter',
+        moonMeta: 'Moonrise: 11:39 PM • Age: 22.4d',
+        rainChance: 0,
+        rainStatus: 'Clear Sky',
+        precipMm: '0.0 mm expected',
+        rainSlots: [0, 0, 0, 0],
+        wind: '9 km/h ENE',
+        humidity: 48,
+        uv: 'UV 7 (High)',
+        tempsC: [19, 19, 18, 18, 18, 17, 17, 19, 22, 24, 26, 27, 28, 29, 29, 29, 28, 27, 25, 24, 22, 21, 20, 20],
+        feelsC: [19, 19, 18, 18, 18, 17, 17, 19, 22, 24, 26, 28, 29, 30, 30, 29, 28, 27, 25, 24, 22, 21, 20, 20],
+        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        label: 'Tuesday, 3 November 2026',
+        shortLabel: 'Tue 03 Nov',
+        sunrise: '06:43 AM',
+        sunset: '05:54 PM',
+        sunriseMin: 6 * 60 + 43,
+        sunsetMin: 17 * 60 + 54,
+        solarNoon: '12:18 PM',
+        daylength: '11h 11m',
+        moonPct: 40,
+        moonPhase: 'Waning Crescent',
+        moonMeta: 'Moonrise: 12:31 AM • Age: 23.4d',
+        rainChance: 0,
+        rainStatus: 'Sunny & Dry',
+        precipMm: '0.0 mm expected',
+        rainSlots: [0, 0, 0, 0],
+        wind: '9 km/h NE',
+        humidity: 41,
+        uv: 'UV 7 (High)',
+        tempsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 24, 26, 28, 29, 29, 30, 30, 29, 27, 25, 24, 23, 22, 21, 20],
+        feelsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 24, 26, 28, 29, 30, 30, 30, 29, 27, 25, 24, 23, 22, 21, 20],
+        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ];
+
+    let state = {
+      dayIndex: 0,
+      useFahrenheit: false,
+      use24Hour: false,
+      showFeelsLike: false,
+      isSimulatingTime: false,
+      simulatedMinutes: 8 * 60 + 6,
+      selectedHour: 8
+    };
+
+    function formatTemp(c) {
+      if (state.useFahrenheit) {
+        return Math.round((c * 9) / 5 + 32) + '°F';
+      }
+      return Math.round(c) + '°C';
+    }
+
+    function convertTempNum(c) {
+      return state.useFahrenheit ? Math.round((c * 9) / 5 + 32) : c;
+    }
+
+    function formatHourLabel(h) {
+      if (state.use24Hour) {
+        return String(h).padStart(2, '0') + ':00';
+      }
+      const suffix = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      return h12 + ' ' + suffix;
+    }
+
+    function getSkyDescription(hour, rainProb) {
+      if (rainProb >= 30) return 'Scattered Showers';
+      if (hour < 6) return 'Starlit Night over Lake Pichola';
+      if (hour < 8) return 'Golden Sunrise Glow';
+      if (hour < 11) return 'Pleasant & Clear Morning';
+      if (hour < 16) return 'Warm & Sunny Afternoon';
+      if (hour < 18) return 'Amber Sunset Horizon';
+      return 'Clear & Calm Evening';
+    }
+
+    // Update Moon SVG Disc for Waning Gibbous / Quarter / Crescent
+    function updateMoonSvg(pct) {
+      const rx = Math.abs((pct - 50) / 50) * 28;
+      const sweepInner = pct >= 50 ? 0 : 1;
+      const path = `M 32 4 A 28 28 0 0 0 32 60 A ${rx.toFixed(1)} 28 0 0 ${sweepInner} 32 4 Z`;
+      const moonLit = document.getElementById('moonLitPath');
+      if (moonLit) moonLit.setAttribute('d', path);
+    }
+
+    // Update Solar Arc Dot Position & Altitude based on minutes from midnight
+    function updateSunPosition(totalMinutes, dayObj) {
+      const rise = dayObj.sunriseMin;
+      const set = dayObj.sunsetMin;
+      const dot = document.getElementById('sunDot');
+      const glow = document.getElementById('sunDotGlow');
+      const altText = document.getElementById('centerSunAlt');
+
+      let t = (totalMinutes - rise) / (set - rise);
+      const isDay = t >= 0 && t <= 1;
+      const clampedT = Math.max(0, Math.min(1, t));
+
+      // Quadratic Bezier: P0=(20,60), P1=(110,-15), P2=(200,60)
+      const u = 1 - clampedT;
+      const x = u * u * 20 + 2 * u * clampedT * 110 + clampedT * clampedT * 200;
+      const y = u * u * 60 + 2 * u * clampedT * (-15) + clampedT * clampedT * 60;
+
+      if (dot && glow) {
+        dot.setAttribute('cx', x.toFixed(1));
+        dot.setAttribute('cy', y.toFixed(1));
+        glow.setAttribute('cx', x.toFixed(1));
+        glow.setAttribute('cy', y.toFixed(1));
+        dot.setAttribute('fill', isDay ? '#fbbf24' : '#64748b');
+        glow.setAttribute('fill-opacity', isDay ? '0.28' : '0.08');
+      }
+
+      // Approximate solar altitude in Udaipur (peaks at +51.0 deg at solar noon)
+      const maxAlt = 51.0;
+      const solarAngle = Math.sin(t * Math.PI) * maxAlt;
+      const dir = totalMinutes < 738 ? 'ESE' : (totalMinutes > 745 ? 'WSW' : 'S');
+      if (altText) {
+        const sign = solarAngle >= 0 ? '+' : '';
+        altText.textContent = `${sign}${solarAngle.toFixed(1)}° ${dir}`;
+      }
+    }
+
+    // Initialize Chart.js Hourly Weather Temperature Graph
+    let tempChartInstance = null;
+
+    function initOrUpdateChart() {
+      const dayObj = UDAIPUR_DAYS[state.dayIndex];
+      const labels = Array.from({ length: 24 }, (_, i) => formatHourLabel(i));
+      const dataTemp = dayObj.tempsC.map(convertTempNum);
+      const dataFeels = dayObj.feelsC.map(convertTempNum);
+
+      const ctx = document.getElementById('tempChart').getContext('2d');
+      const grad = ctx.createLinearGradient(0, 0, 0, 220);
+      grad.addColorStop(0, 'rgba(251, 191, 36, 0.42)');
+      grad.addColorStop(1, 'rgba(251, 191, 36, 0.0)');
+
+      const pointRadii = Array.from({ length: 24 }, (_, i) => (i === state.selectedHour ? 6 : 3));
+      const pointBg = Array.from({ length: 24 }, (_, i) => (i === state.selectedHour ? '#ffffff' : '#fbbf24'));
+
+      const datasets = [
+        {
+          label: `Temperature (${state.useFahrenheit ? '°F' : '°C'})`,
+          data: dataTemp,
+          borderColor: '#fbbf24',
+          backgroundColor: grad,
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: pointRadii,
+          pointHoverRadius: 7,
+          pointBackgroundColor: pointBg,
+          pointBorderColor: '#f59e0b',
+          pointBorderWidth: 2
         }
+      ];
 
-        document.addEventListener('DOMContentLoaded', (event) => {
-            setInterval(displayTime, 1000);
-            displayTime();
+      if (state.showFeelsLike) {
+        datasets.push({
+          label: `Feels Like (${state.useFahrenheit ? '°F' : '°C'})`,
+          data: dataFeels,
+          borderColor: '#38bdf8',
+          borderDash: [5, 5],
+          borderWidth: 2,
+          fill: false,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          pointBackgroundColor: '#38bdf8'
         });
-    </script>
-    <br><br>
+      }
 
-    <div class="shortcuts-grid">
-        <div class="shortcut-item"><a href="https://www.google.com">Google</a></div>
-        <div class="shortcut-item"><a href="https://www.youtube.com">YouTube</a></div>
-        <div class="shortcut-item"><a href="https://www.facebook.com">Facebook</a></div>
-        <div class="shortcut-item"><a href="https://www.twitter.com">Twitter</a></div>
-        <div class="shortcut-item"><a href="https://www.instagram.com">Instagram</a></div>
-        <div class="shortcut-item"><a href="https://www.linkedin.com">LinkedIn</a></div>
-        </div>
+      if (tempChartInstance) {
+        tempChartInstance.data.labels = labels;
+        tempChartInstance.data.datasets = datasets;
+        tempChartInstance.update();
+        return;
+      }
 
+      tempChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          onClick: (evt, elements) => {
+            if (elements && elements.length > 0) {
+              const idx = elements[0].index;
+              state.selectedHour = idx;
+              state.isSimulatingTime = true;
+              state.simulatedMinutes = idx * 60;
+              document.getElementById('timeScrubber').value = String(state.simulatedMinutes);
+              renderAll();
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#f8fafc',
+              bodyColor: '#fbbf24',
+              borderColor: 'rgba(251, 191, 36, 0.3)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                afterBody: (items) => {
+                  const idx = items[0].dataIndex;
+                  const rainP = UDAIPUR_DAYS[state.dayIndex].rainHourly[idx];
+                  return `Rain Chance: ${rainP}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(148, 163, 184, 0.08)' },
+              ticks: {
+                color: '#94a3b8',
+                font: { family: 'JetBrains Mono', size: 10 },
+                maxTicksLimit: 8
+              }
+            },
+            y: {
+              grid: { color: 'rgba(148, 163, 184, 0.08)' },
+              ticks: {
+                color: '#94a3b8',
+                font: { family: 'JetBrains Mono', size: 11 },
+                callback: (val) => val + '°'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Render all dashboard widgets
+    function renderAll() {
+      const dayObj = UDAIPUR_DAYS[state.dayIndex];
+      const hr = state.selectedHour;
+      const curTempC = dayObj.tempsC[hr];
+      const curFeelsC = dayObj.feelsC[hr];
+      const maxC = Math.max(...dayObj.tempsC);
+      const minC = Math.min(...dayObj.tempsC);
+      const skyDesc = getSkyDescription(hr, dayObj.rainHourly[hr]);
+
+      // Top Chart Header
+      document.getElementById('selectedHourTemp').textContent = formatTemp(curTempC);
+      document.getElementById('selectedHourSummary').textContent = `${formatHourLabel(hr)} • ${skyDesc}`;
+      document.getElementById('highLowBadge').textContent = `H: ${formatTemp(maxC)} • L: ${formatTemp(minC)}`;
+      document.getElementById('windHumidityMeta').textContent = `Wind: ${dayObj.wind} • Humidity: ${dayObj.humidity}%`;
+
+      // Sunrise & Sunset Card
+      document.getElementById('sunriseVal').textContent = dayObj.sunrise;
+      document.getElementById('sunsetVal').textContent = dayObj.sunset;
+      document.getElementById('daylengthBadge').textContent = `${dayObj.daylength} daylight`;
+      document.getElementById('solarNoonLabel').textContent = `Noon ${dayObj.solarNoon}`;
+
+      // Moon Card
+      document.getElementById('moonPctVal').textContent = `${dayObj.moonPct}%`;
+      document.getElementById('moonPhaseName').textContent = dayObj.moonPhase;
+      document.getElementById('moonMetaText').textContent = dayObj.moonMeta;
+      updateMoonSvg(dayObj.moonPct);
+
+      // Rain Chance Card
+      document.getElementById('rainChanceVal').textContent = `${dayObj.rainChance}%`;
+      document.getElementById('rainStatusBadge').textContent = dayObj.rainStatus;
+      document.getElementById('precipMmVal').textContent = dayObj.precipMm;
+      document.getElementById('rainProgressBar').style.width = `${Math.max(4, dayObj.rainChance)}%`;
+      document.getElementById('rainMorn').textContent = `${dayObj.rainSlots[0]}%`;
+      document.getElementById('rainNoon').textContent = `${dayObj.rainSlots[1]}%`;
+      document.getElementById('rainEve').textContent = `${dayObj.rainSlots[2]}%`;
+      document.getElementById('rainNight').textContent = `${dayObj.rainSlots[3]}%`;
+
+      // Center Snapshot Pills
+      document.getElementById('centerCurrentTemp').textContent = formatTemp(curTempC);
+      document.getElementById('centerFeelsLike').textContent = `(Feels ${formatTemp(curFeelsC)})`;
+      document.getElementById('centerSkyText').textContent = skyDesc;
+      document.getElementById('centerDateDisplay').textContent = `${dayObj.label} • ${skyDesc}`;
+
+      // Footer Cards
+      document.getElementById('footerHumidity').textContent = `${dayObj.humidity}%`;
+      document.getElementById('footerDewPoint').textContent = `Dew point: ${formatTemp(13)}`;
+      document.getElementById('footerWind').textContent = dayObj.wind.split(' ')[0] + ' km/h';
+      document.getElementById('footerUv').textContent = dayObj.uv;
+
+      // Unit Toggle Highlight
+      document.getElementById('unitLabelC').className = state.useFahrenheit ? 'text-slate-400' : 'text-amber-400 font-bold';
+      document.getElementById('unitLabelF').className = state.useFahrenheit ? 'text-amber-400 font-bold' : 'text-slate-400';
+
+      initOrUpdateChart();
+      updateClockDisplay();
+    }
+
+    function updateClockDisplay() {
+      const dayObj = UDAIPUR_DAYS[state.dayIndex];
+      let hours, minutes, seconds;
+
+      if (state.isSimulatingTime) {
+        hours = Math.floor(state.simulatedMinutes / 60);
+        minutes = state.simulatedMinutes % 60;
+        seconds = 0;
+        document.getElementById('clockModeLabel').textContent = 'SIMULATED UDAIPUR TIME PREVIEW';
+        document.getElementById('clockLiveDot').className = 'w-2 h-2 rounded-full bg-amber-400';
+        document.getElementById('resetLiveBtn').classList.remove('hidden');
+        document.getElementById('scrubberValueLabel').textContent = 'Scrubbing Time Preview';
+      } else {
+        // Compute current IST (UTC+5:30)
+        const now = new Date();
+        const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+        const istDate = new Date(utcMs + 5.5 * 3600000);
+        hours = istDate.getHours();
+        minutes = istDate.getMinutes();
+        seconds = istDate.getSeconds();
+
+        document.getElementById('clockModeLabel').textContent = 'LIVE INDIAN STANDARD TIME (UDAIPUR)';
+        document.getElementById('clockLiveDot').className = 'w-2 h-2 rounded-full bg-emerald-400 animate-ping';
+        document.getElementById('resetLiveBtn').classList.add('hidden');
+        document.getElementById('scrubberValueLabel').textContent = 'Live Clock Synced';
+      }
+
+      const totalMinutes = hours * 60 + minutes;
+      updateSunPosition(totalMinutes, dayObj);
+
+      const ampmEl = document.getElementById('centerAmPm');
+      let displayHours = hours;
+      if (state.use24Hour) {
+        ampmEl.textContent = '24H';
+      } else {
+        ampmEl.textContent = hours >= 12 ? 'PM' : 'AM';
+        displayHours = hours % 12 || 12;
+      }
+
+      const timeStr = [
+        String(displayHours).padStart(2, '0'),
+        String(minutes).padStart(2, '0'),
+        String(seconds).padStart(2, '0')
+      ].join(':');
+
+      document.getElementById('centerTimeDisplay').textContent = timeStr;
+    }
+
+    // Wire Controls
+    window.addEventListener('DOMContentLoaded', () => {
+      // Day Tabs
+      document.querySelectorAll('.day-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.dayIndex = parseInt(btn.getAttribute('data-day'), 10);
+          document.querySelectorAll('.day-tab').forEach((b) => {
+            b.className = 'day-tab px-2.5 py-1 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white';
+          });
+          btn.className = 'day-tab px-2.5 py-1 rounded-lg text-xs font-medium transition-all bg-amber-500 text-slate-950 font-semibold';
+          renderAll();
+        });
+      });
+
+      // Unit Toggle
+      document.getElementById('unitToggleBtn').addEventListener('click', () => {
+        state.useFahrenheit = !state.useFahrenheit;
+        renderAll();
+      });
+
+      // 12H / 24H Toggle
+      document.getElementById('timeFormatBtn').addEventListener('click', () => {
+        state.use24Hour = !state.use24Hour;
+        renderAll();
+      });
+
+      // Chart Mode Buttons
+      const btnTemp = document.getElementById('chartModeTemp');
+      const btnBoth = document.getElementById('chartModeBoth');
+      btnTemp.addEventListener('click', () => {
+        state.showFeelsLike = false;
+        btnTemp.className = 'px-2.5 py-1 rounded-lg text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30 transition';
+        btnBoth.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition';
+        initOrUpdateChart();
+      });
+      btnBoth.addEventListener('click', () => {
+        state.showFeelsLike = true;
+        btnBoth.className = 'px-2.5 py-1 rounded-lg text-xs font-medium bg-sky-500/20 text-sky-300 border border-sky-500/30 transition';
+        btnTemp.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition';
+        initOrUpdateChart();
+      });
+
+      // Time Scrubber
+      const scrubber = document.getElementById('timeScrubber');
+      scrubber.addEventListener('input', (e) => {
+        state.isSimulatingTime = true;
+        state.simulatedMinutes = parseInt(e.target.value, 10);
+        state.selectedHour = Math.floor(state.simulatedMinutes / 60);
+        renderAll();
+      });
+
+      // Return to Live Clock Button
+      document.getElementById('resetLiveBtn').addEventListener('click', () => {
+        state.isSimulatingTime = false;
+        const now = new Date();
+        const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+        const istDate = new Date(utcMs + 5.5 * 3600000);
+        state.selectedHour = istDate.getHours();
+        scrubber.value = String(istDate.getHours() * 60 + istDate.getMinutes());
+        renderAll();
+      });
+
+      renderAll();
+      setInterval(() => {
+        if (!state.isSimulatingTime) {
+          updateClockDisplay();
+        }
+      }, 1000);
+    });
+  </script>
 </body>
-
 </html>
