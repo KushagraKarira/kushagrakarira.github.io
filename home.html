@@ -113,7 +113,7 @@
             <h1 class="text-sm sm:text-base font-bold tracking-tight text-white leading-tight">Udaipur, Rajasthan</h1>
             <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">City of Lakes</span>
           </div>
-          <p class="text-[10px] text-slate-400 font-mono leading-tight">24.5854° N, 73.7125° E • Elev 598m • IST (UTC+05:30)</p>
+          <p class="text-[10px] text-slate-400 font-mono leading-tight"><span id="headerLiveDate" class="text-amber-300 font-semibold">Thu, 05 Nov 2026</span> • 24.5854° N, 73.7125° E • IST (UTC+05:30)</p>
         </div>
       </div>
 
@@ -403,108 +403,193 @@
   </div>
 
   <script>
-    const UDAIPUR_DAYS = [
-      {
-        label: 'Saturday, 31 October 2026',
-        shortLabel: 'Sat 31 Oct',
-        sunrise: '06:41 AM',
-        sunset: '05:56 PM',
-        sunriseMin: 6 * 60 + 41,
-        sunsetMin: 17 * 60 + 56,
-        solarNoon: '12:18 PM',
-        daylength: '11h 15m',
-        moonPct: 72,
-        moonPhase: 'Waning Gibbous',
-        moonMeta: 'Rise: 09:48 PM • 20.4d',
-        rainChance: 4,
-        rainStatus: 'Dry & Clear',
-        precipMm: '0.0 mm',
-        rainSlots: [0, 4, 2, 0],
-        wind: '11 km/h NE',
-        aqi: '132 (Mod-Poor)',
-        aqiSub: 'PM2.5: 63 • PM10: 53',
-        washOffsetMin: -9 * 60 - 30,
-        washLabel: 'EDT (UTC-4) • -9h 30m',
-        tempsC: [20, 20, 19, 19, 19, 19, 18, 19, 21, 23, 24, 26, 27, 27, 28, 28, 28, 26, 24, 23, 22, 22, 21, 20],
-        feelsC: [19, 19, 18, 18, 18, 18, 18, 19, 21, 24, 25, 27, 28, 29, 29, 29, 28, 26, 24, 23, 22, 22, 21, 20],
-        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 4, 4, 4, 4, 3, 2, 2, 0, 0, 0, 0, 0, 0]
-      },
-      {
-        label: 'Sunday, 1 November 2026',
-        shortLabel: 'Sun 01 Nov',
-        sunrise: '06:41 AM',
-        sunset: '05:55 PM',
-        sunriseMin: 6 * 60 + 41,
-        sunsetMin: 17 * 60 + 55,
-        solarNoon: '12:18 PM',
-        daylength: '11h 14m',
-        moonPct: 62,
-        moonPhase: 'Waning Gibbous',
-        moonMeta: 'Rise: 10:44 PM • 21.4d',
-        rainChance: 2,
-        rainStatus: 'Mostly Sunny',
-        precipMm: '0.0 mm',
-        rainSlots: [0, 2, 1, 0],
-        wind: '10 km/h NE',
-        aqi: '118 (Moderate)',
-        aqiSub: 'PM2.5: 54 • PM10: 49',
-        washOffsetMin: -10 * 60 - 30,
-        washLabel: 'EST (UTC-5) • -10h 30m',
-        tempsC: [20, 19, 19, 18, 18, 18, 18, 19, 21, 23, 25, 27, 28, 28, 29, 29, 28, 26, 25, 23, 22, 21, 21, 20],
-        feelsC: [19, 19, 18, 18, 18, 18, 18, 19, 21, 23, 26, 27, 29, 29, 30, 29, 28, 26, 25, 23, 22, 21, 21, 20],
-        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0]
-      },
-      {
-        label: 'Monday, 2 November 2026',
-        shortLabel: 'Mon 02 Nov',
-        sunrise: '06:42 AM',
-        sunset: '05:55 PM',
-        sunriseMin: 6 * 60 + 42,
-        sunsetMin: 17 * 60 + 55,
-        solarNoon: '12:18 PM',
-        daylength: '11h 13m',
-        moonPct: 51,
-        moonPhase: 'Last Quarter',
-        moonMeta: 'Rise: 11:39 PM • 22.4d',
-        rainChance: 0,
-        rainStatus: 'Clear Sky',
-        precipMm: '0.0 mm',
-        rainSlots: [0, 0, 0, 0],
-        wind: '9 km/h ENE',
-        aqi: '112 (Moderate)',
-        aqiSub: 'PM2.5: 44 • PM10: 46',
-        washOffsetMin: -10 * 60 - 30,
-        washLabel: 'EST (UTC-5) • -10h 30m',
-        tempsC: [19, 19, 18, 18, 18, 17, 17, 19, 22, 24, 26, 27, 28, 29, 29, 29, 28, 27, 25, 24, 22, 21, 20, 20],
-        feelsC: [19, 19, 18, 18, 18, 17, 17, 19, 22, 24, 26, 28, 29, 30, 30, 29, 28, 27, 25, 24, 22, 21, 20, 20],
-        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      },
-      {
-        label: 'Tuesday, 3 November 2026',
-        shortLabel: 'Tue 03 Nov',
-        sunrise: '06:43 AM',
-        sunset: '05:54 PM',
-        sunriseMin: 6 * 60 + 43,
-        sunsetMin: 17 * 60 + 54,
-        solarNoon: '12:18 PM',
-        daylength: '11h 11m',
-        moonPct: 40,
-        moonPhase: 'Waning Crescent',
-        moonMeta: 'Rise: 12:31 AM • 23.4d',
-        rainChance: 0,
-        rainStatus: 'Sunny & Dry',
-        precipMm: '0.0 mm',
-        rainSlots: [0, 0, 0, 0],
-        wind: '9 km/h NE',
-        aqi: '108 (Moderate)',
-        aqiSub: 'PM2.5: 40 • PM10: 45',
-        washOffsetMin: -10 * 60 - 30,
-        washLabel: 'EST (UTC-5) • -10h 30m',
-        tempsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 24, 26, 28, 29, 29, 30, 30, 29, 27, 25, 24, 23, 22, 21, 20],
-        feelsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 24, 26, 28, 29, 30, 30, 30, 29, 27, 25, 24, 23, 22, 21, 20],
-        rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    // Dynamically compute Udaipur astronomical & weather data for any live IST date + 3 days
+    function computeUdaipurDay(baseIstDate, dayOffset) {
+      const d = new Date(baseIstDate.getTime());
+      d.setDate(d.getDate() + dayOffset);
+
+      const weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const weekdaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const monthsFull = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      const dayNum = d.getDate();
+      const dayPadded = String(dayNum).padStart(2, '0');
+      const wFull = weekdaysFull[d.getDay()];
+      const wShort = weekdaysShort[d.getDay()];
+      const mFull = monthsFull[d.getMonth()];
+      const mShort = monthsShort[d.getMonth()];
+      const year = d.getFullYear();
+
+      const label = `${wFull}, ${dayNum} ${mFull} ${year}`;
+      const shortLabel = dayOffset === 0 ? `Today (${dayPadded} ${mShort})` : `${wShort} ${dayPadded} ${mShort}`;
+      const headerShort = `${wShort}, ${dayPadded} ${mShort} ${year}`;
+
+      // NOAA Solar Calculation for Udaipur (24.5854 N, 73.7125 E, TZ +5.5)
+      const startOfYear = new Date(year, 0, 0);
+      const doy = Math.floor((d - startOfYear) / 86400000);
+      const gamma = ((2 * Math.PI) / 365) * (doy - 1 + 0.5);
+      const eqTime = 229.18 * (
+        0.000075 +
+        0.001868 * Math.cos(gamma) -
+        0.032077 * Math.sin(gamma) -
+        0.014615 * Math.cos(2 * gamma) -
+        0.040849 * Math.sin(2 * gamma)
+      );
+      const decl =
+        0.006918 -
+        0.399912 * Math.cos(gamma) +
+        0.070257 * Math.sin(gamma) -
+        0.006758 * Math.cos(2 * gamma) +
+        0.000907 * Math.sin(2 * gamma) -
+        0.002697 * Math.cos(3 * gamma) +
+        0.00148 * Math.sin(3 * gamma);
+
+      const latRad = (24.5854 * Math.PI) / 180;
+      const zenithRad = (90.833 * Math.PI) / 180;
+      const cosHA =
+        (Math.cos(zenithRad) / (Math.cos(latRad) * Math.cos(decl))) -
+        Math.tan(latRad) * Math.tan(decl);
+      const clampedCosHA = Math.max(-1, Math.min(1, cosHA));
+      const haDeg = (Math.acos(clampedCosHA) * 180) / Math.PI;
+
+      const lon = 73.7125;
+      const tzOffsetHours = 5.5;
+      const solarNoonMin = Math.round(720 - 4 * lon - eqTime + tzOffsetHours * 60);
+      const sunriseMin = Math.round(solarNoonMin - 4 * haDeg);
+      const sunsetMin = Math.round(solarNoonMin + 4 * haDeg);
+      const daylenMin = sunsetMin - sunriseMin;
+
+      const fmtMin24 = (m) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+      const daylength = `${Math.floor(daylenMin / 60)}h ${String(daylenMin % 60).padStart(2, '0')}m`;
+
+      // Lunar Phase & Illumination Calculation (Synodic month = 29.530588853 days)
+      // Reference New Moon: Oct 10, 2026 15:50 UTC
+      const refNewMoonMs = Date.UTC(2026, 9, 10, 15, 50, 0);
+      const targetUtcMs = Date.UTC(year, d.getMonth(), dayNum, 12, 0, 0);
+      const synodicDays = 29.530588853;
+      let ageDays = ((targetUtcMs - refNewMoonMs) / 86400000) % synodicDays;
+      if (ageDays < 0) ageDays += synodicDays;
+      const phaseAngle = (ageDays / synodicDays) * 2 * Math.PI;
+      const moonPct = Math.round(((1 - Math.cos(phaseAngle)) / 2) * 100);
+
+      let moonPhase = 'Waning Crescent';
+      if (ageDays < 1.8) moonPhase = 'New Moon';
+      else if (ageDays < 7.4) moonPhase = 'Waxing Crescent';
+      else if (ageDays < 9.2) moonPhase = 'First Quarter';
+      else if (ageDays < 14.0) moonPhase = 'Waxing Gibbous';
+      else if (ageDays < 16.0) moonPhase = 'Full Moon';
+      else if (ageDays < 21.3) moonPhase = 'Waning Gibbous';
+      else if (ageDays < 23.1) moonPhase = 'Last Quarter';
+
+      const isWaning = ageDays > 14.765;
+      const moonriseMin = (sunsetMin + Math.round((ageDays - 14.76) * 50) + 1440) % 1440;
+      const moonMeta = `Rise: ${fmtMin24(moonriseMin)} • ${ageDays.toFixed(1)}d`;
+
+      // Washington, D.C. DST check (US DST ends first Sunday of November)
+      const isUsDst = (d.getMonth() > 2 && d.getMonth() < 10) || (d.getMonth() === 10 && dayNum < 1);
+      const washOffsetMin = isUsDst ? (-9 * 60 - 30) : (-10 * 60 - 30);
+      const washLabel = isUsDst ? 'EDT (UTC-4) • -9h 30m' : 'EST (UTC-5) • -10h 30m';
+
+      // Grounded Udaipur hourly temperature profiles (Met Office / India Today early Nov ~17-19°C low to 29-31°C high)
+      const baseProfiles = [
+        {
+          rainChance: 0,
+          rainStatus: 'Clear & Sunny',
+          precipMm: '0.0 mm',
+          rainSlots: [0, 0, 0, 0],
+          wind: '11 km/h NE',
+          aqi: '118 (Moderate)',
+          aqiSub: 'PM2.5: 52 • PM10: 48',
+          tempsC: [19, 19, 18, 18, 17, 17, 17, 19, 22, 25, 27, 29, 30, 31, 31, 31, 29, 27, 25, 23, 22, 21, 20, 19],
+          feelsC: [19, 18, 18, 17, 17, 17, 17, 19, 22, 25, 27, 29, 31, 31, 32, 31, 29, 27, 25, 23, 22, 21, 20, 19],
+          rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          rainChance: 0,
+          rainStatus: 'Sunny & Dry',
+          precipMm: '0.0 mm',
+          rainSlots: [0, 0, 0, 0],
+          wind: '10 km/h NE',
+          aqi: '114 (Moderate)',
+          aqiSub: 'PM2.5: 48 • PM10: 46',
+          tempsC: [19, 19, 18, 18, 18, 18, 18, 20, 23, 25, 27, 29, 30, 31, 31, 31, 29, 27, 25, 24, 22, 21, 20, 20],
+          feelsC: [19, 19, 18, 18, 18, 18, 18, 20, 23, 25, 28, 29, 31, 31, 32, 31, 29, 27, 25, 24, 22, 21, 20, 20],
+          rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          rainChance: 2,
+          rainStatus: 'Mostly Clear',
+          precipMm: '0.0 mm',
+          rainSlots: [0, 2, 1, 0],
+          wind: '9 km/h ENE',
+          aqi: '110 (Moderate)',
+          aqiSub: 'PM2.5: 44 • PM10: 45',
+          tempsC: [20, 19, 19, 19, 18, 18, 18, 20, 23, 26, 28, 30, 31, 32, 32, 31, 30, 28, 26, 24, 23, 22, 21, 20],
+          feelsC: [20, 19, 19, 19, 18, 18, 18, 20, 23, 26, 28, 30, 31, 32, 32, 31, 30, 28, 26, 24, 23, 22, 21, 20],
+          rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          rainChance: 4,
+          rainStatus: 'Pleasant & Dry',
+          precipMm: '0.0 mm',
+          rainSlots: [0, 4, 2, 0],
+          wind: '11 km/h NE',
+          aqi: '122 (Moderate)',
+          aqiSub: 'PM2.5: 55 • PM10: 50',
+          tempsC: [20, 19, 19, 19, 19, 18, 18, 20, 23, 26, 28, 30, 31, 32, 32, 31, 29, 27, 25, 24, 23, 22, 21, 20],
+          feelsC: [20, 19, 19, 19, 19, 18, 18, 20, 23, 26, 28, 30, 31, 32, 32, 31, 29, 27, 25, 24, 23, 22, 21, 20],
+          rainHourly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0]
+        }
+      ];
+
+      const prof = baseProfiles[dayOffset % baseProfiles.length];
+      return {
+        label,
+        shortLabel,
+        headerShort,
+        sunrise: fmtMin24(sunriseMin),
+        sunset: fmtMin24(sunsetMin),
+        sunriseMin,
+        sunsetMin,
+        solarNoon: fmtMin24(solarNoonMin),
+        daylength,
+        moonPct,
+        isWaning,
+        moonPhase,
+        moonMeta,
+        washOffsetMin,
+        washLabel,
+        ...prof
+      };
+    }
+
+    function getCurrentIstDate() {
+      const now = new Date();
+      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+      return new Date(utcMs + 5.5 * 3600000);
+    }
+
+    let UDAIPUR_DAYS = [0, 1, 2, 3].map((offset) => computeUdaipurDay(getCurrentIstDate(), offset));
+    let lastRenderedDateKey = '';
+
+    function refreshDynamicDatesIfNeeded() {
+      const istNow = getCurrentIstDate();
+      const key = `${istNow.getFullYear()}-${istNow.getMonth()}-${istNow.getDate()}`;
+      if (key !== lastRenderedDateKey) {
+        lastRenderedDateKey = key;
+        UDAIPUR_DAYS = [0, 1, 2, 3].map((offset) => computeUdaipurDay(istNow, offset));
+        document.querySelectorAll('.day-tab').forEach((btn, idx) => {
+          if (UDAIPUR_DAYS[idx]) {
+            btn.textContent = UDAIPUR_DAYS[idx].shortLabel;
+          }
+        });
       }
-    ];
+      const headerDateEl = document.getElementById('headerLiveDate');
+      if (headerDateEl && UDAIPUR_DAYS[state.dayIndex]) {
+        headerDateEl.textContent = UDAIPUR_DAYS[state.dayIndex].headerShort;
+      }
+    }
 
     const AQI_VIEWS = [
       { main: '132 (Mod-Poor)', sub: 'PM2.5: 63 • PM10: 53 µg/m³' },
@@ -551,7 +636,12 @@
     }
 
     function formatWorldClock(istTotalMin, seconds, offsetFromIstMin) {
-      let targetMin = (istTotalMin + offsetFromIstMin) % 1440;
+      const rawMin = istTotalMin + offsetFromIstMin;
+      let dayShift = '';
+      if (rawMin < 0) dayShift = ' (-1d)';
+      else if (rawMin >= 1440) dayShift = ' (+1d)';
+
+      let targetMin = rawMin % 1440;
       if (targetMin < 0) targetMin += 1440;
       const h24 = Math.floor(targetMin / 60);
       const m = targetMin % 60;
@@ -559,11 +649,11 @@
       const mStr = String(m).padStart(2, '0');
 
       if (state.use24Hour) {
-        return `${String(h24).padStart(2, '0')}:${mStr}:${sStr}`;
+        return `${String(h24).padStart(2, '0')}:${mStr}:${sStr}${dayShift}`;
       }
       const suffix = h24 >= 12 ? 'PM' : 'AM';
       const h12 = h24 % 12 || 12;
-      return `${String(h12).padStart(2, '0')}:${mStr}:${sStr} ${suffix}`;
+      return `${String(h12).padStart(2, '0')}:${mStr}:${sStr} ${suffix}${dayShift}`;
     }
 
     function getSkyDescription(hour, rainProb) {
@@ -576,10 +666,13 @@
       return 'Clear & Calm Evening';
     }
 
-    function updateMoonSvg(pct) {
+    function updateMoonSvg(pct, isWaning = true) {
       const rx = Math.abs((pct - 50) / 50) * 28;
-      const sweepInner = pct >= 50 ? 0 : 1;
-      const path = `M 32 4 A 28 28 0 0 0 32 60 A ${rx.toFixed(1)} 28 0 0 ${sweepInner} 32 4 Z`;
+      // Outer arc: left half (0) for waning, right half (1) for waxing
+      const sweepOuter = isWaning ? 0 : 1;
+      // Inner terminator arc: for Gibbous (>=50%) bulges to opposite half; for Crescent (<50%) carves same half
+      const sweepInner = pct >= 50 ? sweepOuter : (1 - sweepOuter);
+      const path = `M 32 4 A 28 28 0 0 ${sweepOuter} 32 60 A ${rx.toFixed(1)} 28 0 0 ${sweepInner} 32 4 Z`;
       const moonLit = document.getElementById('moonLitPath');
       if (moonLit) moonLit.setAttribute('d', path);
     }
@@ -731,6 +824,7 @@
     }
 
     function renderAll() {
+      refreshDynamicDatesIfNeeded();
       const dayObj = UDAIPUR_DAYS[state.dayIndex];
       const hr = state.selectedHour;
       const curTempC = dayObj.tempsC[hr];
@@ -769,7 +863,7 @@
           ? `<span>00:00</span><span>${to24(dayObj.sunrise)} (Rise)</span><span>${to24(dayObj.solarNoon)} (Noon)</span><span>${to24(dayObj.sunset)} (Set)</span><span>23:59</span>`
           : `<span>12:00 AM</span><span>${dayObj.sunrise} (Rise)</span><span>${dayObj.solarNoon} (Noon)</span><span>${dayObj.sunset} (Set)</span><span>11:59 PM</span>`;
       }
-      updateMoonSvg(dayObj.moonPct);
+      updateMoonSvg(dayObj.moonPct, dayObj.isWaning);
 
       document.getElementById('rainChanceVal').textContent = `${dayObj.rainChance}%`;
       document.getElementById('rainStatusBadge').textContent = dayObj.rainStatus;
@@ -807,6 +901,7 @@
     }
 
     function updateClockDisplay() {
+      refreshDynamicDatesIfNeeded();
       const dayObj = UDAIPUR_DAYS[state.dayIndex];
       let hours, minutes, seconds;
 
@@ -830,6 +925,14 @@
         document.getElementById('clockLiveDot').className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping';
         document.getElementById('resetLiveBtn').classList.add('hidden');
         document.getElementById('scrubberValueLabel').textContent = 'Live Clock Synced';
+
+        const scrubberEl = document.getElementById('timeScrubber');
+        if (scrubberEl) scrubberEl.value = String(hours * 60 + minutes);
+        if (state.selectedHour !== hours) {
+          state.selectedHour = hours;
+          renderAll();
+          return;
+        }
       }
 
       const totalMinutes = hours * 60 + minutes;
@@ -904,7 +1007,39 @@
         renderAll();
       });
 
+      const initIst = getCurrentIstDate();
+      state.selectedHour = initIst.getHours();
+      state.simulatedMinutes = initIst.getHours() * 60 + initIst.getMinutes();
+      document.getElementById('timeScrubber').value = String(state.simulatedMinutes);
       renderAll();
+
+      // Silently fetch live Open-Meteo forecast for Udaipur (falls back cleanly if offline)
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=24.5854&longitude=73.7125&hourly=temperature_2m,apparent_temperature,precipitation_probability&timezone=Asia%2FKolkata&forecast_days=4')
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (!data || !data.hourly) return;
+          for (let d = 0; d < 4; d++) {
+            const sliceStart = d * 24;
+            const tSlice = data.hourly.temperature_2m.slice(sliceStart, sliceStart + 24);
+            const fSlice = data.hourly.apparent_temperature.slice(sliceStart, sliceStart + 24);
+            const rSlice = data.hourly.precipitation_probability.slice(sliceStart, sliceStart + 24);
+            if (tSlice.length === 24 && UDAIPUR_DAYS[d]) {
+              UDAIPUR_DAYS[d].tempsC = tSlice.map((v) => Math.round(v));
+              UDAIPUR_DAYS[d].feelsC = fSlice.map((v) => Math.round(v));
+              UDAIPUR_DAYS[d].rainHourly = rSlice.map((v) => Math.round(v || 0));
+              UDAIPUR_DAYS[d].rainChance = Math.max(...UDAIPUR_DAYS[d].rainHourly);
+              UDAIPUR_DAYS[d].rainSlots = [
+                Math.max(...UDAIPUR_DAYS[d].rainHourly.slice(6, 12)),
+                Math.max(...UDAIPUR_DAYS[d].rainHourly.slice(12, 17)),
+                Math.max(...UDAIPUR_DAYS[d].rainHourly.slice(17, 21)),
+                Math.max(...UDAIPUR_DAYS[d].rainHourly.slice(21, 24))
+              ];
+            }
+          }
+          renderAll();
+        })
+        .catch(() => {});
+
       setInterval(() => {
         if (!state.isSimulatingTime) {
           updateClockDisplay();
