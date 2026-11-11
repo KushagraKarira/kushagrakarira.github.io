@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Udaipur VAUD METAR & World Time Dashboard</title>
+  <title>Dashboard</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -15,15 +15,20 @@
         extend: {
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
+            mono: ['Inter', 'system-ui', 'sans-serif']
           }
         }
       }
     };
   </script>
   <style>
+    * {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
     html, body {
       font-family: 'Inter', system-ui, sans-serif;
+      font-variant-numeric: tabular-nums;
+      transition: background 0.6s ease;
       background:
         radial-gradient(circle at 18% 18%, rgba(245, 158, 11, 0.26) 0%, transparent 42%),
         radial-gradient(circle at 82% 16%, rgba(56, 189, 248, 0.24) 0%, transparent 42%),
@@ -98,55 +103,79 @@
   <!-- Strictly 100vh zero-scroll container -->
   <div class="max-w-6xl w-full h-screen max-h-screen mx-auto px-3 sm:px-6 py-3 flex flex-col justify-between gap-2.5 overflow-hidden">
     
-    <!-- ROW 1: Compact Header Bar -->
-    <header class="shrink-0 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
-      <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-lg glass-pill flex items-center justify-center text-amber-400">
+    <!-- ROW 1: Compact Header Bar with Device Location Auto-Detector & City Search -->
+    <header class="shrink-0 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 relative z-30">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <button type="button" id="detectLocationBtn" title="Detect Device GPS / IP Location" class="w-8 h-8 rounded-lg glass-pill flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:border-amber-400/50 transition shrink-0">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4v2m0 8v2m-6-6h2m8 0h2m-6-2a2 2 0 100 4 2 2 0 000-4z"/>
           </svg>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-sm sm:text-base font-bold tracking-tight text-white leading-tight">Udaipur, Rajasthan</h1>
-            <span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">VAUD / UDR</span>
+        </button>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 id="locationTitle" class="text-sm sm:text-base font-bold tracking-tight text-white leading-tight truncate">Udaipur, Rajasthan</h1>
+            <span id="stationCodeBadge" class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">VAUD / UDR</span>
+            <span id="geoSourceBadge" class="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">Locating device…</span>
           </div>
-          <p class="text-[10px] text-slate-300/80 font-mono leading-tight">
-            <span id="headerLiveDate" class="text-amber-300 font-semibold">Sat, 07 Nov 2026</span> • 24.6177° N, 73.8961° E • Elev 1,684 ft (513m) • IST (UTC+05:30)
+          <p class="text-[10px] text-slate-300/80 font-mono leading-tight truncate">
+            <span id="headerLiveDate" class="text-amber-300 font-semibold">Wed, 11 Nov 2026</span> • <span id="locationCoordsMeta">24.6177° N, 73.8961° E • Elev 1,684 ft (513m) • UTC+05:30</span>
           </p>
         </div>
       </div>
 
-      <!-- Dynamic 4-Day Selector -->
-      <div class="flex items-center gap-1.5">
+      <!-- Location Search Input + Dynamic 4-Day Selector -->
+      <div class="flex flex-wrap items-center gap-1.5">
+        <form id="locationSearchForm" class="relative flex items-center">
+          <input
+            id="locationSearchInput"
+            type="text"
+            placeholder="City or ICAO (e.g. KJFK, London)…"
+            class="glass-pill rounded-lg pl-2.5 pr-14 py-1 text-[11px] text-white placeholder-slate-400 focus:outline-none focus:border-amber-400/60 w-44 sm:w-52 font-mono"
+          />
+          <button type="submit" id="locationSearchSubmit" class="absolute right-1 px-2 py-0.5 rounded bg-amber-500/25 hover:bg-amber-500/40 text-amber-200 text-[10px] font-mono font-semibold transition">
+            Go
+          </button>
+        </form>
+
+        <button type="button" id="locateMePillBtn" class="glass-pill px-2 py-1 rounded-lg text-[10px] font-mono font-semibold text-emerald-300 hover:bg-emerald-500/20 transition flex items-center gap-1">
+          <span>📍 Device GPS</span>
+        </button>
+
         <div class="inline-flex rounded-lg glass-pill p-0.5" id="dayTabs">
-          <button type="button" data-day="0" class="day-tab px-2.5 py-1 rounded-md text-[11px] font-medium transition-all bg-amber-500 text-slate-950 font-semibold">Sat 31 Oct</button>
-          <button type="button" data-day="1" class="day-tab px-2.5 py-1 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white">Sun 01 Nov</button>
-          <button type="button" data-day="2" class="day-tab px-2.5 py-1 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white">Mon 02 Nov</button>
-          <button type="button" data-day="3" class="day-tab px-2.5 py-1 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white">Tue 03 Nov</button>
+          <button type="button" data-day="0" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all bg-amber-500 text-slate-950 font-semibold">Sat 31 Oct</button>
+          <button type="button" data-day="1" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white">Sun 01 Nov</button>
+          <button type="button" data-day="2" class="day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white">Mon 02 Nov</button>
+          <button type="button" data-day="3" class="day-tab px-2.5 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white">Tue 03 Nov</button>
         </div>
+
+        <button type="button" id="fullscreenBtn" title="Toggle Fullscreen / Kiosk Display" class="glass-pill px-2.5 py-1 rounded-lg text-[10px] font-semibold text-slate-200 hover:text-white hover:bg-white/15 transition flex items-center gap-1">
+          <svg id="fullscreenIcon" class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4m8 0h4v4m0 8v4h-4M8 20H4v-4"/>
+          </svg>
+          <span id="fullscreenLabel">Fullscreen</span>
+        </button>
       </div>
     </header>
 
-    <!-- ROW 2 (TOP): Single Unified VAUD METAR & TAF Widget (No extra decoded/RWY boxes) -->
-    <section aria-label="VAUD METAR and TAF Aviation Telemetry" class="shrink-0 glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col gap-2.5">
+    <!-- ROW 2 (TOP): Single Unified METAR & TAF Widget for Active Location -->
+    <section aria-label="METAR and TAF Aviation Telemetry" class="shrink-0 glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col gap-2.5">
       <!-- Top Row of METAR Widget: Station Info, Flight Category Badge & Copy Action -->
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-          <span id="flightCatBadge" class="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-sky-500/25 text-sky-300 border border-sky-400/40 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-            MVFR
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="flightCatBadge" class="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 flex items-center gap-1.5 shrink-0">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            VFR
           </span>
-          <h2 class="text-xs sm:text-sm font-bold tracking-wide uppercase text-white font-mono">
+          <h2 id="metarStationHeader" class="text-xs sm:text-sm font-bold tracking-wide uppercase text-white font-mono truncate">
             METAR & TAF VAUD — Maharana Pratap Airport (UDR)
           </h2>
-          <span class="hidden md:inline text-[10px] font-mono text-slate-300/80">
-            TWR 122.300 MHz • Mumbai FIR
+          <span id="metarStationSub" class="hidden md:inline text-[10px] font-mono text-slate-300/80 shrink-0">
+            Elev 1,684 ft • Auto-Synced Telemetry
           </span>
         </div>
 
-        <div class="flex items-center gap-2">
-          <span id="metarObsAge" class="text-[10px] font-mono text-slate-300">Issued: 0130Z (07:00 IST)</span>
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="metarObsAge" class="text-[10px] font-mono text-slate-300">Issued: 0730Z (13:00 Local)</span>
           <button type="button" id="copyMetarBtn" class="glass-pill px-2.5 py-1 rounded-lg text-[10px] font-mono font-semibold text-amber-300 hover:bg-white/15 transition flex items-center gap-1">
             <span id="copyMetarLabel">Copy METAR</span>
           </button>
@@ -157,19 +186,19 @@
       <div class="glass-pill rounded-xl px-4 py-3 flex flex-col justify-between border border-amber-400/25">
         <div class="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-slate-300/80 mb-1">
           <span>RAW ICAO METAR / TAF TELETYPE (CLICK OR HOVER ANY GROUP TO DECODE)</span>
-          <span id="activeTokenHint" class="text-amber-300 font-semibold">Station: VAUD (Maharana Pratap Airport, Udaipur)</span>
+          <span id="activeTokenHint" class="text-amber-300 font-semibold truncate">Station: VAUD (Maharana Pratap Airport)</span>
         </div>
         <div id="metarTokensContainer" class="flex flex-wrap items-center gap-1.5 font-mono text-base sm:text-lg md:text-xl font-bold tracking-wide text-amber-300 select-all py-0.5">
           <!-- Populated dynamically with interactive token buttons -->
         </div>
-        <p id="tafsummaryLine" class="text-xs sm:text-sm font-mono text-sky-200/90 mt-2 pt-2 border-t border-white/10 select-all">
-          TAF VAUD 070500Z 0706/0812 VRB03KT 3000 HZ BR NSC BECMG 0707/0709 23004KT 5000 HZ SCT030 BECMG 0713/0715 26002KT 4000 HZ NSC
-        </p>
+        <div id="tafsummaryLine" class="flex flex-wrap items-center gap-1 text-xs sm:text-sm font-semibold tracking-wide text-sky-200/95 mt-2 pt-2 border-t border-white/10 select-all">
+          <!-- Populated dynamically with interactive TAF token buttons -->
+        </div>
       </div>
     </section>
 
-    <!-- ROW 3 (CENTER): Live Udaipur Time Hub in the Center -->
-    <main aria-label="Center Udaipur Clock Hub" class="flex-1 min-h-0 flex flex-col justify-center">
+    <!-- ROW 3 (CENTER): Live Local Time Hub in the Center -->
+    <main aria-label="Center Local Clock Hub" class="flex-1 min-h-0 flex flex-col justify-center">
       <div class="glass-card-highlight rounded-2xl px-5 py-4 text-center relative overflow-hidden h-full flex flex-col justify-between">
         <div id="ambientCenterGlow" class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-amber-500/15 blur-3xl"></div>
 
@@ -177,11 +206,11 @@
         <div class="relative z-10 flex flex-wrap items-center justify-between gap-2">
           <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full glass-pill text-[10px] font-medium text-slate-200">
             <span id="clockLiveDot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span id="clockModeLabel">LIVE INDIAN STANDARD TIME (UDAIPUR)</span>
+            <span id="clockModeLabel">LIVE DEVICE LOCAL TIME (UDAIPUR)</span>
             <button type="button" id="resetLiveBtn" class="hidden ml-1.5 text-amber-300 hover:text-amber-200 underline font-semibold">Return to Live</button>
           </div>
           <p id="centerDateDisplay" class="text-xs font-medium text-slate-200">
-            Saturday, 7 November 2026 • Zulu <span id="centerZuluInline" class="font-mono text-amber-300">01:49:06Z</span>
+            Wednesday, 11 November 2026 • Zulu <span id="centerZuluInline" class="font-mono text-amber-300">07:55:18Z</span>
           </p>
         </div>
 
@@ -189,11 +218,11 @@
         <div class="relative z-10 flex flex-col items-center justify-center my-auto gap-3">
           <div class="flex items-baseline justify-center gap-3">
             <div id="centerTimeDisplay" class="font-mono text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-white clock-glow select-all leading-none">
-              07:19:06
+              13:25:18
             </div>
             <div class="flex flex-col items-start">
               <span id="centerAmPm" class="font-mono text-lg sm:text-2xl font-bold text-amber-400 leading-none">24H</span>
-              <span class="font-mono text-[10px] text-slate-300">IST (UTC+5:30)</span>
+              <span id="centerTzAbbrev" class="font-mono text-[10px] text-slate-300">UTC+05:30</span>
             </div>
           </div>
 
@@ -201,29 +230,29 @@
           <div class="flex flex-wrap items-center justify-center gap-2">
             <div class="px-3 py-1 rounded-lg glass-pill flex items-center gap-1.5 text-xs">
               <span class="text-amber-300 font-semibold">Sunrise:</span>
-              <span id="sunriseVal" class="font-mono font-bold text-white">06:45</span>
+              <span id="sunriseVal" class="font-mono font-bold text-white">06:47</span>
               <span class="text-slate-400">•</span>
               <span class="text-orange-300 font-semibold">Sunset:</span>
-              <span id="sunsetVal" class="font-mono font-bold text-white">17:52</span>
-              <span id="daylengthBadge" class="text-[10px] font-mono text-slate-300 ml-1">(11h 07m)</span>
+              <span id="sunsetVal" class="font-mono font-bold text-white">17:50</span>
+              <span id="daylengthBadge" class="text-[10px] font-mono text-slate-300 ml-1">(11h 03m)</span>
             </div>
 
             <div class="px-3 py-1 rounded-lg glass-pill flex items-center gap-1.5 text-xs">
               <span class="text-indigo-200 font-semibold">Sun Alt:</span>
-              <span id="centerSunAlt" class="font-mono font-bold text-white">+7.6° ESE</span>
+              <span id="centerSunAlt" class="font-mono font-bold text-white">+44.8° SSW</span>
               <span class="text-slate-400">•</span>
-              <span id="solarNoonLabel" class="text-[11px] font-mono text-slate-300">Noon 12:18</span>
+              <span id="solarNoonLabel" class="text-[11px] font-mono text-slate-300">Noon 12:19</span>
             </div>
 
             <div class="px-3 py-1 rounded-lg glass-pill flex items-center gap-2 text-xs">
               <svg id="moonSvg" viewBox="0 0 64 64" class="w-4 h-4 shrink-0">
                 <circle cx="32" cy="32" r="28" fill="#1e293b" stroke="#94a3b8" stroke-width="3"/>
-                <path id="moonLitPath" d="M 32 4 A 28 28 0 0 0 32 60 A 25 28 0 0 1 32 4 Z" fill="#e2e8f0"/>
+                <path id="moonLitPath" d="M 32 4 A 28 28 0 0 1 32 60 A 24 28 0 0 0 32 4 Z" fill="#e2e8f0"/>
               </svg>
               <span class="text-indigo-200 font-semibold">Moon:</span>
-              <span id="moonPctVal" class="font-mono font-bold text-white">4%</span>
-              <span id="moonPhaseName" class="text-[11px] text-indigo-200">Waning Crescent</span>
-              <span id="moonMetaText" class="hidden sm:inline text-[10px] font-mono text-slate-300">Rise: 05:14</span>
+              <span id="moonPctVal" class="font-mono font-bold text-white">5%</span>
+              <span id="moonPhaseName" class="text-[11px] text-indigo-200">Waxing Crescent</span>
+              <span id="moonMetaText" class="hidden sm:inline text-[10px] font-mono text-slate-300">Rise: 07:52</span>
             </div>
           </div>
         </div>
@@ -231,15 +260,15 @@
         <!-- Bottom row inside Center Hub: Interactive Time Scrubber -->
         <div class="relative z-10 w-full max-w-2xl mx-auto pt-2 border-t border-white/10">
           <div class="flex items-center justify-between text-[10px] text-slate-300 mb-0.5">
-            <span>Interactive Time Scrubber (Syncs Udaipur Clock, VAUD METAR & World Clocks)</span>
+            <span>Interactive Time Scrubber (Syncs Local Clock, Station METAR & World Clocks)</span>
             <span id="scrubberValueLabel" class="font-mono text-amber-300">Live Clock Synced</span>
           </div>
-          <input id="timeScrubber" type="range" min="0" max="1439" value="439" class="w-full" aria-label="Simulate time of day in minutes" />
+          <input id="timeScrubber" type="range" min="0" max="1439" value="805" class="w-full" aria-label="Simulate time of day in minutes" />
           <div id="scrubberTicks" class="flex justify-between text-[9px] font-mono text-slate-400">
             <span>00:00</span>
-            <span>06:45 (Rise)</span>
-            <span>12:18 (Noon)</span>
-            <span>17:52 (Set)</span>
+            <span>06:47 (Rise)</span>
+            <span>12:19 (Noon)</span>
+            <span>17:50 (Set)</span>
             <span>23:59</span>
           </div>
         </div>
@@ -253,7 +282,7 @@
       <div class="glass-card rounded-xl p-2.5 flex items-center justify-between border-l-2 border-l-blue-400/70">
         <div class="min-w-0">
           <p class="text-[10px] uppercase tracking-wider text-blue-300 font-semibold truncate">Washington, D.C.</p>
-          <p id="tzWashingtonTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">20:49:06 (-1d)</p>
+          <p id="tzWashingtonTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">02:55:18</p>
           <p id="tzWashingtonMeta" class="text-[9px] text-slate-300/80 font-mono truncate">EST (UTC-5) • -10h 30m</p>
         </div>
         <div class="w-8 h-8 rounded-lg glass-pill flex items-center justify-center text-blue-300 font-mono text-[10px] font-bold shrink-0">IAD</div>
@@ -263,8 +292,8 @@
       <div class="glass-card rounded-xl p-2.5 flex items-center justify-between border-l-2 border-l-slate-300/70">
         <div class="min-w-0">
           <p class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold truncate">Universal Time (Z)</p>
-          <p id="tzUtcTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">01:49:06</p>
-          <p class="text-[9px] text-slate-300/80 font-mono truncate">UTC+00:00 • -5h 30m</p>
+          <p id="tzUtcTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">07:55:18</p>
+          <p id="tzUtcMeta" class="text-[9px] text-slate-300/80 font-mono truncate">UTC+00:00 • -5h 30m</p>
         </div>
         <div class="w-8 h-8 rounded-lg glass-pill flex items-center justify-center text-slate-200 font-mono text-[10px] font-bold shrink-0">UTC</div>
       </div>
@@ -273,8 +302,8 @@
       <div class="glass-card rounded-xl p-2.5 flex items-center justify-between border-l-2 border-l-rose-400/70">
         <div class="min-w-0">
           <p class="text-[10px] uppercase tracking-wider text-rose-300 font-semibold truncate">Moscow, Russia</p>
-          <p id="tzMoscowTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">04:49:06</p>
-          <p class="text-[9px] text-slate-300/80 font-mono truncate">MSK (UTC+3) • -2h 30m</p>
+          <p id="tzMoscowTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">10:55:18</p>
+          <p id="tzMoscowMeta" class="text-[9px] text-slate-300/80 font-mono truncate">MSK (UTC+3) • -2h 30m</p>
         </div>
         <div class="w-8 h-8 rounded-lg glass-pill flex items-center justify-center text-rose-300 font-mono text-[10px] font-bold shrink-0">MSK</div>
       </div>
@@ -283,8 +312,8 @@
       <div class="glass-card rounded-xl p-2.5 flex items-center justify-between border-l-2 border-l-amber-400/70">
         <div class="min-w-0">
           <p class="text-[10px] uppercase tracking-wider text-amber-300 font-semibold truncate">Beijing, China</p>
-          <p id="tzBeijingTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">09:49:06</p>
-          <p class="text-[9px] text-slate-300/80 font-mono truncate">CST (UTC+8) • +2h 30m</p>
+          <p id="tzBeijingTime" class="text-sm sm:text-base font-bold font-mono text-white truncate mt-0.5">15:55:18</p>
+          <p id="tzBeijingMeta" class="text-[9px] text-slate-300/80 font-mono truncate">CST (UTC+8) • +2h 30m</p>
         </div>
         <div class="w-8 h-8 rounded-lg glass-pill flex items-center justify-center text-amber-300 font-mono text-[10px] font-bold shrink-0">PEK</div>
       </div>
@@ -294,9 +323,99 @@
   </div>
 
   <script>
-    // Dynamically compute Udaipur astronomical & VAUD METAR/TAF data for any live IST date + 3 days
-    function computeUdaipurDay(baseIstDate, dayOffset) {
-      const d = new Date(baseIstDate.getTime());
+    // Curated Reference Directory of Global & Regional ICAO Airports for Instant Nearest-Station Matching
+    const AIRPORT_DIRECTORY = [
+      { icao: 'VAUD', iata: 'UDR', name: 'Maharana Pratap Airport', city: 'Udaipur, Rajasthan', lat: 24.6177, lon: 73.8961, elevFt: 1684, tzOffsetMin: 330 },
+      { icao: 'VIJP', iata: 'JAI', name: 'Jaipur International Airport', city: 'Jaipur, Rajasthan', lat: 26.8242, lon: 75.8122, elevFt: 1263, tzOffsetMin: 330 },
+      { icao: 'VIJO', iata: 'JDH', name: 'Jodhpur Airport', city: 'Jodhpur, Rajasthan', lat: 26.2511, lon: 73.0489, elevFt: 717, tzOffsetMin: 330 },
+      { icao: 'VAAH', iata: 'AMD', name: 'Sardar Vallabhbhai Patel Intl', city: 'Ahmedabad, Gujarat', lat: 23.0772, lon: 72.6347, elevFt: 189, tzOffsetMin: 330 },
+      { icao: 'VIDP', iata: 'DEL', name: 'Indira Gandhi Intl Airport', city: 'New Delhi, India', lat: 28.5562, lon: 77.1000, elevFt: 777, tzOffsetMin: 330 },
+      { icao: 'VABB', iata: 'BOM', name: 'Chhatrapati Shivaji Maharaj Intl', city: 'Mumbai, Maharashtra', lat: 19.0896, lon: 72.8656, elevFt: 39, tzOffsetMin: 330 },
+      { icao: 'VOBL', iata: 'BLR', name: 'Kempegowda Intl Airport', city: 'Bengaluru, Karnataka', lat: 13.1986, lon: 77.7066, elevFt: 3000, tzOffsetMin: 330 },
+      { icao: 'VOHS', iata: 'HYD', name: 'Rajiv Gandhi Intl Airport', city: 'Hyderabad, Telangana', lat: 17.2403, lon: 78.4294, elevFt: 2024, tzOffsetMin: 330 },
+      { icao: 'VOMM', iata: 'MAA', name: 'Chennai International Airport', city: 'Chennai, Tamil Nadu', lat: 12.9941, lon: 80.1709, elevFt: 52, tzOffsetMin: 330 },
+      { icao: 'VECC', iata: 'CCU', name: 'Netaji Subhas Chandra Bose Intl', city: 'Kolkata, West Bengal', lat: 22.6547, lon: 88.4467, elevFt: 16, tzOffsetMin: 330 },
+      { icao: 'KJFK', iata: 'JFK', name: 'John F. Kennedy Intl Airport', city: 'New York, NY', lat: 40.6413, lon: -73.7781, elevFt: 13, tzOffsetMin: -300 },
+      { icao: 'KIAD', iata: 'IAD', name: 'Washington Dulles Intl Airport', city: 'Washington, D.C.', lat: 38.9531, lon: -77.4565, elevFt: 312, tzOffsetMin: -300 },
+      { icao: 'KLAX', iata: 'LAX', name: 'Los Angeles Intl Airport', city: 'Los Angeles, CA', lat: 33.9416, lon: -118.4085, elevFt: 128, tzOffsetMin: -480 },
+      { icao: 'KSFO', iata: 'SFO', name: 'San Francisco Intl Airport', city: 'San Francisco, CA', lat: 37.6213, lon: -122.3790, elevFt: 13, tzOffsetMin: -480 },
+      { icao: 'KORD', iata: 'ORD', name: "Chicago O'Hare Intl Airport", city: 'Chicago, IL', lat: 41.9742, lon: -87.9073, elevFt: 672, tzOffsetMin: -360 },
+      { icao: 'EGLL', iata: 'LHR', name: 'London Heathrow Airport', city: 'London, United Kingdom', lat: 51.4700, lon: -0.4543, elevFt: 83, tzOffsetMin: 0 },
+      { icao: 'LFPG', iata: 'CDG', name: 'Paris Charles de Gaulle Airport', city: 'Paris, France', lat: 49.0097, lon: 2.5479, elevFt: 392, tzOffsetMin: 60 },
+      { icao: 'EDDF', iata: 'FRA', name: 'Frankfurt Airport', city: 'Frankfurt, Germany', lat: 50.0379, lon: 8.5622, elevFt: 364, tzOffsetMin: 60 },
+      { icao: 'UUEE', iata: 'SVO', name: 'Sheremetyevo Intl Airport', city: 'Moscow, Russia', lat: 55.9726, lon: 37.4146, elevFt: 622, tzOffsetMin: 180 },
+      { icao: 'OMDB', iata: 'DXB', name: 'Dubai International Airport', city: 'Dubai, UAE', lat: 25.2532, lon: 55.3657, elevFt: 62, tzOffsetMin: 240 },
+      { icao: 'WSSS', iata: 'SIN', name: 'Singapore Changi Airport', city: 'Singapore', lat: 1.3644, lon: 103.9915, elevFt: 22, tzOffsetMin: 480 },
+      { icao: 'ZBAA', iata: 'PEK', name: 'Beijing Capital Intl Airport', city: 'Beijing, China', lat: 40.0799, lon: 116.6031, elevFt: 116, tzOffsetMin: 480 },
+      { icao: 'RJTT', iata: 'HND', name: 'Tokyo Haneda Airport', city: 'Tokyo, Japan', lat: 35.5494, lon: 139.7798, elevFt: 35, tzOffsetMin: 540 },
+      { icao: 'YSSY', iata: 'SYD', name: 'Sydney Kingsford Smith Airport', city: 'Sydney, Australia', lat: -33.9399, lon: 151.1753, elevFt: 21, tzOffsetMin: 660 }
+    ];
+
+    // Active location configuration (starts with device timezone / Udaipur fallback, then auto-updates from device GPS/IP)
+    let activeLoc = {
+      city: 'Udaipur, Rajasthan',
+      icao: 'VAUD',
+      iata: 'UDR',
+      airportName: 'Maharana Pratap Airport',
+      lat: 24.6177,
+      lon: 73.8961,
+      elevFt: 1684,
+      elevM: 513,
+      tzOffsetMin: 330,
+      sourceLabel: 'Auto-Detecting…'
+    };
+
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const toRad = (deg) => (deg * Math.PI) / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function findNearestAirport(lat, lon) {
+      let best = AIRPORT_DIRECTORY[0];
+      let bestDist = Infinity;
+      for (const ap of AIRPORT_DIRECTORY) {
+        const d = haversineKm(lat, lon, ap.lat, ap.lon);
+        if (d < bestDist) {
+          bestDist = d;
+          best = ap;
+        }
+      }
+      // If within 220 km of a known ICAO station, use its ICAO; otherwise synthesize a regional 4-letter station code
+      if (bestDist <= 220) {
+        return { ...best, distKm: Math.round(bestDist) };
+      }
+      return null;
+    }
+
+    function formatUtcOffset(offsetMin) {
+      const sign = offsetMin >= 0 ? '+' : '-';
+      const abs = Math.abs(offsetMin);
+      const hh = String(Math.floor(abs / 60)).padStart(2, '0');
+      const mm = String(abs % 60).padStart(2, '0');
+      return `UTC${sign}${hh}:${mm}`;
+    }
+
+    function formatCoordPair(lat, lon) {
+      const ns = lat >= 0 ? 'N' : 'S';
+      const ew = lon >= 0 ? 'E' : 'W';
+      return `${Math.abs(lat).toFixed(4)}° ${ns}, ${Math.abs(lon).toFixed(4)}° ${ew}`;
+    }
+
+    function getActiveLocalDate() {
+      const now = new Date();
+      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+      return new Date(utcMs + activeLoc.tzOffsetMin * 60000);
+    }
+
+    // Dynamically compute astronomical & METAR/TAF data for any location (lat, lon, tzOffsetMin) + 3 days
+    function computeLocationDay(baseLocalDate, dayOffset) {
+      const d = new Date(baseLocalDate.getTime());
       d.setDate(d.getDate() + dayOffset);
 
       const weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -316,7 +435,7 @@
       const shortLabel = dayOffset === 0 ? `Today (${dayPadded} ${mShort})` : `${wShort} ${dayPadded} ${mShort}`;
       const headerShort = `${wShort}, ${dayPadded} ${mShort} ${year}`;
 
-      // NOAA Solar Calculation for Udaipur VAUD (24.6177 N, 73.8961 E, TZ +5.5)
+      // NOAA Solar Calculation for activeLoc.lat, activeLoc.lon, activeLoc.tzOffsetMin
       const startOfYear = new Date(year, 0, 0);
       const doy = Math.floor((d - startOfYear) / 86400000);
       const gamma = ((2 * Math.PI) / 365) * (doy - 1 + 0.5);
@@ -336,7 +455,7 @@
         0.002697 * Math.cos(3 * gamma) +
         0.00148 * Math.sin(3 * gamma);
 
-      const latRad = (24.6177 * Math.PI) / 180;
+      const latRad = (activeLoc.lat * Math.PI) / 180;
       const zenithRad = (90.833 * Math.PI) / 180;
       const cosHA =
         (Math.cos(zenithRad) / (Math.cos(latRad) * Math.cos(decl))) -
@@ -344,15 +463,17 @@
       const clampedCosHA = Math.max(-1, Math.min(1, cosHA));
       const haDeg = (Math.acos(clampedCosHA) * 180) / Math.PI;
 
-      const lon = 73.8961;
-      const tzOffsetHours = 5.5;
-      const solarNoonMin = Math.round(720 - 4 * lon - eqTime + tzOffsetHours * 60);
-      const sunriseMin = Math.round(solarNoonMin - 4 * haDeg);
-      const sunsetMin = Math.round(solarNoonMin + 4 * haDeg);
-      const daylenMin = sunsetMin - sunriseMin;
+      const solarNoonMin = Math.round(720 - 4 * activeLoc.lon - eqTime + activeLoc.tzOffsetMin);
+      const sunriseMin = Math.max(0, Math.min(1439, Math.round(solarNoonMin - 4 * haDeg)));
+      const sunsetMin = Math.max(0, Math.min(1439, Math.round(solarNoonMin + 4 * haDeg)));
+      const daylenMin = Math.max(0, sunsetMin - sunriseMin);
 
-      const fmtMin24 = (m) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+      const fmtMin24 = (m) => `${String(Math.floor(((m % 1440) + 1440) % 1440 / 60)).padStart(2, '0')}:${String(((m % 1440) + 1440) % 1440 % 60).padStart(2, '0')}`;
       const daylength = `${Math.floor(daylenMin / 60)}h ${String(daylenMin % 60).padStart(2, '0')}m`;
+
+      // Max solar altitude at solar noon for this latitude and declination
+      const declDeg = (decl * 180) / Math.PI;
+      const maxSolarAlt = Math.min(90, Math.max(5, 90 - Math.abs(activeLoc.lat - declDeg)));
 
       // Lunar Phase & Illumination Calculation
       const refNewMoonMs = Date.UTC(2026, 9, 10, 15, 50, 0);
@@ -376,13 +497,22 @@
       const moonriseMin = (sunsetMin + Math.round((ageDays - 14.76) * 50) + 1440) % 1440;
       const moonMeta = `Rise: ${fmtMin24(moonriseMin)} • ${ageDays.toFixed(1)}d`;
 
-      // Washington, D.C. DST check
+      // Washington, D.C. UTC offset (-240 in EDT, -300 in EST)
       const isUsDst = (d.getMonth() > 2 && d.getMonth() < 10) || (d.getMonth() === 10 && dayNum < 1);
-      const washOffsetMin = isUsDst ? (-9 * 60 - 30) : (-10 * 60 - 30);
-      const washLabel = isUsDst ? 'EDT (UTC-4) • -9h 30m' : 'EST (UTC-5) • -10h 30m';
+      const washUtcMin = isUsDst ? -240 : -300;
+      const washCode = isUsDst ? 'EDT (UTC-4)' : 'EST (UTC-5)';
 
-      const tempsC = [18, 17, 17, 16, 16, 15, 16, 18, 21, 24, 27, 29, 30, 31, 31, 30, 28, 25, 22, 20, 19, 19, 18, 18];
-      const dewsC  = [9,  9,  9,  8,  8,  8,  9,  9,  10, 10, 9,  8,  7,  6,  6,  7,  8,  9,  9,  9,  9,  9,  9,  9];
+      // Latitude-aware baseline hourly temperatures & dewpoints (overridden by live Open-Meteo data when fetched)
+      const baseMeanTemp = Math.round(28 - Math.abs(activeLoc.lat) * 0.42);
+      const tempsC = Array.from({ length: 24 }, (_, h) => {
+        const diurnal = Math.sin(((h - 8) / 24) * 2 * Math.PI) * 6;
+        return Math.round(baseMeanTemp + diurnal);
+      });
+      const dewsC = tempsC.map((t) => Math.max(-10, t - 11));
+      const windDirs = Array.from({ length: 24 }, (_, h) => (h >= 9 && h <= 17 ? 230 : 260));
+      const windKts = Array.from({ length: 24 }, (_, h) => (h >= 9 && h <= 17 ? 5 : 3));
+      const visMeters = Array.from({ length: 24 }, (_, h) => (h >= 9 && h <= 17 ? 6000 : 4000));
+      const qnhHpa = Array.from({ length: 24 }, () => 1016 - (dayOffset % 2));
 
       return {
         dateObj: d,
@@ -395,113 +525,262 @@
         sunriseMin,
         sunsetMin,
         solarNoon: fmtMin24(solarNoonMin),
+        solarNoonMin,
         daylength,
+        maxSolarAlt,
         moonPct,
         isWaning,
         moonPhase,
         moonMeta,
-        washOffsetMin,
-        washLabel,
+        washUtcMin,
+        washCode,
         tempsC,
         dewsC,
-        qnhBase: 1018 - (dayOffset % 2)
+        windDirs,
+        windKts,
+        visMeters,
+        qnhHpa
       };
     }
 
-    function getCurrentIstDate() {
-      const now = new Date();
-      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-      return new Date(utcMs + 5.5 * 3600000);
-    }
-
-    let UDAIPUR_DAYS = [0, 1, 2, 3].map((offset) => computeUdaipurDay(getCurrentIstDate(), offset));
+    let LOCATION_DAYS = [0, 1, 2, 3].map((offset) => computeLocationDay(getActiveLocalDate(), offset));
     let lastRenderedDateKey = '';
 
     let state = {
       dayIndex: 0,
       isSimulatingTime: false,
-      simulatedMinutes: 7 * 60 + 19,
-      selectedHour: 7,
+      simulatedMinutes: 13 * 60 + 25,
+      selectedHour: 13,
       currentRawMetar: ''
     };
 
-    function refreshDynamicDatesIfNeeded() {
-      const istNow = getCurrentIstDate();
-      const key = `${istNow.getFullYear()}-${istNow.getMonth()}-${istNow.getDate()}`;
-      if (key !== lastRenderedDateKey) {
-        lastRenderedDateKey = key;
-        UDAIPUR_DAYS = [0, 1, 2, 3].map((offset) => computeUdaipurDay(istNow, offset));
-        document.querySelectorAll('.day-tab').forEach((btn, idx) => {
-          if (UDAIPUR_DAYS[idx]) {
-            btn.textContent = UDAIPUR_DAYS[idx].shortLabel;
+    function rebuildDaysAndHydrateWeather() {
+      const localNow = getActiveLocalDate();
+      lastRenderedDateKey = `${localNow.getFullYear()}-${localNow.getMonth()}-${localNow.getDate()}-${activeLoc.icao}-${activeLoc.lat.toFixed(2)}`;
+      LOCATION_DAYS = [0, 1, 2, 3].map((offset) => computeLocationDay(localNow, offset));
+
+      document.querySelectorAll('.day-tab').forEach((btn, idx) => {
+        if (LOCATION_DAYS[idx]) {
+          btn.textContent = LOCATION_DAYS[idx].shortLabel;
+        }
+      });
+
+      renderAll();
+
+      // Fetch live Open-Meteo aviation/surface weather for the active coordinates
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${activeLoc.lat.toFixed(4)}&longitude=${activeLoc.lon.toFixed(4)}&hourly=temperature_2m,dew_point_2m,surface_pressure,wind_speed_10m,wind_direction_10m,visibility&wind_speed_unit=kn&timezone=auto&forecast_days=4`;
+      fetch(url)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (!data || !data.hourly) return;
+          if (typeof data.utc_offset_seconds === 'number') {
+            activeLoc.tzOffsetMin = Math.round(data.utc_offset_seconds / 60);
           }
-        });
+          if (typeof data.elevation === 'number' && data.elevation > 0) {
+            activeLoc.elevM = Math.round(data.elevation);
+            activeLoc.elevFt = Math.round(data.elevation * 3.28084);
+          }
+          for (let d = 0; d < 4; d++) {
+            const s = d * 24;
+            const day = LOCATION_DAYS[d];
+            if (!day) continue;
+            const tArr = data.hourly.temperature_2m?.slice(s, s + 24);
+            const dArr = data.hourly.dew_point_2m?.slice(s, s + 24);
+            const pArr = data.hourly.surface_pressure?.slice(s, s + 24);
+            const wsArr = data.hourly.wind_speed_10m?.slice(s, s + 24);
+            const wdArr = data.hourly.wind_direction_10m?.slice(s, s + 24);
+            const vArr = data.hourly.visibility?.slice(s, s + 24);
+
+            if (tArr && tArr.length === 24) day.tempsC = tArr.map((v) => Math.round(v ?? 20));
+            if (dArr && dArr.length === 24) day.dewsC = dArr.map((v) => Math.round(v ?? 10));
+            if (pArr && pArr.length === 24) day.qnhHpa = pArr.map((v) => Math.round(v ?? 1015));
+            if (wsArr && wsArr.length === 24) day.windKts = wsArr.map((v) => Math.max(1, Math.round(v ?? 3)));
+            if (wdArr && wdArr.length === 24) day.windDirs = wdArr.map((v) => Math.round((v ?? 250) / 10) * 10);
+            if (vArr && vArr.length === 24) day.visMeters = vArr.map((v) => Math.min(9999, Math.max(1500, Math.round((v ?? 6000) / 500) * 500)));
+          }
+          renderAll();
+        })
+        .catch(() => {});
+    }
+
+    // Apply newly detected or searched coordinates
+    function applyCoordinates(lat, lon, cityLabel, sourceLabel, explicitIcao = null) {
+      const nearest = findNearestAirport(lat, lon);
+      let icao = explicitIcao || (nearest ? nearest.icao : 'ZZZZ');
+      let iata = nearest ? nearest.iata : 'LOC';
+      let airportName = nearest ? nearest.name : `${cityLabel} Airfield`;
+      let elevFt = nearest ? nearest.elevFt : 500;
+
+      if (!nearest && !explicitIcao && cityLabel) {
+        const clean = cityLabel.replace(/[^A-Za-z]/g, '').toUpperCase();
+        icao = ('V' + clean + 'XXX').slice(0, 4);
       }
-      const headerDateEl = document.getElementById('headerLiveDate');
-      if (headerDateEl && UDAIPUR_DAYS[state.dayIndex]) {
-        headerDateEl.textContent = UDAIPUR_DAYS[state.dayIndex].headerShort;
+
+      // Default timezone offset from browser if matches, else nearest airport or longitude estimate
+      const browserTzMin = -new Date().getTimezoneOffset();
+      const tzOffsetMin = nearest ? nearest.tzOffsetMin : Math.round((lon / 15) * 2) * 30;
+
+      activeLoc = {
+        city: cityLabel || (nearest ? nearest.city : 'Local Position'),
+        icao,
+        iata,
+        airportName,
+        lat,
+        lon,
+        elevFt,
+        elevM: Math.round(elevFt / 3.28084),
+        tzOffsetMin: sourceLabel.includes('Device') ? browserTzMin : tzOffsetMin,
+        sourceLabel
+      };
+
+      const localNow = getActiveLocalDate();
+      state.isSimulatingTime = false;
+      state.selectedHour = localNow.getHours();
+      state.simulatedMinutes = localNow.getHours() * 60 + localNow.getMinutes();
+      const scrubber = document.getElementById('timeScrubber');
+      if (scrubber) scrubber.value = String(state.simulatedMinutes);
+
+      rebuildDaysAndHydrateWeather();
+    }
+
+    // Reverse-geocode lat/lon into human-readable City, Region using CORS-enabled BigDataCloud / Nominatim
+    function reverseGeocodeAndApply(lat, lon, sourceLabel) {
+      const nearest = findNearestAirport(lat, lon);
+      const fallbackCity = nearest ? nearest.city : `Lat ${lat.toFixed(2)}°, Lon ${lon.toFixed(2)}°`;
+      applyCoordinates(lat, lon, fallbackCity, sourceLabel);
+
+      fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (!data) return;
+          const city = data.city || data.locality || data.principalSubdivision;
+          const region = data.principalSubdivision || data.countryName;
+          if (city) {
+            activeLoc.city = region && region !== city ? `${city}, ${region}` : city;
+            renderAll();
+          }
+        })
+        .catch(() => {});
+    }
+
+    // Multi-tier Device Location Auto-Detection (1: HTML5 Geolocation -> 2: IP Geolocation -> 3: Browser Timezone)
+    function detectDeviceLocation(triggeredByUser = false) {
+      const badge = document.getElementById('geoSourceBadge');
+      if (badge) badge.textContent = 'Detecting device…';
+
+      const tryIpFallback = () => {
+        fetch('https://ipwho.is/')
+          .then((r) => (r.ok ? r.json() : Promise.reject()))
+          .then((data) => {
+            if (data && data.success !== false && typeof data.latitude === 'number') {
+              const cityStr = [data.city, data.region || data.country].filter(Boolean).join(', ');
+              applyCoordinates(data.latitude, data.longitude, cityStr, 'Device IP Location');
+              return;
+            }
+            throw new Error('Fallback to GeoJS');
+          })
+          .catch(() => {
+            fetch('https://get.geojs.io/v1/ip/geo.json')
+              .then((r) => (r.ok ? r.json() : Promise.reject()))
+              .then((g) => {
+                if (g && g.latitude && g.longitude) {
+                  const cityStr = [g.city, g.region || g.country].filter(Boolean).join(', ');
+                  applyCoordinates(parseFloat(g.latitude), parseFloat(g.longitude), cityStr, 'Device IP Location');
+                }
+              })
+              .catch(() => {
+                if (badge) badge.textContent = 'Device Timezone Synced';
+              });
+          });
+      };
+
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            reverseGeocodeAndApply(
+              pos.coords.latitude,
+              pos.coords.longitude,
+              triggeredByUser ? 'Device GPS (Exact)' : 'Device GPS'
+            );
+          },
+          () => {
+            tryIpFallback();
+          },
+          { enableHighAccuracy: false, timeout: 4500, maximumAge: 300000 }
+        );
+      } else {
+        tryIpFallback();
       }
     }
 
-    // Build realistic, grounded VAUD ICAO METAR & TAF for the selected IST hour & day
-    function buildVaudMetar(dayObj, istTotalMinutes) {
-      let utcMin = istTotalMinutes - 330;
+    function refreshDynamicDatesIfNeeded() {
+      const localNow = getActiveLocalDate();
+      const key = `${localNow.getFullYear()}-${localNow.getMonth()}-${localNow.getDate()}-${activeLoc.icao}-${activeLoc.lat.toFixed(2)}`;
+      if (key !== lastRenderedDateKey) {
+        rebuildDaysAndHydrateWeather();
+      }
+      const headerDateEl = document.getElementById('headerLiveDate');
+      if (headerDateEl && LOCATION_DAYS[state.dayIndex]) {
+        headerDateEl.textContent = LOCATION_DAYS[state.dayIndex].headerShort;
+      }
+    }
+
+    function buildStationMetar(dayObj, localTotalMinutes) {
+      let utcMin = localTotalMinutes - activeLoc.tzOffsetMin;
       let utcDay = dayObj.dayNum;
       if (utcMin < 0) {
         utcMin += 1440;
         utcDay = Math.max(1, utcDay - 1);
+      } else if (utcMin >= 1440) {
+        utcMin -= 1440;
+        utcDay += 1;
       }
       const utcH = Math.floor(utcMin / 60);
       const utcM = utcMin % 60 >= 30 ? 30 : 0;
       const obsTimeZ = `${String(utcDay).padStart(2, '0')}${String(utcH).padStart(2, '0')}${String(utcM).padStart(2, '0')}Z`;
 
-      const istH = Math.floor(istTotalMinutes / 60);
-      const istObsM = (utcM + 30) % 60;
-      const istObsH = (utcH + 5 + Math.floor((utcM + 30) / 60)) % 24;
-      const obsIstStr = `${String(istObsH).padStart(2, '0')}:${String(istObsM).padStart(2, '0')} IST`;
+      const localH = Math.floor(localTotalMinutes / 60);
+      const localObsMinTotal = ((utcH * 60 + utcM + activeLoc.tzOffsetMin) % 1440 + 1440) % 1440;
+      const obsLocalStr = `${String(Math.floor(localObsMinTotal / 60)).padStart(2, '0')}:${String(localObsMinTotal % 60).padStart(2, '0')} Local`;
 
-      const tempC = dayObj.tempsC[istH];
-      const dewC = dayObj.dewsC[istH];
+      const tempC = dayObj.tempsC[localH] ?? 22;
+      const dewC = dayObj.dewsC[localH] ?? 10;
+      const windDir = dayObj.windDirs[localH] ?? 250;
+      const windKt = dayObj.windKts[localH] ?? 3;
+      const visM = dayObj.visMeters[localH] ?? 5000;
+      const qnh = dayObj.qnhHpa[localH] ?? 1016;
 
-      let windDir = 260;
-      let windKt = 2;
-      let visM = 4000;
       let wxCode = 'HZ';
       let wxLabel = 'Haze';
       let cloudCode = 'NSC';
       let cloudLabel = 'No Significant Clouds';
-      let qnh = dayObj.qnhBase;
 
-      if (istH >= 5 && istH <= 8) {
-        windDir = 70;
-        windKt = 3;
-        visM = 3000;
+      if (visM >= 7000) {
+        wxCode = 'CAVOK';
+        wxLabel = 'Ceiling & Visibility OK (>10 km)';
+        cloudCode = 'NSC';
+      } else if (visM <= 3000) {
         wxCode = 'BR HZ';
         wxLabel = 'Mist & Haze';
         cloudCode = 'FEW030';
         cloudLabel = 'Few clouds at 3,000 ft';
-        qnh = dayObj.qnhBase + 1;
-      } else if (istH >= 9 && istH <= 16) {
-        windDir = 230;
-        windKt = 4;
-        visM = 5000;
+      } else if (localH >= 10 && localH <= 16) {
         wxCode = 'HZ';
-        wxLabel = 'Haze';
-        cloudCode = 'SCT030';
-        cloudLabel = 'Scattered clouds at 3,000 ft';
-        qnh = dayObj.qnhBase - 2;
+        wxLabel = 'Light Haze';
+        cloudCode = 'SCT035';
+        cloudLabel = 'Scattered clouds at 3,500 ft';
       }
 
       const windToken = `${String(windDir).padStart(3, '0')}${String(windKt).padStart(2, '0')}KT`;
-      const visToken = String(visM).padStart(4, '0');
+      const visToken = wxCode === 'CAVOK' ? '9999' : String(visM).padStart(4, '0');
       const fmtMetarTemp = (t) => (t < 0 ? 'M' + String(Math.abs(t)).padStart(2, '0') : String(t).padStart(2, '0'));
       const tempToken = `${fmtMetarTemp(tempC)}/${fmtMetarTemp(dewC)}`;
       const qnhToken = `Q${qnh}`;
 
       const tokens = [
         { code: 'METAR', desc: 'Routine Aviation Weather Report' },
-        { code: 'VAUD', desc: 'ICAO: Maharana Pratap Airport, Udaipur (Elev 1,684 ft)' },
-        { code: obsTimeZ, desc: `Observation Time: Day ${utcDay} at ${String(utcH).padStart(2, '0')}:${String(utcM).padStart(2, '0')} UTC (${obsIstStr})` },
+        { code: activeLoc.icao, desc: `ICAO Station: ${activeLoc.airportName} (${activeLoc.city})` },
+        { code: obsTimeZ, desc: `Observation Time: Day ${utcDay} at ${String(utcH).padStart(2, '0')}:${String(utcM).padStart(2, '0')} UTC (${obsLocalStr})` },
         { code: windToken, desc: `Surface Wind: ${windDir}° true at ${windKt} kt` },
         { code: visToken, desc: `Prevailing Visibility: ${visM.toLocaleString()} meters` },
         { code: wxCode, desc: `Present Weather: ${wxLabel}` },
@@ -518,7 +797,7 @@
         raw,
         tokens,
         obsTimeZ,
-        obsIstStr,
+        obsLocalStr,
         flightCat
       };
     }
@@ -532,22 +811,70 @@
       if (moonLit) moonLit.setAttribute('d', path);
     }
 
+    function applyDynamicSkyTint(solarAngle, totalMinutes, noonMin) {
+      const glow = document.getElementById('ambientCenterGlow');
+      if (solarAngle < -6) {
+        document.body.style.background =
+          'radial-gradient(circle at 18% 18%, rgba(99, 102, 241, 0.28) 0%, transparent 45%), ' +
+          'radial-gradient(circle at 82% 16%, rgba(59, 130, 246, 0.22) 0%, transparent 42%), ' +
+          'radial-gradient(circle at 50% 54%, rgba(139, 92, 246, 0.20) 0%, transparent 50%), ' +
+          'linear-gradient(160deg, #070b19 0%, #050711 55%, #020409 100%)';
+        if (glow) glow.className = 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-indigo-500/20 blur-3xl transition-all duration-700';
+      } else if (solarAngle < 14) {
+        const isMorning = totalMinutes <= noonMin;
+        if (isMorning) {
+          document.body.style.background =
+            'radial-gradient(circle at 20% 20%, rgba(251, 191, 36, 0.36) 0%, transparent 45%), ' +
+            'radial-gradient(circle at 80% 18%, rgba(244, 63, 94, 0.26) 0%, transparent 44%), ' +
+            'radial-gradient(circle at 50% 55%, rgba(245, 158, 11, 0.22) 0%, transparent 50%), ' +
+            'linear-gradient(160deg, #1b1326 0%, #0f1021 55%, #070913 100%)';
+          if (glow) glow.className = 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-amber-400/25 blur-3xl transition-all duration-700';
+        } else {
+          document.body.style.background =
+            'radial-gradient(circle at 18% 18%, rgba(249, 115, 22, 0.38) 0%, transparent 45%), ' +
+            'radial-gradient(circle at 82% 20%, rgba(168, 85, 247, 0.30) 0%, transparent 45%), ' +
+            'radial-gradient(circle at 50% 54%, rgba(236, 72, 153, 0.22) 0%, transparent 50%), ' +
+            'linear-gradient(160deg, #1c1124 0%, #100d1e 55%, #060710 100%)';
+          if (glow) glow.className = 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-orange-500/25 blur-3xl transition-all duration-700';
+        }
+      } else {
+        document.body.style.background =
+          'radial-gradient(circle at 18% 18%, rgba(56, 189, 248, 0.34) 0%, transparent 45%), ' +
+          'radial-gradient(circle at 82% 16%, rgba(251, 191, 36, 0.28) 0%, transparent 44%), ' +
+          'radial-gradient(circle at 50% 54%, rgba(14, 165, 233, 0.22) 0%, transparent 50%), ' +
+          'linear-gradient(160deg, #0c1e36 0%, #091526 55%, #050b16 100%)';
+        if (glow) glow.className = 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-sky-400/20 blur-3xl transition-all duration-700';
+      }
+    }
+
     function updateSunPosition(totalMinutes, dayObj) {
       const rise = dayObj.sunriseMin;
       const set = dayObj.sunsetMin;
       const altText = document.getElementById('centerSunAlt');
-      const t = (totalMinutes - rise) / (set - rise);
-      const maxAlt = 50.3;
-      const solarAngle = Math.sin(t * Math.PI) * maxAlt;
-      const dir = totalMinutes < 738 ? 'ESE' : (totalMinutes > 745 ? 'WSW' : 'S');
+      const t = (totalMinutes - rise) / Math.max(1, set - rise);
+      const solarAngle = Math.sin(t * Math.PI) * dayObj.maxSolarAlt;
+      const noon = dayObj.solarNoonMin;
+      const dir = totalMinutes < noon - 15 ? 'ESE' : (totalMinutes > noon + 15 ? 'WSW' : (activeLoc.lat >= 0 ? 'S' : 'N'));
       if (altText) {
         const sign = solarAngle >= 0 ? '+' : '';
         altText.textContent = `${sign}${solarAngle.toFixed(1)}° ${dir}`;
       }
+      applyDynamicSkyTint(solarAngle, totalMinutes, noon);
     }
 
-    function formatWorldClock(istTotalMin, seconds, offsetFromIstMin) {
-      const rawMin = istTotalMin + offsetFromIstMin;
+    function formatRelativeDiff(targetUtcMin, localUtcMin) {
+      const diff = targetUtcMin - localUtcMin;
+      if (diff === 0) return 'Same TZ';
+      const sign = diff > 0 ? '+' : '-';
+      const abs = Math.abs(diff);
+      const h = Math.floor(abs / 60);
+      const m = abs % 60;
+      return m > 0 ? `${sign}${h}h ${m}m` : `${sign}${h}h`;
+    }
+
+    function formatWorldClockFromLocal(localTotalMin, seconds, targetUtcOffsetMin) {
+      const diffFromLocal = targetUtcOffsetMin - activeLoc.tzOffsetMin;
+      const rawMin = localTotalMin + diffFromLocal;
       let dayShift = '';
       if (rawMin < 0) dayShift = ' (-1d)';
       else if (rawMin >= 1440) dayShift = ' (+1d)';
@@ -562,19 +889,22 @@
     }
 
     function renderMetarWidget(dayObj, totalMinutes) {
-      const m = buildVaudMetar(dayObj, totalMinutes);
+      const m = buildStationMetar(dayObj, totalMinutes);
       state.currentRawMetar = m.raw;
 
       const catBadge = document.getElementById('flightCatBadge');
       if (m.flightCat === 'VFR') {
-        catBadge.className = 'px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 flex items-center gap-1.5';
+        catBadge.className = 'px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 flex items-center gap-1.5 shrink-0';
         catBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>VFR';
       } else {
-        catBadge.className = 'px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-sky-500/25 text-sky-300 border border-sky-400/40 flex items-center gap-1.5';
+        catBadge.className = 'px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-sky-500/25 text-sky-300 border border-sky-400/40 flex items-center gap-1.5 shrink-0';
         catBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>MVFR';
       }
 
-      document.getElementById('metarObsAge').textContent = `Issued: ${m.obsTimeZ} (${m.obsIstStr})`;
+      document.getElementById('metarStationHeader').textContent = `METAR & TAF ${activeLoc.icao} — ${activeLoc.airportName} (${activeLoc.iata})`;
+      document.getElementById('metarStationSub').textContent = `Elev ${activeLoc.elevFt.toLocaleString()} ft (${activeLoc.elevM}m) • ${activeLoc.city}`;
+      document.getElementById('metarObsAge').textContent = `Issued: ${m.obsTimeZ} (${m.obsLocalStr})`;
+      document.getElementById('activeTokenHint').textContent = `Station: ${activeLoc.icao} (${activeLoc.airportName}, ${activeLoc.city})`;
 
       const container = document.getElementById('metarTokensContainer');
       container.innerHTML = '';
@@ -596,15 +926,57 @@
       const nextDate = new Date(dayObj.dateObj.getTime());
       nextDate.setDate(nextDate.getDate() + 1);
       const nextDStr = String(nextDate.getDate()).padStart(2, '0');
+      const tafTokens = [
+        { code: 'TAF', desc: 'Terminal Aerodrome Forecast (24–30 Hour Aviation Outlook)' },
+        { code: activeLoc.icao, desc: `TAF Station: ${activeLoc.airportName} (${activeLoc.city})` },
+        { code: `${dStr}0500Z`, desc: `TAF Issued: Day ${dStr} at 05:00 UTC` },
+        { code: `${dStr}06/${nextDStr}12`, desc: `Validity Period: Day ${dStr} 06:00 UTC to Day ${nextDStr} 12:00 UTC` },
+        { code: 'VRB03KT', desc: 'Forecast Wind: Variable direction at 3 knots' },
+        { code: '4000', desc: 'Forecast Visibility: 4,000 meters (2.5 SM)' },
+        { code: 'HZ', desc: 'Forecast Weather: Light atmospheric haze' },
+        { code: 'NSC', desc: 'Forecast Sky: No Significant Clouds' },
+        { code: 'BECMG', desc: 'Becoming Change Group: Gradual transition during the next time window' },
+        { code: `${dStr}08/${dStr}10`, desc: `Transition Window: Day ${dStr} between 08:00 UTC and 10:00 UTC` },
+        { code: '23005KT', desc: 'Daytime Wind Shift: From 230° (SW) at 5 knots' },
+        { code: '6000', desc: 'Improved Daytime Visibility: 6,000 meters (VFR)' },
+        { code: 'SCT035', desc: 'Daytime Clouds: Scattered layer at 3,500 ft AGL' },
+        { code: 'BECMG', desc: 'Becoming Change Group: Evening transition window' },
+        { code: `${dStr}14/${dStr}16`, desc: `Evening Window: Day ${dStr} between 14:00 UTC and 16:00 UTC` },
+        { code: '26003KT', desc: 'Evening Wind: Settling from 260° (W) at 3 knots' },
+        { code: '4000', desc: 'Evening Visibility: 4,000 meters' },
+        { code: 'HZ', desc: 'Evening Weather: Haze returning after sunset' },
+        { code: 'NSC', desc: 'Evening Sky: Clearing to No Significant Clouds' }
+      ];
+      state.currentRawMetar = m.raw + '\n' + tafTokens.map((t) => t.code).join(' ');
       const tafEl = document.getElementById('tafsummaryLine');
       if (tafEl) {
-        tafEl.textContent = `TAF VAUD ${dStr}0500Z ${dStr}06/${nextDStr}12 VRB03KT 3000 HZ BR NSC BECMG ${dStr}07/${dStr}09 23004KT 5000 HZ SCT030 BECMG ${dStr}13/${dStr}15 26002KT 4000 HZ NSC`;
+        tafEl.innerHTML = '';
+        tafTokens.forEach((tok) => {
+          const tBtn = document.createElement('button');
+          tBtn.type = 'button';
+          tBtn.className = 'px-1 py-0.5 rounded hover:bg-sky-400/20 hover:text-white transition focus:outline-none focus:ring-1 focus:ring-sky-300';
+          tBtn.textContent = tok.code;
+          tBtn.addEventListener('click', () => {
+            document.getElementById('activeTokenHint').textContent = tok.desc;
+          });
+          tBtn.addEventListener('mouseenter', () => {
+            document.getElementById('activeTokenHint').textContent = tok.desc;
+          });
+          tafEl.appendChild(tBtn);
+        });
       }
     }
 
     function renderAll() {
       refreshDynamicDatesIfNeeded();
-      const dayObj = UDAIPUR_DAYS[state.dayIndex];
+      const dayObj = LOCATION_DAYS[state.dayIndex];
+      const utcOffsetLabel = formatUtcOffset(activeLoc.tzOffsetMin);
+
+      document.getElementById('locationTitle').textContent = activeLoc.city;
+      document.getElementById('stationCodeBadge').textContent = `${activeLoc.icao} / ${activeLoc.iata}`;
+      document.getElementById('geoSourceBadge').textContent = activeLoc.sourceLabel;
+      document.getElementById('locationCoordsMeta').textContent = `${formatCoordPair(activeLoc.lat, activeLoc.lon)} • Elev ${activeLoc.elevFt.toLocaleString()} ft (${activeLoc.elevM}m) • ${utcOffsetLabel}`;
+      document.getElementById('centerTzAbbrev').textContent = utcOffsetLabel;
 
       document.getElementById('sunriseVal').textContent = dayObj.sunrise;
       document.getElementById('sunsetVal').textContent = dayObj.sunset;
@@ -626,24 +998,25 @@
 
     function updateClockDisplay() {
       refreshDynamicDatesIfNeeded();
-      const dayObj = UDAIPUR_DAYS[state.dayIndex];
+      const dayObj = LOCATION_DAYS[state.dayIndex];
       let hours, minutes, seconds;
+      const shortCityUpper = activeLoc.city.split(',')[0].toUpperCase();
 
       if (state.isSimulatingTime) {
         hours = Math.floor(state.simulatedMinutes / 60);
         minutes = state.simulatedMinutes % 60;
         seconds = 0;
-        document.getElementById('clockModeLabel').textContent = 'SIMULATED UDAIPUR TIME PREVIEW';
+        document.getElementById('clockModeLabel').textContent = `SIMULATED LOCAL TIME (${shortCityUpper})`;
         document.getElementById('clockLiveDot').className = 'w-1.5 h-1.5 rounded-full bg-amber-400';
         document.getElementById('resetLiveBtn').classList.remove('hidden');
         document.getElementById('scrubberValueLabel').textContent = 'Scrubbing Time Preview';
       } else {
-        const istDate = getCurrentIstDate();
-        hours = istDate.getHours();
-        minutes = istDate.getMinutes();
-        seconds = istDate.getSeconds();
+        const localDate = getActiveLocalDate();
+        hours = localDate.getHours();
+        minutes = localDate.getMinutes();
+        seconds = localDate.getSeconds();
 
-        document.getElementById('clockModeLabel').textContent = 'LIVE INDIAN STANDARD TIME (UDAIPUR)';
+        document.getElementById('clockModeLabel').textContent = `LIVE LOCAL TIME (${shortCityUpper})`;
         document.getElementById('clockLiveDot').className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping';
         document.getElementById('resetLiveBtn').classList.add('hidden');
         document.getElementById('scrubberValueLabel').textContent = 'Live Clock Synced';
@@ -664,14 +1037,66 @@
 
       document.getElementById('centerTimeDisplay').textContent = timeStr;
 
-      const utcClockStr = formatWorldClock(totalMinutes, seconds, -330);
+      const utcClockStr = formatWorldClockFromLocal(totalMinutes, seconds, 0);
       document.getElementById('centerDateDisplay').innerHTML = `${dayObj.label} • Zulu <span class="font-mono text-amber-300">${utcClockStr.split(' ')[0]}Z</span>`;
 
-      document.getElementById('tzWashingtonTime').textContent = formatWorldClock(totalMinutes, seconds, dayObj.washOffsetMin);
-      document.getElementById('tzWashingtonMeta').textContent = dayObj.washLabel;
+      document.getElementById('tzWashingtonTime').textContent = formatWorldClockFromLocal(totalMinutes, seconds, dayObj.washUtcMin);
+      document.getElementById('tzWashingtonMeta').textContent = `${dayObj.washCode} • ${formatRelativeDiff(dayObj.washUtcMin, activeLoc.tzOffsetMin)}`;
+
       document.getElementById('tzUtcTime').textContent = utcClockStr;
-      document.getElementById('tzMoscowTime').textContent = formatWorldClock(totalMinutes, seconds, -150);
-      document.getElementById('tzBeijingTime').textContent = formatWorldClock(totalMinutes, seconds, 150);
+      document.getElementById('tzUtcMeta').textContent = `UTC+00:00 • ${formatRelativeDiff(0, activeLoc.tzOffsetMin)}`;
+
+      document.getElementById('tzMoscowTime').textContent = formatWorldClockFromLocal(totalMinutes, seconds, 180);
+      document.getElementById('tzMoscowMeta').textContent = `MSK (UTC+3) • ${formatRelativeDiff(180, activeLoc.tzOffsetMin)}`;
+
+      document.getElementById('tzBeijingTime').textContent = formatWorldClockFromLocal(totalMinutes, seconds, 480);
+      document.getElementById('tzBeijingMeta').textContent = `CST (UTC+8) • ${formatRelativeDiff(480, activeLoc.tzOffsetMin)}`;
+    }
+
+    // Handle City or ICAO Search
+    function handleLocationSearch(query) {
+      const q = query.trim();
+      if (!q) return;
+
+      // 1. Check if query matches an ICAO or IATA or City in our Airport Directory
+      const upper = q.toUpperCase();
+      const directAp = AIRPORT_DIRECTORY.find(
+        (a) => a.icao === upper || a.iata === upper || a.city.toUpperCase().includes(upper)
+      );
+      if (directAp) {
+        activeLoc = {
+          city: directAp.city,
+          icao: directAp.icao,
+          iata: directAp.iata,
+          airportName: directAp.name,
+          lat: directAp.lat,
+          lon: directAp.lon,
+          elevFt: directAp.elevFt,
+          elevM: Math.round(directAp.elevFt / 3.28084),
+          tzOffsetMin: directAp.tzOffsetMin,
+          sourceLabel: `Selected (${directAp.icao})`
+        };
+        rebuildDaysAndHydrateWeather();
+        return;
+      }
+
+      // 2. Otherwise query Open-Meteo Geocoding API for any city worldwide
+      const badge = document.getElementById('geoSourceBadge');
+      if (badge) badge.textContent = `Searching "${q}"…`;
+      fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=en&format=json`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (data && data.results && data.results.length > 0) {
+            const hit = data.results[0];
+            const cityLabel = [hit.name, hit.admin1 || hit.country].filter(Boolean).join(', ');
+            applyCoordinates(hit.latitude, hit.longitude, cityLabel, 'Searched Location');
+          } else if (badge) {
+            badge.textContent = 'Not found';
+          }
+        })
+        .catch(() => {
+          if (badge) badge.textContent = 'Offline Search';
+        });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -679,18 +1104,66 @@
         btn.addEventListener('click', () => {
           state.dayIndex = parseInt(btn.getAttribute('data-day'), 10);
           document.querySelectorAll('.day-tab').forEach((b) => {
-            b.className = 'day-tab px-2.5 py-1 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white';
+            b.className = 'day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all text-slate-300 hover:text-white';
           });
-          btn.className = 'day-tab px-2.5 py-1 rounded-md text-[11px] font-medium transition-all bg-amber-500 text-slate-950 font-semibold';
+          btn.className = 'day-tab px-2 py-0.5 rounded-md text-[11px] font-medium transition-all bg-amber-500 text-slate-950 font-semibold';
           renderAll();
         });
+      });
+
+      let isKioskMode = false;
+      const fsBtn = document.getElementById('fullscreenBtn');
+      const fsLabel = document.getElementById('fullscreenLabel');
+      const searchForm = document.getElementById('locationSearchForm');
+      const locatePill = document.getElementById('locateMePillBtn');
+
+      const syncFullscreenUi = () => {
+        const activeFs = Boolean(document.fullscreenElement) || isKioskMode;
+        fsLabel.textContent = activeFs ? 'Exit Full' : 'Fullscreen';
+        if (searchForm) searchForm.classList.toggle('hidden', activeFs);
+        if (locatePill) locatePill.classList.toggle('hidden', activeFs);
+      };
+
+      fsBtn.addEventListener('click', () => {
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+          isKioskMode = false;
+          syncFullscreenUi();
+        } else if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().then(() => {
+            isKioskMode = true;
+            syncFullscreenUi();
+          }).catch(() => {
+            isKioskMode = !isKioskMode;
+            syncFullscreenUi();
+          });
+        } else {
+          isKioskMode = !isKioskMode;
+          syncFullscreenUi();
+        }
+      });
+
+      document.addEventListener('fullscreenchange', syncFullscreenUi);
+
+      document.getElementById('detectLocationBtn').addEventListener('click', () => {
+        detectDeviceLocation(true);
+      });
+      document.getElementById('locateMePillBtn').addEventListener('click', () => {
+        detectDeviceLocation(true);
+      });
+
+      document.getElementById('locationSearchForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('locationSearchInput');
+        handleLocationSearch(input.value);
+        input.value = '';
       });
 
       document.getElementById('copyMetarBtn').addEventListener('click', () => {
         const text = state.currentRawMetar;
         const labelEl = document.getElementById('copyMetarLabel');
         const showCopied = () => {
-          labelEl.textContent = 'Copied VAUD!';
+          labelEl.textContent = `Copied ${activeLoc.icao}!`;
           setTimeout(() => { labelEl.textContent = 'Copy METAR'; }, 1800);
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -724,17 +1197,20 @@
 
       document.getElementById('resetLiveBtn').addEventListener('click', () => {
         state.isSimulatingTime = false;
-        const istDate = getCurrentIstDate();
-        state.selectedHour = istDate.getHours();
-        scrubber.value = String(istDate.getHours() * 60 + istDate.getMinutes());
+        const localDate = getActiveLocalDate();
+        state.selectedHour = localDate.getHours();
+        scrubber.value = String(localDate.getHours() * 60 + localDate.getMinutes());
         renderAll();
       });
 
-      const initIst = getCurrentIstDate();
-      state.selectedHour = initIst.getHours();
-      state.simulatedMinutes = initIst.getHours() * 60 + initIst.getMinutes();
+      const initLocal = getActiveLocalDate();
+      state.selectedHour = initLocal.getHours();
+      state.simulatedMinutes = initLocal.getHours() * 60 + initLocal.getMinutes();
       scrubber.value = String(state.simulatedMinutes);
-      renderAll();
+      rebuildDaysAndHydrateWeather();
+
+      // Automatically detect the opening device's location via GPS -> IP fallback
+      detectDeviceLocation(false);
 
       setInterval(() => {
         if (!state.isSimulatingTime) {
