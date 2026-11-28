@@ -1,55 +1,36 @@
 {
-    "name": "Kushagra Karira",
-    "short_name": "Kushagra",
-    "start_url": "/",
-    "theme_color": "#1a5fb4",
-    "background_color": "#000000",
-    "display": "standalone",
-    "scope": "/",
-    "orientation": "any",
-    "dir": "ltr",
-    "lang": "en",
-    "description": "The personal website, blog, and portfolio of Kushagra Karira.",
-    "prefer_related_applications": false,
-    "categories": ["design", "developer", "personal", "blog", "portfolio"],
-    "shortcuts" : [
-	  {
- 	   "name": "Poems",
- 	   "url": "/Poems.html",
- 	   "icons": [{ "src": "/images/icons/pen.svg", "type": "image/svg+xml", "purpose": "any" }],
- 	   "description": "A collection of original poems."
-	  },
- 	 {
- 	   "name": "Blog",
- 	   "url": "/Blog.html",
- 	   "icons": [{ "src": "/images/icons/blog.svg", "type": "image/svg+xml", "purpose": "any" }],
- 	   "description": "Stories, guides, and thoughts."
- 	 },
-	  {
- 	   "name": "Gallery",
- 	   "url": "/Gallery.html",
- 	   "icons": [{ "src": "/images/icons/grid.svg", "type": "image/svg+xml", "purpose": "any" }],
- 	   "description": "A showcase of graphic design work."
- 	 }
-	],
-    "icons": [
-        {
-            "src": "/images/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/images/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/images/icon.svg",
-            "sizes": "any",
-            "type": "image/svg+xml",
-            "purpose": "maskable"
-        }
-    ]
+  "name": "Kushagra Karira",
+  "short_name": "Kushagra",
+  "description": "The personal website, blog, and portfolio of Kushagra Karira.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#1a5fb4",
+  "background_color": "#000000",
+  "categories": ["design", "developer", "personal", "blog", "portfolio"],
+  "shortcuts": [
+    {
+      "name": "Poems",
+      "url": "/Poems",
+      "description": "A collection of original poems.",
+      "icons": [{ "src": "/images/icons/pen.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Blog",
+      "url": "/Blog",
+      "description": "Stories, guides, and thoughts.",
+      "icons": [{ "src": "/images/icons/blog.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Gallery",
+      "url": "/Gallery",
+      "description": "A showcase of graphic design work.",
+      "icons": [{ "src": "/images/icons/grid.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ],
+  "icons": [
+    { "src": "/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
 }
