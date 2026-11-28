@@ -23,3 +23,9 @@ nav.header a.active{background:#1a5fb4}
 select,button,input,textarea,a.button,.gallery{background:#202020;color:#fafafa}
 nav.header a:hover,button:hover,a.button:hover,.gallery:hover{background:#1a5fb4;color:#fafafa}
 }
+@media (min-width: 760px) {
+  body { width: min(92%, 960px); }
+  nav.header { width: min(90%, 380px); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .grid2 .top, .grid2 .bottom, .grid2 a.button { border-radius: 16px; margin-block: 4px; }
+}
