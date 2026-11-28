@@ -4,84 +4,117 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Merge, reorder, rotate, edit PDF metadata, and export PDF/JPG/PNG files locally in your browser.">
-<title>PDF Studio — Kushagra Karira</title>
+<title>PDF Studio</title>
 <link rel="stylesheet" href="./style.css">
 <script src="./header.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
-.bar{display:flex;gap:2px;margin-block:1px}
-.bar button,.bar label{margin:0;text-align:center;flex:1;padding:10px 8px;font-size:.9em}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+body{padding:0 0 28px}
+.hbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;background:#fafafa}
+.hbar a,.hbar button{width:auto;min-height:34px;padding:6px 12px;border-radius:10px;font-size:.9em;margin:0;text-align:center}
+.suggested{background:#3584e4!important;color:#fff!important;font-weight:600}
+.destructive{color:#e01b24!important}
+.seg{display:flex;gap:1px;background:#d5d5d5;border-radius:12px;overflow:hidden;margin-bottom:8px}
+.seg button,.seg label{flex:1;margin:0;border-radius:0;text-align:center;min-height:36px;font-size:.88em;display:flex;align-items:center;justify-content:center}
+.seg button.active{background:#99c1f1;font-weight:600}
+.empty{background:#e5e5e5;border-radius:16px;padding:36px 20px;text-align:center;margin:8px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
 .pcard{background:#e5e5e5;border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:6px;cursor:grab}
-.pcard.over{outline:2px solid #1a5fb4}
+.pcard.over{outline:2px solid #3584e4}
 .thumb{height:150px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .thumb img{width:auto;height:auto;max-width:100%;max-height:100%;border-radius:0;transition:transform .2s}
 .pacts{display:flex;gap:2px}
 .pacts button{padding:6px 4px;min-height:0;text-align:center;font-size:.8em;border-radius:8px}
-.meta-row{display:flex;gap:2px;margin-block:1px}
-.meta-row input{margin:0}
-.meta-row button{width:auto;margin:0;padding:0 12px}
+.mrow{display:flex;gap:1px;margin-block:1px}
+.mrow input{margin:0}
+.mrow button{width:auto;margin:0;padding:0 12px}
 .drop-over{background:#cfe2fa!important}
 @media(prefers-color-scheme:dark){
-  .pcard{background:#202020}
+  .hbar{background:#000}
+  .seg{background:#303030}
+  .seg button.active{background:#1a5fb4;color:#fff}
+  .empty,.pcard{background:#202020}
   .thumb{background:#121212}
   .drop-over{background:#1a5fb4!important}
 }
 </style>
 </head>
 <body>
-<nav class="header" data-site-header></nav>
+<header class="hbar">
+  <a class="button" href="/" aria-label="Home">←</a>
+  <div style="text-align:center;flex:1">
+    <div style="font-weight:700">PDF Studio</div>
+    <div id="statusBar" style="font-size:.75em;opacity:.7">0 pages loaded</div>
+  </div>
+  <button type="button" id="btnExport" class="suggested">Export (0)</button>
+</header>
 
-<h1>PDF Studio</h1>
-<div id="dropZone" class="bar">
-  <label for="fileInput" class="button top" style="cursor:pointer">Add PDF / IMG</label>
-  <button type="button" id="btnBlank" class="top">Blank A4</button>
-  <button type="button" id="btnReverse" class="top">Reverse</button>
-  <button type="button" id="btnClear" class="top">Clear</button>
+<div class="seg" role="tablist">
+  <button type="button" id="tabPages" class="active" onclick="switchTab('pages')">Pages</button>
+  <button type="button" id="tabMeta" onclick="switchTab('meta')">Metadata &amp; Layout</button>
 </div>
-<input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple style="display:none">
-<div class="card" id="statusBar" style="background:#e5e5e5;padding:8px 15px;font-size:.85em;opacity:.85">Drop PDF, JPG, or PNG files onto the bar above. 0 pages loaded.</div>
-<button type="button" id="btnExport" class="bottom" style="background:#1a5fb4;color:#fafafa;font-weight:600">Export PDF (0)</button>
 
-<div id="pagesGrid" class="grid"></div>
+<section id="viewPages">
+  <div id="dropZone" class="seg">
+    <label for="fileInput" class="button" style="cursor:pointer">+ Files</label>
+    <button type="button" id="btnBlank">+ Blank</button>
+    <button type="button" id="btnReverse">Reverse</button>
+    <button type="button" id="btnClear" class="destructive">Clear</button>
+  </div>
+  <input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple style="display:none">
 
-<h3>PDF Metadata &amp; Output</h3>
-<input id="exportName" class="top" type="text" value="arranged-document" placeholder="Output filename (without .pdf)">
-<input id="metaTitle" type="text" placeholder="Title">
-<input id="metaAuthor" type="text" placeholder="Author">
-<input id="metaSubject" type="text" placeholder="Subject">
-<input id="metaKeywords" type="text" placeholder="Keywords (comma-separated)">
-<select id="optImgSize">
-  <option value="A4_AUTO" selected>Images: A4 Auto-Orientation</option>
-  <option value="A4_PORTRAIT">Images: A4 Portrait</option>
-  <option value="FIT_IMAGE">Images: Fit Exact Pixels</option>
-</select>
-<select id="optPageNums">
-  <option value="none" selected>Page Numbers: None</option>
-  <option value="bottom-right">Page Numbers: Bottom Right</option>
-  <option value="bottom-center">Page Numbers: Bottom Center</option>
-</select>
-<div id="customMetaList"></div>
-<button type="button" id="btnAddMeta" class="bottom">+ Add Custom Metadata Field</button>
+  <div id="emptyState" class="empty">
+    <div style="font-weight:700;margin-bottom:4px">No Pages Loaded</div>
+    <div style="font-size:.88em;opacity:.75;margin-bottom:14px">Drop PDF, JPG, or PNG files here or choose files to arrange, rotate, and export.</div>
+    <label for="fileInput" class="button single suggested" style="display:inline-block;width:auto;padding:8px 18px;cursor:pointer">Choose Files…</label>
+  </div>
+
+  <div id="pagesGrid" class="grid" style="display:none"></div>
+</section>
+
+<section id="viewMeta" style="display:none">
+  <h3>Output &amp; Layout</h3>
+  <input id="exportName" class="top" type="text" value="arranged-document" placeholder="Output filename (without .pdf)">
+  <select id="optImgSize">
+    <option value="A4_AUTO" selected>Images: A4 Auto-Orientation</option>
+    <option value="A4_PORTRAIT">Images: A4 Portrait</option>
+    <option value="FIT_IMAGE">Images: Fit Exact Pixels</option>
+  </select>
+  <select id="optPageNums" class="bottom">
+    <option value="none" selected>Page Numbers: None</option>
+    <option value="bottom-right">Page Numbers: Bottom Right</option>
+    <option value="bottom-center">Page Numbers: Bottom Center</option>
+  </select>
+
+  <h3>Document Properties</h3>
+  <input id="metaTitle" class="top" type="text" placeholder="Title">
+  <input id="metaAuthor" type="text" placeholder="Author">
+  <input id="metaSubject" type="text" placeholder="Subject">
+  <input id="metaKeywords" type="text" placeholder="Keywords (comma-separated)">
+  <div id="customMetaList"></div>
+  <button type="button" id="btnAddMeta" class="bottom">+ Add Custom Key-Value Field</button>
+</section>
 
 <script>
 if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 const st={sources:new Map(),pages:[],meta:[],dragId:null};
-let uid=1;const nid=p=>`${p}-${++uid}`;
-const $=id=>document.getElementById(id);
+let uid=1;const nid=p=>`${p}-${++uid}`,$=id=>document.getElementById(id);
 
-function status(msg){$('statusBar').textContent=msg;}
+function switchTab(t){
+  $('tabPages').classList.toggle('active',t==='pages');
+  $('tabMeta').classList.toggle('active',t==='meta');
+  $('viewPages').style.display=t==='pages'?'block':'none';
+  $('viewMeta').style.display=t==='meta'?'block':'none';
+}
 
 function renderMeta(){
   const box=$('customMetaList');box.innerHTML='';
   st.meta.forEach(m=>{
-    const row=document.createElement('div');row.className='meta-row';
-    const k=Object.assign(document.createElement('input'),{placeholder:'Key',value:m.key});
-    k.oninput=e=>m.key=e.target.value;
-    const v=Object.assign(document.createElement('input'),{placeholder:'Value',value:m.value});
-    v.oninput=e=>m.value=e.target.value;
-    const del=Object.assign(document.createElement('button'),{type:'button',textContent:'×'});
+    const row=document.createElement('div');row.className='mrow';
+    const k=Object.assign(document.createElement('input'),{placeholder:'Key',value:m.key});k.oninput=e=>m.key=e.target.value;
+    const v=Object.assign(document.createElement('input'),{placeholder:'Value',value:m.value});v.oninput=e=>m.value=e.target.value;
+    const del=Object.assign(document.createElement('button'),{type:'button',textContent:'×',className:'destructive'});
     del.onclick=()=>{st.meta=st.meta.filter(x=>x.id!==m.id);renderMeta();};
     row.append(k,v,del);box.appendChild(row);
   });
@@ -96,9 +129,8 @@ async function addPdf(file,buf){
 
   const pdf=await pdfjsLib.getDocument({data:bytes.slice(0)}).promise;
   for(let p=1;p<=pdf.numPages;p++){
-    status(`Rendering ${file.name} (${p}/${pdf.numPages})…`);
-    const page=await pdf.getPage(p);
-    const base=page.getViewport({scale:1});
+    $('statusBar').textContent=`Rendering ${p}/${pdf.numPages}…`;
+    const page=await pdf.getPage(p),base=page.getViewport({scale:1});
     const vp=page.getViewport({scale:Math.min(1.2,320/Math.max(base.width,base.height,1))});
     const c=Object.assign(document.createElement('canvas'),{width:Math.floor(vp.width),height:Math.floor(vp.height)});
     const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
@@ -129,8 +161,7 @@ async function addImg(file,buf){
 
 async function handleFiles(files){
   for(const f of files){
-    const n=f.name.toLowerCase();
-    const buf=await f.arrayBuffer();
+    const n=f.name.toLowerCase(),buf=await f.arrayBuffer();
     if(f.type==='application/pdf'||n.endsWith('.pdf'))await addPdf(f,buf);
     else if(/\.(jpe?g|png)$/.test(n)||/^image\/(jpeg|png)$/.test(f.type))await addImg(f,buf);
   }
@@ -138,9 +169,12 @@ async function handleFiles(files){
 }
 
 function renderGrid(){
-  const g=$('pagesGrid');g.innerHTML='';
-  $('btnExport').textContent=`Export PDF (${st.pages.length})`;
-  status(`${st.pages.length} page(s) ready. Drag cards to reorder.`);
+  const g=$('pagesGrid'),emp=$('emptyState'),n=st.pages.length;
+  $('btnExport').textContent=`Export (${n})`;
+  $('statusBar').textContent=`${n} page${n===1?'':'s'} • Drag to reorder`;
+  emp.style.display=n?'none':'block';
+  g.style.display=n?'grid':'none';
+  g.innerHTML='';
 
   st.pages.forEach((p,i)=>{
     const card=document.createElement('div');card.className='pcard';card.draggable=true;
@@ -152,49 +186,41 @@ function renderGrid(){
       const from=st.pages.findIndex(x=>x.id===st.dragId),to=st.pages.findIndex(x=>x.id===p.id);
       if(from>-1&&to>-1&&from!==to){const[m]=st.pages.splice(from,1);st.pages.splice(to,0,m);renderGrid();}
     };
-
     const top=document.createElement('div');
     top.style.cssText='display:flex;justify-content:space-between;font-size:.8em;opacity:.8';
     top.innerHTML=`<strong>#${i+1}</strong><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px">${p.name}</span>`;
-
     const th=document.createElement('div');th.className='thumb';
-    const im=Object.assign(document.createElement('img'),{src:p.thumb,alt:p.name});
-    im.style.transform=`rotate(${p.rot}deg)`;
+    const im=Object.assign(document.createElement('img'),{src:p.thumb,alt:p.name});im.style.transform=`rotate(${p.rot}deg)`;
     th.appendChild(im);
-
     const acts=document.createElement('div');acts.className='pacts';
-    const btn=(txt,fn)=>{const b=Object.assign(document.createElement('button'),{type:'button',textContent:txt,onclick:fn});return b;};
+    const btn=(txt,fn,cls='')=>Object.assign(document.createElement('button'),{type:'button',textContent:txt,onclick:fn,className:cls});
     acts.append(
       btn('↺',()=>{p.rot=(p.rot+270)%360;renderGrid();}),
       btn('↻',()=>{p.rot=(p.rot+90)%360;renderGrid();}),
       btn('Label',()=>{const l=prompt('Optional page header stamp:',p.label);if(l!==null){p.label=l.trim();renderGrid();}}),
       btn('Copy',()=>{st.pages.splice(i+1,0,{...p,id:nid('pg')});renderGrid();}),
-      btn('×',()=>{st.pages.splice(i,1);renderGrid();})
+      btn('×',()=>{st.pages.splice(i,1);renderGrid();},'destructive')
     );
     card.append(top,th,acts);g.appendChild(card);
   });
 }
 
 async function exportPdf(){
-  if(!st.pages.length)return status('Add at least one file first.');
-  status('Building PDF…');
-  const out=await PDFLib.PDFDocument.create();
-  const font=await out.embedFont(PDFLib.StandardFonts.Helvetica);
-  const cache=new Map(),imgCache=new Map();
-  const szMode=$('optImgSize').value,numMode=$('optPageNums').value;
+  if(!st.pages.length)return($('statusBar').textContent='Add at least one file first');
+  $('statusBar').textContent='Building PDF…';
+  const out=await PDFLib.PDFDocument.create(),font=await out.embedFont(PDFLib.StandardFonts.Helvetica);
+  const cache=new Map(),imgCache=new Map(),szMode=$('optImgSize').value,numMode=$('optPageNums').value;
 
   for(let i=0;i<st.pages.length;i++){
     const it=st.pages[i];let pg;
     if(it.kind==='pdf'){
-      const src=st.sources.get(it.sid);
-      let doc=cache.get(it.sid);
+      const src=st.sources.get(it.sid);let doc=cache.get(it.sid);
       if(!doc){doc=await PDFLib.PDFDocument.load(src.bytes.slice(0),{ignoreEncryption:true});cache.set(it.sid,doc);}
       const[cp]=await out.copyPages(doc,[it.idx]);
       cp.setRotation(PDFLib.degrees(((cp.getRotation().angle||0)+it.rot)%360));
       pg=out.addPage(cp);
     }else if(it.kind==='img'){
-      const src=st.sources.get(it.sid);
-      let em=imgCache.get(it.sid);
+      const src=st.sources.get(it.sid);let em=imgCache.get(it.sid);
       if(!em){em=src.fmt==='png'?await out.embedPng(src.bytes):await out.embedJpg(src.bytes);imgCache.set(it.sid,em);}
       const land=em.width>em.height;
       const[w,h]=szMode==='FIT_IMAGE'?[em.width,em.height]:szMode==='A4_PORTRAIT'?[595.28,841.89]:land?[841.89,595.28]:[595.28,841.89];
@@ -203,8 +229,7 @@ async function exportPdf(){
       pg.drawImage(em,{x:(w-em.width*sc)/2,y:(h-em.height*sc)/2,width:em.width*sc,height:em.height*sc});
       if(it.rot)pg.setRotation(PDFLib.degrees(it.rot));
     }else{
-      pg=out.addPage([595.28,841.89]);
-      if(it.rot)pg.setRotation(PDFLib.degrees(it.rot));
+      pg=out.addPage([595.28,841.89]);if(it.rot)pg.setRotation(PDFLib.degrees(it.rot));
     }
     const{width,height}=pg.getSize();
     if(it.label)pg.drawText(it.label,{x:20,y:height-24,size:10,font});
@@ -220,16 +245,11 @@ async function exportPdf(){
   if($('metaSubject').value)out.setSubject($('metaSubject').value.trim());
   if($('metaKeywords').value)out.setKeywords($('metaKeywords').value.split(',').map(s=>s.trim()).filter(Boolean));
   const info=out.getInfoDict();
-  st.meta.forEach(m=>{
-    const k=m.key.trim().replace(/[^a-zA-Z0-9_.-]/g,'_'),v=m.value.trim();
-    if(k&&v)info.set(PDFLib.PDFName.of(k),PDFLib.PDFHexString.fromText(v));
-  });
+  st.meta.forEach(m=>{const k=m.key.trim().replace(/[^a-zA-Z0-9_.-]/g,'_'),v=m.value.trim();if(k&&v)info.set(PDFLib.PDFName.of(k),PDFLib.PDFHexString.fromText(v));});
 
-  const bytes=await out.save();
-  const fname=(($('exportName').value||'arranged-document').replace(/\.pdf$/i,''))+'.pdf';
-  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([bytes],{type:'application/pdf'})),download:fname});
-  a.click();
-  status(`Exported "${fname}" (${out.getPageCount()} pages, ${(bytes.byteLength/1024).toFixed(1)} KB).`);
+  const bytes=await out.save(),fname=(($('exportName').value||'arranged-document').replace(/\.pdf$/i,''))+'.pdf';
+  Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([bytes],{type:'application/pdf'})),download:fname}).click();
+  $('statusBar').textContent=`Saved ${fname} (${(bytes.byteLength/1024).toFixed(1)} KB)`;
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
