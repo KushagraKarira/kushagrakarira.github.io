@@ -1,101 +1,41 @@
-<!doctype html>
-<html lang=en>
-	<head>
-		<meta charset=utf-8>
-		<meta content="IE=edge"http-equiv=X-UA-Compatible>
-		<meta content="width=device-width,initial-scale=1"name=viewport>
-		<meta content=#00a0fc name=apple-mobile-web-app-status-bar>
-		<meta content=black name=theme-color>
-		<meta content="Gallery to showcase my works in Graphic Design"name=description>
-		<meta content="Kushagra Karira"name=author>
-		<link href=images/icon-192x192.png rel=apple-touch-icon>
-		<link href=favicon.ico rel="shortcut icon"type=image/x-icon>
-		<meta content=#00a0fc name=theme-color>
-		<link href=./favicon.svg rel=icon type=image/svg+xml>
-		<title>Gallery</title>
-		<link href=./style.css rel=stylesheet>
-		<link href=./manifest.webmanifest rel=manifest crossorigin=use-credentials>
-		<style>
-body {text-align: center;}
-div.page{display: flex;flex-wrap: wrap;justify-content: center;gap: 10px;padding: 10px;}
-div.gallery{width: calc(47% - 10px);margin: 0 5px 10px;background-color:#E5E5E5;border-radius: 20px;}
-div.gallery:hover{background-color:#1a5fb4}
-div.gallery img{width: 100%;height: auto;border-radius: 20px;}
-div.desc{text-align:center}
-			@media (prefers-color-scheme:dark) {div.gallery{background-color:#353535;}div.gallery:hover{background-color:#99c1f1}
-		</style>
-		<script src="./header.js" defer></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gallery — Kushagra Karira</title>
+<meta name="description" content="Gallery showcasing graphic design and vector works by Kushagra Karira.">
+<meta name="author" content="Kushagra Karira">
+<meta name="theme-color" content="#00a0fc">
+<link rel="canonical" href="https://kushagrakarira.com/Gallery">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kushagra Karira">
+<meta property="og:title" content="Gallery — Kushagra Karira">
+<meta property="og:description" content="Gallery showcasing graphic design and vector works by Kushagra Karira.">
+<meta property="og:url" content="https://kushagrakarira.com/Gallery">
+<meta property="og:image" content="https://kushagrakarira.com/icon.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.png">
+<link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials">
+<link rel="stylesheet" href="./style.css">
+<script src="./header.js" defer></script>
 </head>
-	<script>
-		if ("serviceWorker" in navigator) {
-			window.addEventListener("load", () => {
-				navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
-			});
-		}
-	</script>
-
-	<body>
-<table class="header" data-site-header></table>
-		</br>
-		<div class=page>
-			<div class=gallery>
-				<img alt=Star src=Gallery/001.svg>
-				<div class=desc>Star</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=X src=Gallery/002.svg>
-				<div class=desc>X</div>
-			</div>
-
-			<div class=gallery>
-				<img alt="Flower Pot"src=Gallery/003.svg>
-				<div class=desc>Flower Pot</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=TWO src=Gallery/004.svg>
-				<div class=desc>TWO</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=Artwork src=Gallery/005.svg>
-				<div class=desc>Artwork</div>
-			</div>
-
-			<div class=gallery>
-				<img alt="New World"src=Gallery/006.svg>
-				<div class=desc>New World</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=Butterfly src=Gallery/007.svg>
-				<div class=desc>Butterfly</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=Sunflower src=Gallery/008.svg>
-				<div class=desc>Sunflower</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=Tomatoes src=Gallery/009.svg>
-				<div class=desc>Tomatoes</div>
-			</div>
-
-			<div class=gallery>
-				<img alt="Two Lovers"src=Gallery/010.svg>
-				<div class=desc>Two Lovers</div>
-			</div>
-
-			<div class=gallery>
-				<img alt="Deja View"src=Gallery/DejaView.svg>
-				<div class=desc>Deja View</div>
-			</div>
-
-			<div class=gallery>
-				<img alt=Marked src=Gallery/Marked.svg>
-				<div class=desc>Marked</div>
-			</div>
-
-		</div>
+<body>
+<nav class="header" data-site-header></nav>
+<div class="page">
+<div class="gallery"><img alt="Star" src="Gallery/001.svg" loading="lazy"><div class="desc">Star</div></div>
+<div class="gallery"><img alt="X" src="Gallery/002.svg" loading="lazy"><div class="desc">X</div></div>
+<div class="gallery"><img alt="Flower Pot" src="Gallery/003.svg" loading="lazy"><div class="desc">Flower Pot</div></div>
+<div class="gallery"><img alt="TWO" src="Gallery/004.svg" loading="lazy"><div class="desc">TWO</div></div>
+<div class="gallery"><img alt="Artwork" src="Gallery/005.svg" loading="lazy"><div class="desc">Artwork</div></div>
+<div class="gallery"><img alt="New World" src="Gallery/006.svg" loading="lazy"><div class="desc">New World</div></div>
+<div class="gallery"><img alt="Butterfly" src="Gallery/007.svg" loading="lazy"><div class="desc">Butterfly</div></div>
+<div class="gallery"><img alt="Sunflower" src="Gallery/008.svg" loading="lazy"><div class="desc">Sunflower</div></div>
+<div class="gallery"><img alt="Tomatoes" src="Gallery/009.svg" loading="lazy"><div class="desc">Tomatoes</div></div>
+<div class="gallery"><img alt="Two Lovers" src="Gallery/010.svg" loading="lazy"><div class="desc">Two Lovers</div></div>
+<div class="gallery"><img alt="Deja View" src="Gallery/DejaView.svg" loading="lazy"><div class="desc">Deja View</div></div>
+<div class="gallery"><img alt="Marked" src="Gallery/Marked.svg" loading="lazy"><div class="desc">Marked</div></div>
+</div>
+</body>
+</html>
