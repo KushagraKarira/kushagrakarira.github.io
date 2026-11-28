@@ -1,1796 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF & Image Page Studio — Arrange, Metadata & Export</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
-      overflow-x: hidden;
-    }
-    .drop-active {
-      border-color: #4f46e5 !important;
-      background-color: #eef2ff !important;
-    }
-    .page-card {
-      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
-      user-select: none;
-    }
-    .page-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-    }
-    .page-card.dragging {
-      opacity: 0.45;
-      transform: scale(0.96);
-      border-color: #6366f1;
-    }
-    .page-card.drag-over {
-      border-color: #4f46e5;
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
-    }
-    .thumb-checkerboard {
-      background-color: #f1f5f9;
-      background-image:
-        linear-gradient(45deg, #e2e8f0 25%, transparent 25%),
-        linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
-        linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
-      background-size: 16px 16px;
-      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
-    }
-    .rotate-transition {
-      transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Merge, reorder, rotate, edit PDF metadata, and export PDF/JPG/PNG files locally in your browser.">
+<title>PDF Studio — Kushagra Karira</title>
+<link rel="stylesheet" href="./style.css">
+<script src="./header.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+.bar{display:flex;gap:2px;margin-block:1px}
+.bar button,.bar label{margin:0;text-align:center;flex:1;padding:10px 8px;font-size:.9em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.pcard{background:#e5e5e5;border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:6px;cursor:grab}
+.pcard.over{outline:2px solid #1a5fb4}
+.thumb{height:150px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.thumb img{width:auto;height:auto;max-width:100%;max-height:100%;border-radius:0;transition:transform .2s}
+.pacts{display:flex;gap:2px}
+.pacts button{padding:6px 4px;min-height:0;text-align:center;font-size:.8em;border-radius:8px}
+.meta-row{display:flex;gap:2px;margin-block:1px}
+.meta-row input{margin:0}
+.meta-row button{width:auto;margin:0;padding:0 12px}
+.drop-over{background:#cfe2fa!important}
+@media(prefers-color-scheme:dark){
+  .pcard{background:#202020}
+  .thumb{background:#121212}
+  .drop-over{background:#1a5fb4!important}
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+<body>
+<nav class="header" data-site-header></nav>
 
-  <!-- Top Header -->
-  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 px-4 sm:px-6 py-3">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <div>
-          <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900">PDF &amp; Image Page Studio</h1>
-          <p class="text-xs text-slate-500">Combine PDF, JPG &amp; PNG files • Drag to arrange • Edit custom metadata • Export PDF</p>
-        </div>
-      </div>
+<h1>PDF Studio</h1>
+<div id="dropZone" class="bar">
+  <label for="fileInput" class="button top" style="cursor:pointer">Add PDF / IMG</label>
+  <button type="button" id="btnBlank" class="top">Blank A4</button>
+  <button type="button" id="btnReverse" class="top">Reverse</button>
+  <button type="button" id="btnClear" class="top">Clear</button>
+</div>
+<input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple style="display:none">
+<div class="card" id="statusBar" style="background:#e5e5e5;padding:8px 15px;font-size:.85em;opacity:.85">Drop PDF, JPG, or PNG files onto the bar above. 0 pages loaded.</div>
+<button type="button" id="btnExport" class="bottom" style="background:#1a5fb4;color:#fafafa;font-weight:600">Export PDF (0)</button>
 
-      <div class="flex flex-wrap items-center gap-2">
-        <button id="btnAddBlankPage" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
-          <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-          Add Blank Page
-        </button>
+<div id="pagesGrid" class="grid"></div>
 
-        <label for="fileInput" class="cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-          </svg>
-          Add Files (PDF, JPG, PNG)
-        </label>
-        <input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple class="hidden" />
+<h3>PDF Metadata &amp; Output</h3>
+<input id="exportName" class="top" type="text" value="arranged-document" placeholder="Output filename (without .pdf)">
+<input id="metaTitle" type="text" placeholder="Title">
+<input id="metaAuthor" type="text" placeholder="Author">
+<input id="metaSubject" type="text" placeholder="Subject">
+<input id="metaKeywords" type="text" placeholder="Keywords (comma-separated)">
+<select id="optImgSize">
+  <option value="A4_AUTO" selected>Images: A4 Auto-Orientation</option>
+  <option value="A4_PORTRAIT">Images: A4 Portrait</option>
+  <option value="FIT_IMAGE">Images: Fit Exact Pixels</option>
+</select>
+<select id="optPageNums">
+  <option value="none" selected>Page Numbers: None</option>
+  <option value="bottom-right">Page Numbers: Bottom Right</option>
+  <option value="bottom-center">Page Numbers: Bottom Center</option>
+</select>
+<div id="customMetaList"></div>
+<button type="button" id="btnAddMeta" class="bottom">+ Add Custom Metadata Field</button>
 
-        <button id="btnExportPdfTop" type="button" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <span>Export PDF</span>
-          <span id="exportCountBadge" class="px-1.5 py-0.5 text-[11px] rounded-full bg-indigo-800 text-indigo-100">0</span>
-        </button>
-      </div>
-    </div>
-  </header>
+<script>
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const st={sources:new Map(),pages:[],meta:[],dragId:null};
+let uid=1;const nid=p=>`${p}-${++uid}`;
+const $=id=>document.getElementById(id);
 
-  <!-- Processing Progress Banner -->
-  <div id="loadingBanner" class="hidden bg-indigo-600 text-white px-4 py-2.5 shadow-sm">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 text-xs sm:text-sm">
-      <div class="flex items-center gap-2.5">
-        <svg class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-        </svg>
-        <span id="loadingMessage">Processing files...</span>
-      </div>
-      <span id="loadingSubtext" class="text-indigo-100 font-mono text-xs"></span>
-    </div>
-  </div>
+function status(msg){$('statusBar').textContent=msg;}
 
-  <!-- Main Workspace -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 grid grid-cols-1 lg:grid-cols-12 gap-6">
+function renderMeta(){
+  const box=$('customMetaList');box.innerHTML='';
+  st.meta.forEach(m=>{
+    const row=document.createElement('div');row.className='meta-row';
+    const k=Object.assign(document.createElement('input'),{placeholder:'Key',value:m.key});
+    k.oninput=e=>m.key=e.target.value;
+    const v=Object.assign(document.createElement('input'),{placeholder:'Value',value:m.value});
+    v.oninput=e=>m.value=e.target.value;
+    const del=Object.assign(document.createElement('button'),{type:'button',textContent:'×'});
+    del.onclick=()=>{st.meta=st.meta.filter(x=>x.id!==m.id);renderMeta();};
+    row.append(k,v,del);box.appendChild(row);
+  });
+}
 
-    <!-- Left / Center Column: Upload Dropzone & Page Arranger (8 cols on lg) -->
-    <section class="lg:col-span-8 flex flex-col gap-4">
+async function addPdf(file,buf){
+  const sid=nid('pdf'),bytes=new Uint8Array(buf.slice(0));
+  st.sources.set(sid,{type:'pdf',bytes});
+  const doc=await PDFLib.PDFDocument.load(bytes.slice(0),{ignoreEncryption:true});
+  if(!$('metaTitle').value&&doc.getTitle())$('metaTitle').value=doc.getTitle();
+  if(!$('metaAuthor').value&&doc.getAuthor())$('metaAuthor').value=doc.getAuthor();
 
-      <!-- Drag and Drop Zone -->
-      <div id="dropZone" class="bg-white border-2 border-dashed border-slate-300 rounded-2xl p-5 sm:p-6 text-center transition cursor-pointer hover:border-indigo-400 hover:bg-slate-50/70">
-        <div class="max-w-md mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-            </svg>
-          </div>
-          <div class="text-center sm:text-left">
-            <p class="text-sm font-semibold text-slate-800">
-              Drop PDF, JPG, or PNG files here, or <span class="text-indigo-600 underline">browse files</span>
-            </p>
-            <p class="text-xs text-slate-500 mt-0.5">
-              Multi-page PDFs are automatically split into individual arrangable pages. All processing happens locally in your browser.
-            </p>
-          </div>
-        </div>
-      </div>
+  const pdf=await pdfjsLib.getDocument({data:bytes.slice(0)}).promise;
+  for(let p=1;p<=pdf.numPages;p++){
+    status(`Rendering ${file.name} (${p}/${pdf.numPages})…`);
+    const page=await pdf.getPage(p);
+    const base=page.getViewport({scale:1});
+    const vp=page.getViewport({scale:Math.min(1.2,320/Math.max(base.width,base.height,1))});
+    const c=Object.assign(document.createElement('canvas'),{width:Math.floor(vp.width),height:Math.floor(vp.height)});
+    const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+    await page.render({canvasContext:ctx,viewport:vp}).promise;
+    st.pages.push({id:nid('pg'),sid,name:file.name,kind:'pdf',idx:p-1,rot:0,thumb:c.toDataURL('image/jpeg',.82),label:''});
+  }
+}
 
-      <!-- Arranger Toolbar -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1">Pages (<span id="totalPagesLabel">0</span>)</span>
-
-          <button id="btnSelectAll" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
-            Select All
-          </button>
-          <button id="btnDeselectAll" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition hidden">
-            Deselect (<span id="selectedCountLabel">0</span>)
-          </button>
-
-          <div class="h-4 w-px bg-slate-200 mx-0.5"></div>
-
-          <button id="btnRotateSelectedCw" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="Rotate selected (or all) pages 90° clockwise">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            Rotate +90°
-          </button>
-
-          <button id="btnReverseOrder" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="Reverse page order">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-            </svg>
-            Reverse Order
-          </button>
-
-          <button id="btnSortBySource" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="Sort pages alphabetically by source file name">
-            Sort A–Z
-          </button>
-
-          <button id="btnDeleteSelected" type="button" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition">
-            Delete Selected
-          </button>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <div class="flex items-center gap-1.5">
-            <label for="gridSizeSelect" class="text-xs text-slate-500">Thumbnails:</label>
-            <select id="gridSizeSelect" class="text-xs rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <option value="compact">Compact (4 col)</option>
-              <option value="normal" selected>Normal (3 col)</option>
-              <option value="large">Large (2 col)</option>
-            </select>
-          </div>
-
-          <button id="btnClearAll" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 transition">
-            Clear All
-          </button>
-        </div>
-      </div>
-
-      <!-- Empty State -->
-      <div id="emptyState" class="bg-white rounded-2xl border border-slate-200 p-10 text-center flex flex-col items-center justify-center min-h-[340px]">
-        <div class="w-16 h-16 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mb-4">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </div>
-        <h2 class="text-base font-semibold text-slate-800">No pages loaded yet</h2>
-        <p class="text-xs sm:text-sm text-slate-500 max-w-md mt-1">
-          Upload one or more <strong>PDF</strong>, <strong>JPG</strong>, or <strong>PNG</strong> files above to view thumbnails, drag and drop to rearrange pages, rotate or duplicate, customize PDF metadata, and export a single PDF.
-        </p>
-        <div class="mt-5 flex flex-wrap justify-center gap-2.5">
-          <button id="btnEmptyUpload" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition">
-            Choose PDF / Image Files
-          </button>
-        </div>
-      </div>
-
-      <!-- Pages Grid -->
-      <div id="pagesGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
-    </section>
-
-    <!-- Right Column: Metadata & Export Settings Panel (4 cols on lg) -->
-    <aside class="lg:col-span-4 flex flex-col gap-4">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden sticky top-20">
-        <!-- Sidebar Tabs -->
-        <div class="grid grid-cols-2 border-b border-slate-200 bg-slate-50/70 p-1 gap-1">
-          <button id="tabBtnMetadata" type="button" class="py-2 px-3 rounded-xl text-xs font-semibold bg-white text-indigo-700 shadow-sm transition">
-            Document Metadata
-          </button>
-          <button id="tabBtnLayout" type="button" class="py-2 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-            Page &amp; Export Options
-          </button>
-        </div>
-
-        <!-- Tab 1: Document & Custom Metadata -->
-        <div id="tabPanelMetadata" class="p-4 sm:p-5 space-y-4 max-h-[calc(100vh-14rem)] overflow-y-auto">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <h3 class="text-sm font-bold text-slate-900">PDF Metadata Properties</h3>
-              <p class="text-[11px] text-slate-500">Embedded into the exported PDF dictionary</p>
-            </div>
-            <button id="btnFillSampleMeta" type="button" class="text-[11px] font-medium text-indigo-600 hover:text-indigo-800 underline">
-              Auto-fill Preset
-            </button>
-          </div>
-
-          <div class="space-y-3">
-            <div>
-              <label for="metaTitle" class="block text-xs font-medium text-slate-700 mb-1">Document Title</label>
-              <input id="metaTitle" type="text" placeholder="e.g., Q4 Consolidated Financial Packet" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div>
-                <label for="metaAuthor" class="block text-xs font-medium text-slate-700 mb-1">Author</label>
-                <input id="metaAuthor" type="text" placeholder="e.g., Jane Doe" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              </div>
-              <div>
-                <label for="metaSubject" class="block text-xs font-medium text-slate-700 mb-1">Subject</label>
-                <input id="metaSubject" type="text" placeholder="e.g., Project Deliverable" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              </div>
-            </div>
-
-            <div>
-              <label for="metaKeywords" class="block text-xs font-medium text-slate-700 mb-1">Keywords <span class="text-slate-400 font-normal">(comma-separated)</span></label>
-              <input id="metaKeywords" type="text" placeholder="e.g., invoice, contract, approved, 2026" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div>
-                <label for="metaCreator" class="block text-xs font-medium text-slate-700 mb-1">Creator Application</label>
-                <input id="metaCreator" type="text" value="PDF & Image Page Studio" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              </div>
-              <div>
-                <label for="metaProducer" class="block text-xs font-medium text-slate-700 mb-1">PDF Producer</label>
-                <input id="metaProducer" type="text" value="pdf-lib Custom Exporter" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div>
-                <label for="metaCreationDate" class="block text-xs font-medium text-slate-700 mb-1">Creation Date</label>
-                <input id="metaCreationDate" type="date" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              </div>
-              <div>
-                <label for="metaModDate" class="block text-xs font-medium text-slate-700 mb-1">Modification Date</label>
-                <input id="metaModDate" type="date" class="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Custom Key-Value Metadata Section -->
-          <div class="pt-3 border-t border-slate-200">
-            <div class="flex items-center justify-between mb-2">
-              <div>
-                <h4 class="text-xs font-bold text-slate-800">Custom Key–Value Metadata</h4>
-                <p class="text-[11px] text-slate-500">Add custom keys to the PDF Info dictionary &amp; XMP packet</p>
-              </div>
-              <button id="btnAddCustomMeta" type="button" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition">
-                + Add Field
-              </button>
-            </div>
-
-            <div id="customMetaList" class="space-y-2"></div>
-          </div>
-        </div>
-
-        <!-- Tab 2: Page & Export Options -->
-        <div id="tabPanelLayout" class="hidden p-4 sm:p-5 space-y-4 max-h-[calc(100vh-14rem)] overflow-y-auto">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900">Layout &amp; Stamping Options</h3>
-            <p class="text-[11px] text-slate-500">Configure how JPG/PNG images and page footers are formatted</p>
-          </div>
-
-          <div class="space-y-3">
-            <div>
-              <label for="optImagePageSize" class="block text-xs font-medium text-slate-700 mb-1">Image Page Size (for JPG / PNG pages)</label>
-              <select id="optImagePageSize" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <option value="A4_AUTO" selected>A4 Auto-Orientation (Portrait/Landscape to match image)</option>
-                <option value="A4_PORTRAIT">A4 Portrait (595 × 842 pt)</option>
-                <option value="LETTER_AUTO">US Letter Auto-Orientation (612 × 792 pt)</option>
-                <option value="FIT_IMAGE">Fit Exactly to Image Pixel Dimensions</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="optImageMargin" class="block text-xs font-medium text-slate-700 mb-1">Image Margin</label>
-              <select id="optImageMargin" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <option value="0">No Margin (Full Bleed)</option>
-                <option value="24" selected>Standard Margin (24 pt / 0.33 in)</option>
-                <option value="48">Wide Margin (48 pt / 0.67 in)</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="optPageNumbers" class="block text-xs font-medium text-slate-700 mb-1">Page Numbering Stamp</label>
-              <select id="optPageNumbers" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <option value="none" selected>Do Not Add Page Numbers</option>
-                <option value="bottom-right">Bottom Right ("Page 1 of N")</option>
-                <option value="bottom-center">Bottom Center ("1 / N")</option>
-              </select>
-            </div>
-
-            <div class="pt-2 border-t border-slate-200">
-              <label class="flex items-start gap-2.5 cursor-pointer">
-                <input id="optIncludePerPageNotes" type="checkbox" checked class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-                <span class="text-xs text-slate-700">
-                  <span class="font-semibold block">Stamp Custom Page Captions / Labels</span>
-                  <span class="text-[11px] text-slate-500">If you add a custom label to an individual page card, print it subtly at the top-left of that page.</span>
-                </span>
-              </label>
-            </div>
-
-            <div class="pt-2 border-t border-slate-200">
-              <label class="flex items-start gap-2.5 cursor-pointer">
-                <input id="optAppendMetadataSheet" type="checkbox" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-                <span class="text-xs text-slate-700">
-                  <span class="font-semibold block">Append Visual Metadata Summary Page</span>
-                  <span class="text-[11px] text-slate-500">In addition to embedding hidden PDF metadata fields, append a clean summary sheet at the end listing all custom metadata keys &amp; values.</span>
-                </span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Output Filename & Export Action Footer -->
-        <div class="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
-          <div>
-            <label for="exportFilename" class="block text-xs font-medium text-slate-700 mb-1">Output PDF Filename</label>
-            <div class="flex items-center rounded-lg border border-slate-200 bg-white overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500">
-              <input id="exportFilename" type="text" value="arranged-document" class="w-full px-3 py-1.5 text-xs text-slate-800 focus:outline-none" />
-              <span class="px-2.5 py-1.5 bg-slate-100 text-slate-500 text-xs font-mono border-l border-slate-200">.pdf</span>
-            </div>
-          </div>
-
-          <button id="btnExportPdfMain" type="button" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            <span>Export Rearranged PDF</span>
-          </button>
-
-          <!-- Exported Result Card (shown after export) -->
-          <div id="exportResultBox" class="hidden rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-xs text-emerald-900 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-semibold flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                PDF Exported!
-              </span>
-              <span id="exportResultStats" class="text-[11px] font-mono text-emerald-700"></span>
-            </div>
-            <p id="exportResultMetaSummary" class="text-[11px] text-emerald-800 leading-relaxed"></p>
-            <div class="flex items-center gap-2 pt-1">
-              <a id="downloadAgainLink" href="#exportResultBox" download="arranged-document.pdf" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition">
-                Download Again
-              </a>
-              <button id="btnInspectExportMeta" type="button" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-white hover:bg-emerald-100 text-emerald-800 border border-emerald-300 transition">
-                Verify Embedded Metadata
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <!-- Page Inspect / Edit Modal -->
-  <div id="pageInspectModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
-      <div class="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between">
-        <div>
-          <h3 id="inspectModalTitle" class="text-sm font-bold text-slate-900">Page Preview</h3>
-          <p id="inspectModalSubtitle" class="text-xs text-slate-500"></p>
-        </div>
-        <button id="btnCloseInspectModal" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <div class="p-5 flex-1 overflow-y-auto flex flex-col items-center justify-center thumb-checkerboard min-h-[280px]">
-        <img id="inspectModalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Page Preview" class="max-h-[50vh] max-w-full object-contain shadow-md rounded bg-white rotate-transition" />
-      </div>
-
-      <div class="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
-        <div>
-          <label for="inspectPageLabelInput" class="block text-xs font-medium text-slate-700 mb-1">Optional Page Label / Header Stamp (specific to this page)</label>
-          <input id="inspectPageLabelInput" type="text" placeholder="e.g., Exhibit A — Signed Receipt" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </div>
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <button id="btnModalRotateCcw" type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 hover:bg-slate-100 text-slate-700">
-              Rotate -90°
-            </button>
-            <button id="btnModalRotateCw" type="button" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 hover:bg-slate-100 text-slate-700">
-              Rotate +90°
-            </button>
-          </div>
-          <button id="btnSaveInspectModal" type="button" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
-            Done
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Metadata Verification Modal -->
-  <div id="metaVerifyModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
-      <div class="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between">
-        <div>
-          <h3 class="text-sm font-bold text-slate-900">Verified Embedded PDF Metadata</h3>
-          <p class="text-xs text-slate-500">Parsed back directly from your generated PDF binary</p>
-        </div>
-        <button id="btnCloseMetaVerifyModal" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div id="metaVerifyBody" class="p-5 overflow-y-auto space-y-3 text-xs"></div>
-      <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
-        <button id="btnDoneMetaVerifyModal" type="button" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Clear Confirmation Modal -->
-  <div id="confirmClearModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 space-y-4">
-      <h3 class="text-sm font-bold text-slate-900">Remove all pages?</h3>
-      <p class="text-xs text-slate-600">This will clear all currently loaded pages from the workspace so you can start fresh.</p>
-      <div class="flex items-center justify-end gap-2">
-        <button id="btnCancelClear" type="button" class="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">
-          Cancel
-        </button>
-        <button id="btnConfirmClear" type="button" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white">
-          Clear Workspace
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-  <script>
-    // Configure PDF.js worker
-    if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+async function addImg(file,buf){
+  const sid=nid('img'),raw=new Uint8Array(buf.slice(0));
+  const url=URL.createObjectURL(new Blob([raw],{type:file.type||'image/png'}));
+  try{
+    const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url;});
+    const isPng=raw[0]===0x89&&raw[1]===0x50,isJpg=raw[0]===0xff&&raw[1]===0xd8;
+    let bytes=raw,fmt=isPng?'png':isJpg?'jpg':'png';
+    if(!isPng&&!isJpg){
+      const fc=Object.assign(document.createElement('canvas'),{width:img.naturalWidth,height:img.naturalHeight});
+      fc.getContext('2d').drawImage(img,0,0);
+      bytes=Uint8Array.from(atob(fc.toDataURL('image/png').split(',')[1]),c=>c.charCodeAt(0));
     }
+    const sc=Math.min(1,320/Math.max(img.naturalWidth,img.naturalHeight,1));
+    const tc=Object.assign(document.createElement('canvas'),{width:Math.round(img.naturalWidth*sc),height:Math.round(img.naturalHeight*sc)});
+    tc.getContext('2d').drawImage(img,0,0,tc.width,tc.height);
+    st.sources.set(sid,{type:'img',fmt,bytes});
+    st.pages.push({id:nid('pg'),sid,name:file.name,kind:'img',idx:0,rot:0,thumb:tc.toDataURL('image/jpeg',.85),label:''});
+  }finally{URL.revokeObjectURL(url);}
+}
 
-    // Application State
-    const state = {
-      // Map of sourceId -> { id, name, type: 'pdf'|'image'|'blank', arrayBuffer, mimeType }
-      sources: new Map(),
-      // Ordered array of page objects:
-      // { id, sourceId, sourceName, kind: 'pdf'|'image'|'blank', sourcePageIndex, rotation: 0, thumbDataUrl, widthPt, heightPt, selected: false, customLabel: '' }
-      pages: [],
-      // Custom metadata key-value pairs: [{ id, key, value }]
-      customMeta: [
-        { id: 'cm-1', key: 'Department', value: 'Operations & Finance' },
-        { id: 'cm-2', key: 'DocumentStatus', value: 'Verified Final' }
-      ],
-      gridSize: 'normal',
-      inspectingPageId: null,
-       dragSrcPageId: null,
-      lastExportedBytes: null,
-      lastExportedMetaReport: null
+async function handleFiles(files){
+  for(const f of files){
+    const n=f.name.toLowerCase();
+    const buf=await f.arrayBuffer();
+    if(f.type==='application/pdf'||n.endsWith('.pdf'))await addPdf(f,buf);
+    else if(/\.(jpe?g|png)$/.test(n)||/^image\/(jpeg|png)$/.test(f.type))await addImg(f,buf);
+  }
+  renderGrid();
+}
+
+function renderGrid(){
+  const g=$('pagesGrid');g.innerHTML='';
+  $('btnExport').textContent=`Export PDF (${st.pages.length})`;
+  status(`${st.pages.length} page(s) ready. Drag cards to reorder.`);
+
+  st.pages.forEach((p,i)=>{
+    const card=document.createElement('div');card.className='pcard';card.draggable=true;
+    card.ondragstart=()=>{st.dragId=p.id;};
+    card.ondragover=e=>{e.preventDefault();card.classList.add('over');};
+    card.ondragleave=()=>card.classList.remove('over');
+    card.ondrop=e=>{
+      e.preventDefault();card.classList.remove('over');
+      const from=st.pages.findIndex(x=>x.id===st.dragId),to=st.pages.findIndex(x=>x.id===p.id);
+      if(from>-1&&to>-1&&from!==to){const[m]=st.pages.splice(from,1);st.pages.splice(to,0,m);renderGrid();}
     };
 
-    let uniqueCounter = 1;
-    function nextId(prefix) {
-      uniqueCounter += 1;
-      return prefix + '-' + Date.now() + '-' + uniqueCounter;
+    const top=document.createElement('div');
+    top.style.cssText='display:flex;justify-content:space-between;font-size:.8em;opacity:.8';
+    top.innerHTML=`<strong>#${i+1}</strong><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px">${p.name}</span>`;
+
+    const th=document.createElement('div');th.className='thumb';
+    const im=Object.assign(document.createElement('img'),{src:p.thumb,alt:p.name});
+    im.style.transform=`rotate(${p.rot}deg)`;
+    th.appendChild(im);
+
+    const acts=document.createElement('div');acts.className='pacts';
+    const btn=(txt,fn)=>{const b=Object.assign(document.createElement('button'),{type:'button',textContent:txt,onclick:fn});return b;};
+    acts.append(
+      btn('↺',()=>{p.rot=(p.rot+270)%360;renderGrid();}),
+      btn('↻',()=>{p.rot=(p.rot+90)%360;renderGrid();}),
+      btn('Label',()=>{const l=prompt('Optional page header stamp:',p.label);if(l!==null){p.label=l.trim();renderGrid();}}),
+      btn('Copy',()=>{st.pages.splice(i+1,0,{...p,id:nid('pg')});renderGrid();}),
+      btn('×',()=>{st.pages.splice(i,1);renderGrid();})
+    );
+    card.append(top,th,acts);g.appendChild(card);
+  });
+}
+
+async function exportPdf(){
+  if(!st.pages.length)return status('Add at least one file first.');
+  status('Building PDF…');
+  const out=await PDFLib.PDFDocument.create();
+  const font=await out.embedFont(PDFLib.StandardFonts.Helvetica);
+  const cache=new Map(),imgCache=new Map();
+  const szMode=$('optImgSize').value,numMode=$('optPageNums').value;
+
+  for(let i=0;i<st.pages.length;i++){
+    const it=st.pages[i];let pg;
+    if(it.kind==='pdf'){
+      const src=st.sources.get(it.sid);
+      let doc=cache.get(it.sid);
+      if(!doc){doc=await PDFLib.PDFDocument.load(src.bytes.slice(0),{ignoreEncryption:true});cache.set(it.sid,doc);}
+      const[cp]=await out.copyPages(doc,[it.idx]);
+      cp.setRotation(PDFLib.degrees(((cp.getRotation().angle||0)+it.rot)%360));
+      pg=out.addPage(cp);
+    }else if(it.kind==='img'){
+      const src=st.sources.get(it.sid);
+      let em=imgCache.get(it.sid);
+      if(!em){em=src.fmt==='png'?await out.embedPng(src.bytes):await out.embedJpg(src.bytes);imgCache.set(it.sid,em);}
+      const land=em.width>em.height;
+      const[w,h]=szMode==='FIT_IMAGE'?[em.width,em.height]:szMode==='A4_PORTRAIT'?[595.28,841.89]:land?[841.89,595.28]:[595.28,841.89];
+      pg=out.addPage([w,h]);
+      const sc=Math.min(w/em.width,h/em.height);
+      pg.drawImage(em,{x:(w-em.width*sc)/2,y:(h-em.height*sc)/2,width:em.width*sc,height:em.height*sc});
+      if(it.rot)pg.setRotation(PDFLib.degrees(it.rot));
+    }else{
+      pg=out.addPage([595.28,841.89]);
+      if(it.rot)pg.setRotation(PDFLib.degrees(it.rot));
     }
-
-    // Initialize default dates
-    function initDefaultDates() {
-      const today = new Date().toISOString().slice(0, 10);
-      const creationInput = document.getElementById('metaCreationDate');
-      const modInput = document.getElementById('metaModDate');
-      if (creationInput) creationInput.value = today;
-      if (modInput) modInput.value = today;
+    const{width,height}=pg.getSize();
+    if(it.label)pg.drawText(it.label,{x:20,y:height-24,size:10,font});
+    if(numMode!=='none'){
+      const txt=numMode==='bottom-right'?`Page ${i+1} of ${st.pages.length}`:`${i+1} / ${st.pages.length}`;
+      const tw=font.widthOfTextAtSize(txt,9);
+      pg.drawText(txt,{x:numMode==='bottom-right'?width-tw-24:(width-tw)/2,y:16,size:9,font});
     }
-
-    // Toast notification helper
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toastContainer');
-      if (!container) return;
-      const toast = document.createElement('div');
-      const bgClass =
-        type === 'success'
-          ? 'bg-emerald-600 text-white'
-          : type === 'error'
-          ? 'bg-rose-600 text-white'
-          : 'bg-slate-900 text-white';
-      toast.className = `pointer-events-auto px-3.5 py-2.5 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2 transition-all duration-200 ${bgClass}`;
-      toast.textContent = message;
-      container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 220);
-      }, 3200);
-    }
-
-    function setLoading(isLoading, message = 'Processing files...', subtext = '') {
-      const banner = document.getElementById('loadingBanner');
-      const msgEl = document.getElementById('loadingMessage');
-      const subEl = document.getElementById('loadingSubtext');
-      if (!banner) return;
-      if (isLoading) {
-        msgEl.textContent = message;
-        subEl.textContent = subtext;
-        banner.classList.remove('hidden');
-      } else {
-        banner.classList.add('hidden');
-      }
-    }
-
-    // Render Custom Key-Value Metadata inputs
-    function renderCustomMetaList() {
-      const container = document.getElementById('customMetaList');
-      if (!container) return;
-      container.innerHTML = '';
-
-      if (state.customMeta.length === 0) {
-        const empty = document.createElement('p');
-        empty.className = 'text-[11px] text-slate-400 italic py-1';
-        empty.textContent = 'No custom key-value fields added yet.';
-        container.appendChild(empty);
-        return;
-      }
-
-      state.customMeta.forEach((item) => {
-        const row = document.createElement('div');
-        row.className = 'flex items-center gap-1.5';
-
-        const keyInput = document.createElement('input');
-        keyInput.type = 'text';
-        keyInput.placeholder = 'Key (e.g. ClientID)';
-        keyInput.value = item.key;
-        keyInput.className = 'w-2/5 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500';
-        keyInput.addEventListener('input', (e) => {
-          item.key = e.target.value;
-        });
-
-        const valInput = document.createElement('input');
-        valInput.type = 'text';
-        valInput.placeholder = 'Value';
-        valInput.value = item.value;
-        valInput.className = ' flex-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500';
-        valInput.addEventListener('input', (e) => {
-          item.value = e.target.value;
-        });
-
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition';
-        delBtn.title = 'Remove field';
-        delBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>';
-        delBtn.addEventListener('click', () => {
-          state.customMeta = state.customMeta.filter((m) => m.id !== item.id);
-          renderCustomMetaList();
-        });
-
-        row.appendChild(keyInput);
-        row.appendChild(valInput);
-        row.appendChild(delBtn);
-        container.appendChild(row);
-      });
-    }
-
-    // Parse an uploaded PDF file and extract both page thumbnails and any existing metadata
-    async function processPdfFile(file, arrayBuffer) {
-      const sourceId = nextId('src-pdf');
-      // Save a clean Uint8Array copy so detached ArrayBuffers never happen
-      const masterBytes = new Uint8Array(arrayBuffer.slice(0));
-      state.sources.set(sourceId, {
-        id: sourceId,
-        name: file.name,
-        type: 'pdf',
-        bytes: masterBytes,
-        mimeType: 'application/pdf'
-      });
-
-      // Try reading existing PDF metadata via pdf-lib to populate empty metadata fields
-      try {
-        const pdfDoc = await PDFLib.PDFDocument.load(masterBytes.slice(0), { ignoreEncryption: true });
-        const titleInput = document.getElementById('metaTitle');
-        const authorInput = document.getElementById('metaAuthor');
-        const subjectInput = document.getElementById('metaSubject');
-        const keywordsInput = document.getElementById('metaKeywords');
-
-        const existingTitle = pdfDoc.getTitle();
-        const existingAuthor = pdfDoc.getAuthor();
-        const existingSubject = pdfDoc.getSubject();
-        const existingKeywords = pdfDoc.getKeywords();
-
-        if (existingTitle && titleInput && !titleInput.value.trim()) titleInput.value = existingTitle;
-        if (existingAuthor && authorInput && !authorInput.value.trim()) authorInput.value = existingAuthor;
-        if (existingSubject && subjectInput && !subjectInput.value.trim()) subjectInput.value = existingSubject;
-        if (existingKeywords && keywordsInput && !keywordsInput.value.trim()) keywordsInput.value = existingKeywords;
-      } catch (err) {
-        // Non-fatal if metadata extraction fails
-      }
-
-      // Render page thumbnails via PDF.js
-      if (window.pdfjsLib) {
-        const loadingTask = window.pdfjsLib.getDocument({ data: masterBytes.slice(0) });
-        const pdf = await loadingTask.promise;
-        const numPages = pdf.numPages;
-
-        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-          setLoading(true, `Rendering ${file.name}...`, `Page ${pageNum} of ${numPages}`);
-          const page = await pdf.getPage(pageNum);
-          const unscaledViewport = page.getViewport({ scale: 1 });
-          const targetScale = Math.min(1.5, 420 / Math.max(unscaledViewport.width, unscaledViewport.height, 1));
-          const viewport = page.getViewport({ scale: targetScale });
-
-          const canvas = document.createElement('canvas');
-          canvas.width = Math.max(1, Math.floor(viewport.width));
-          canvas.height = Math.max(1, Math.floor(viewport.height));
-          const ctx = canvas.getContext('2d');
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-          await page.render({ canvasContext: ctx, viewport }).promise;
-          const thumbDataUrl = canvas.toDataURL('image/jpeg', 0.85);
-
-          state.pages.push({
-            id: nextId('page'),
-            sourceId,
-            sourceName: file.name,
-            kind: 'pdf',
-            sourcePageIndex: pageNum - 1,
-            rotation: 0,
-            thumbDataUrl,
-            widthPt: Math.round(unscaledViewport.width),
-            heightPt: Math.round(unscaledViewport.height),
-            selected: false,
-            customLabel: ''
-          });
-        }
-      } else {
-        // Fallback if pdfjsLib is unavailable: use pdf-lib page count and generate placeholder preview
-        const pdfDoc = await PDFLib.PDFDocument.load(masterBytes.slice(0), { ignoreEncryption: true });
-        const pages = pdfDoc.getPages();
-        pages.forEach((p, idx) => {
-          const { width, height } = p.getSize();
-          const thumbDataUrl = createFallbackThumb(file.name, idx + 1, width, height);
-          state.pages.push({
-            id: nextId('page'),
-            sourceId,
-            sourceName: file.name,
-            kind: 'pdf',
-            sourcePageIndex: idx,
-            rotation: 0,
-            thumbDataUrl,
-            widthPt: Math.round(width),
-            heightPt: Math.round(height),
-            selected: false,
-            customLabel: ''
-          });
-        });
-      }
-    }
-
-    function createFallbackThumb(name, pageNum, w, h) {
-      const c = document.createElement('canvas');
-      c.width = 240;
-      c.height = 320;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, c.width, c.height);
-      ctx.strokeStyle = '#cbd5e1';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(10, 10, c.width - 20, c.height - 20);
-      ctx.fillStyle = '#4f46e5';
-      ctx.font = 'bold 18px Inter, sans-serif';
-      ctx.fillText(`PDF Page ${pageNum}`, 30, 80);
-      ctx.fillStyle = '#475569';
-      ctx.font = '12px Inter, sans-serif';
-      ctx.fillText(name.slice(0, 26), 30, 110);
-      ctx.fillText(`${Math.round(w)} × ${Math.round(h)} pt`, 30, 135);
-      return c.toDataURL('image/png');
-    }
-
-    // Process an uploaded JPG or PNG file
-    async function processImageFile(file, arrayBuffer) {
-      const sourceId = nextId('src-img');
-      const rawBytes = new Uint8Array(arrayBuffer.slice(0));
-
-      // Load into an HTML Image & normalize via canvas so we get exact dimensions, thumbnail, and clean PNG/JPEG bytes
-      const blob = new Blob([rawBytes], { type: file.type || 'image/png' });
-      const objectUrl = URL.createObjectURL(blob);
-
-      try {
-        const img = await new Promise((resolve, reject) => {
-          const el = new Image();
-          el.onload = () => resolve(el);
-          el.onerror = (e) => reject(e);
-          el.src = objectUrl;
-        });
-
-        const natW = img.naturalWidth || img.width || 600;
-        const natH = img.naturalHeight || img.height || 800;
-
-        // Create thumbnail
-        const maxThumbDim = 420;
-        const scale = Math.min(1, maxThumbDim / Math.max(natW, natH, 1));
-        const thumbCanvas = document.createElement('canvas');
-        thumbCanvas.width = Math.max(1, Math.round(natW * scale));
-        thumbCanvas.height = Math.max(1, Math.round(natH * scale));
-        const tCtx = thumbCanvas.getContext('2d');
-        tCtx.fillStyle = '#ffffff';
-        tCtx.fillRect(0, 0, thumbCanvas.width, thumbCanvas.height);
-        tCtx.drawImage(img, 0, 0, thumbCanvas.width, thumbCanvas.height);
-        const thumbDataUrl = thumbCanvas.toDataURL('image/jpeg', 0.88);
-
-        // Determine if PNG or JPEG by signature or convert via full-res canvas if needed
-        const isPngSig =
-          rawBytes.length > 4 &&
-          rawBytes[0] === 0x89 &&
-          rawBytes[1] === 0x50 &&
-          rawBytes[2] === 0x4e &&
-          rawBytes[3] === 0x47;
-        const isJpgSig =
-          rawBytes.length > 3 &&
-          rawBytes[0] === 0xff &&
-          rawBytes[1] === 0xd8 &&
-          rawBytes[2] === 0xff;
-
-        let finalBytes = rawBytes;
-        let finalFormat = isPngSig ? 'png' : isJpgSig ? 'jpg' : 'png';
-
-        if (!isPngSig && !isJpgSig) {
-          // Re-encode cleanly as PNG so pdf-lib never fails on exotic image headers
-          const fullCanvas = document.createElement('canvas');
-          fullCanvas.width = natW;
-          fullCanvas.height = natH;
-          const fCtx = fullCanvas.getContext('2d');
-          fCtx.drawImage(img, 0, 0);
-          const dataUrl = fullCanvas.toDataURL('image/png');
-          finalBytes = dataUrlToUint8Array(dataUrl);
-          finalFormat = 'png';
-        }
-
-        state.sources.set(sourceId, {
-          id: sourceId,
-          name: file.name,
-          type: 'image',
-          format: finalFormat,
-          bytes: finalBytes,
-          widthPx: natW,
-          heightPx: natH
-        });
-
-        state.pages.push({
-          id: nextId('page'),
-          sourceId,
-          sourceName: file.name,
-          kind: 'image',
-          sourcePageIndex: 0,
-          rotation: 0,
-          thumbDataUrl,
-          widthPt: natW,
-          heightPt: natH,
-          selected: false,
-          customLabel: ''
-        });
-      } finally {
-        URL.revokeObjectURL(objectUrl);
-      }
-    }
-
-    function dataUrlToUint8Array(dataUrl) {
-      const base64 = dataUrl.split(',')[1] || '';
-      const binStr = atob(base64);
-      const len = binStr.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binStr.charCodeAt(i);
-      }
-      return bytes;
-    }
-
-    // Handle multiple uploaded files
-    async function handleFiles(fileList) {
-      if (!fileList || fileList.length === 0) return;
-      const files = Array.from(fileList);
-      let addedCount = 0;
-
-      setLoading(true, 'Reading uploaded files...', '');
-      try {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const lower = file.name.toLowerCase();
-          const isPdf = file.type === 'application/pdf' || lower.endsWith('.pdf');
-          const isImg =
-            file.type === 'image/jpeg' ||
-            file.type === 'image/png' ||
-            lower.endsWith('.jpg') ||
-            lower.endsWith('.jpeg') ||
-            lower.endsWith('.png');
-
-          if (!isPdf && !isImg) {
-            showToast(`Skipped "${file.name}" (only PDF, JPG, and PNG are supported)`, 'error');
-            continue;
-          }
-
-          setLoading(true, `Loading ${file.name}...`, `File ${i + 1} of ${files.length}`);
-          const buf = await file.arrayBuffer();
-          if (isPdf) {
-            await processPdfFile(file, buf);
-          } else {
-            await processImageFile(file, buf);
-          }
-          addedCount += 1;
-        }
-
-        if (addedCount > 0) {
-          renderWorkspace();
-          showToast(`Loaded ${addedCount} file${addedCount > 1 ? 's' : ''} (${state.pages.length} total pages)`, 'success');
-        }
-      } catch (err) {
-        console.error(err);
-        showToast('Error reading file: ' + (err && err.message ? err.message : 'Invalid format'), 'error');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    // Add a Blank A4 Page
-    function addBlankPage() {
-      const c = document.createElement('canvas');
-      c.width = 297;
-      c.height = 420;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, c.width, c.height);
-      ctx.strokeStyle = '#e2e8f0';
-      ctx.setLineDash([6, 6]);
-      ctx.strokeRect(20, 20, c.width - 40, c.height - 40);
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '500 13px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('Blank Page (A4)', c.width / 2, c.height / 2);
-
-      state.pages.push({
-        id: nextId('page'),
-        sourceId: null,
-        sourceName: 'Blank A4 Page',
-        kind: 'blank',
-        sourcePageIndex: 0,
-        rotation: 0,
-        thumbDataUrl: c.toDataURL('image/png'),
-        widthPt: 595,
-        heightPt: 842,
-        selected: false,
-        customLabel: ''
-      });
-      renderWorkspace();
-      showToast('Added a blank A4 page');
-    }
-
-    // Render the main page grid and toolbar counts
-    function renderWorkspace() {
-      const total = state.pages.length;
-      const selectedCount = state.pages.filter((p) => p.selected).length;
-
-      document.getElementById('totalPagesLabel').textContent = String(total);
-      document.getElementById('exportCountBadge').textContent = String(total);
-
-      const btnExportTop = document.getElementById('btnExportPdfTop');
-      const btnExportMain = document.getElementById('btnExportPdfMain');
-      if (btnExportTop) btnExportTop.disabled = total === 0;
-      if (btnExportMain) btnExportMain.disabled = total === 0;
-
-      const btnDeselect = document.getElementById('btnDeselectAll');
-      const selectedCountLabel = document.getElementById('selectedCountLabel');
-      const btnDeleteSelected = document.getElementById('btnDeleteSelected');
-
-      if (selectedCount > 0) {
-        btnDeselect.classList.remove('hidden');
-        selectedCountLabel.textContent = String(selectedCount);
-        btnDeleteSelected.classList.remove('hidden');
-        btnDeleteSelected.classList.add('inline-flex');
-      } else {
-        btnDeselect.classList.add('hidden');
-        btnDeleteSelected.classList.add('hidden');
-        btnDeleteSelected.classList.remove('inline-flex');
-      }
-
-      const emptyState = document.getElementById('emptyState');
-      const pagesGrid = document.getElementById('pagesGrid');
-
-      if (total === 0) {
-        emptyState.classList.remove('hidden');
-        pagesGrid.classList.add('hidden');
-        pagesGrid.innerHTML = '';
-        return;
-      }
-
-      emptyState.classList.add('hidden');
-      pagesGrid.classList.remove('hidden');
-
-      // Adjust grid columns based on thumbnail size setting
-      if (state.gridSize === 'compact') {
-        pagesGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3';
-      } else if (state.gridSize === 'large') {
-        pagesGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-5';
-      } else {
-        pagesGrid.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4';
-      }
-
-      pagesGrid.innerHTML = '';
-
-      state.pages.forEach((page, index) => {
-        const card = document.createElement('div');
-        card.draggable = true;
-        card.dataset.pageId = page.id;
-        card.className = `page-card group relative bg-white rounded-2xl border ${
-          page.selected ? 'border-indigo-600 ring-2 ring-indigo-500/20' : 'border-slate-200'
-        } shadow-sm flex flex-col overflow-hidden`;
-
-        // Drag events for reordering
-        card.addEventListener('dragstart', (e) => {
-          state.dragSrcPageId = page.id;
-          card.classList.add('dragging');
-          if (e.dataTransfer) {
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', page.id);
-          }
-        });
-
-        card.addEventListener('dragend', () => {
-          state.dragSrcPageId = null;
-          card.classList.remove('dragging');
-          document.querySelectorAll('.page-card').forEach((el) => el.classList.remove('drag-over'));
-        });
-
-        card.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
-          if (state.dragSrcPageId && state.dragSrcPageId !== page.id) {
-            card.classList.add('drag-over');
-          }
-        });
-
-        card.addEventListener('dragleave', () => {
-          card.classList.remove('drag-over');
-        });
-
-        card.addEventListener('drop', (e) => {
-          e.preventDefault();
-          card.classList.remove('drag-over');
-          const srcId = state.dragSrcPageId || (e.dataTransfer ? e.dataTransfer.getData('text/plain') : null);
-          if (!srcId || srcId === page.id) return;
-          reorderPageById(srcId, page.id);
-        });
-
-        // Card Header Bar
-        const header = document.createElement('div');
-        header.className = 'px-3 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between gap-2';
-
-        const leftInfo = document.createElement('div');
-        leftInfo.className = 'flex items-center gap-2 min-w-0';
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = page.selected;
-        checkbox.className = 'rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer';
-        checkbox.addEventListener('change', (e) => {
-          page.selected = e.target.checked;
-          renderWorkspace();
-        });
-
-        const badge = document.createElement('span');
-        badge.className = 'px-2 py-0.5 rounded-md text-[11px] font-bold bg-indigo-600 text-white shrink-0';
-        badge.textContent = `#${index + 1}`;
-
-        const typeBadge = document.createElement('span');
-        const typeColor =
-          page.kind === 'pdf'
-            ? 'bg-rose-50 text-rose-700 border-rose-200'
-            : page.kind === 'image'
-            ? 'bg-sky-50 text-sky-700 border-sky-200'
-            : 'bg-slate-100 text-slate-600 border-slate-200';
-        typeBadge.className = `px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase border ${typeColor} shrink-0`;
-        typeBadge.textContent = page.kind === 'pdf' ? `PDF p.${page.sourcePageIndex + 1}` : page.kind === 'image' ? 'IMG' : 'BLANK';
-
-        leftInfo.appendChild(checkbox);
-        leftInfo.appendChild(badge);
-        leftInfo.appendChild(typeBadge);
-
-        // Move Left / Right buttons for accessible non-drag reordering
-        const moveBtns = document.createElement('div');
-        moveBtns.className = 'flex items-center gap-0.5';
-
-        const btnLeft = document.createElement('button');
-        btnLeft.type = 'button';
-        btnLeft.disabled = index === 0;
-        btnLeft.title = 'Move page earlier';
-        btnLeft.className = 'p-1 rounded hover:bg-slate-200 text-slate-500 disabled:opacity-30 disabled:pointer-events-none';
-        btnLeft.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>';
-        btnLeft.addEventListener('click', () => movePageByOffset(index, -1));
-
-        const btnRight = document.createElement('button');
-        btnRight.type = 'button';
-        btnRight.disabled = index === state.pages.length - 1;
-        btnRight.title = 'Move page later';
-        btnRight.className = 'p-1 rounded hover:bg-slate-200 text-slate-500 disabled:opacity-30 disabled:pointer-events-none';
-        btnRight.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
-        btnRight.addEventListener('click', () => movePageByOffset(index, 1));
-
-        moveBtns.appendChild(btnLeft);
-        moveBtns.appendChild(btnRight);
-
-        header.appendChild(leftInfo);
-        header.appendChild(moveBtns);
-
-        // Thumbnail Viewport
-        const thumbWrap = document.createElement('div');
-        const heightClass = state.gridSize === 'compact' ? 'h-40' : state.gridSize === 'large' ? 'h-72' : 'h-52';
-        thumbWrap.className = `relative ${heightClass} thumb-checkerboard flex items-center justify-center p-3 overflow-hidden cursor-grab active:cursor-grabbing`;
-        thumbWrap.addEventListener('dblclick', () => openInspectModal(page.id));
-
-        const img = document.createElement('img');
-        img.src = page.thumbDataUrl;
-        img.alt = `${page.sourceName} preview`;
-        img.className = 'max-h-full max-w-full object-contain rounded shadow-sm bg-white rotate-transition pointer-events-none';
-        img.style.transform = `rotate(${page.rotation}deg)`;
-
-        thumbWrap.appendChild(img);
-
-        // Rotation pill indicator if rotated
-        if (page.rotation !== 0) {
-          const rotPill = document.createElement('span');
-          rotPill.className = 'absolute top-2 right-2 px-1.5 py-0.5 rounded bg-slate-900/75 text-white text-[10px] font-mono';
-          rotPill.textContent = `${page.rotation}°`;
-          thumbWrap.appendChild(rotPill);
-        }
-
-        // Custom page label pill if present
-        if (page.customLabel && page.customLabel.trim()) {
-          const labelPill = document.createElement('span');
-          labelPill.className = 'absolute bottom-2 left-2 right-2 truncate px-2 py-0.5 rounded bg-indigo-900/80 text-white text-[10px] font-medium text-center';
-          labelPill.textContent = page.customLabel;
-          thumbWrap.appendChild(labelPill);
-        }
-
-        // Card Footer Info & Action Buttons
-        const footer = document.createElement('div');
-        footer.className = 'p-2.5 bg-white border-t border-slate-100 flex flex-col gap-2';
-
-        const fileInfoRow = document.createElement('div');
-        fileInfoRow.className = 'flex items-center justify-between gap-2 text-[11px] text-slate-500';
-
-        const fileNameSpan = document.createElement('span');
-        fileNameSpan.className = 'truncate font-medium text-slate-700';
-        fileNameSpan.title = page.sourceName;
-        fileNameSpan.textContent = page.sourceName;
-
-        const dimSpan = document.createElement('span');
-        dimSpan.className = 'font-mono text-[10px] text-slate-400 shrink-0';
-        dimSpan.textContent = `${page.widthPt}×${page.heightPt}`;
-
-        fileInfoRow.appendChild(fileNameSpan);
-        fileInfoRow.appendChild(dimSpan);
-
-        const actionsRow = document.createElement('div');
-        actionsRow.className = 'flex items-center justify-between gap-1 pt-1 border-t border-slate-100';
-
-        // Rotate CCW
-        const btnRotCcw = document.createElement('button');
-        btnRotCcw.type = 'button';
-        btnRotCcw.title = 'Rotate Counter-Clockwise (-90°)';
-        btnRotCcw.className = 'flex-1 py-1 rounded hover:bg-slate-100 text-slate-600 text-xs font-medium flex items-center justify-center';
-        btnRotCcw.innerHTML = '↺';
-        btnRotCcw.addEventListener('click', () => {
-          page.rotation = (page.rotation + 270) % 360;
-          renderWorkspace();
-        });
-
-        // Rotate CW
-        const btnRotCw = document.createElement('button');
-        btnRotCw.type = 'button';
-        btnRotCw.title = 'Rotate Clockwise (+90°)';
-        btnRotCw.className = 'flex-1 py-1 rounded hover:bg-slate-100 text-slate-600 text-xs font-medium flex items-center justify-center';
-        btnRotCw.innerHTML = '↻';
-        btnRotCw.addEventListener('click', () => {
-          page.rotation = (page.rotation + 90) % 360;
-          renderWorkspace();
-        });
-
-        // Inspect / Label
-        const btnInspect = document.createElement('button');
-        btnInspect.type = 'button';
-        btnInspect.title = 'Preview & add page label';
-        btnInspect.className = 'flex-1 py-1 rounded hover:bg-indigo-50 text-indigo-600 text-[11px] font-medium flex items-center justify-center gap-0.5';
-        btnInspect.textContent = 'Inspect';
-        btnInspect.addEventListener('click', () => openInspectModal(page.id));
-
-        // Duplicate
-        const btnDup = document.createElement('button');
-        btnDup.type = 'button';
-        btnDup.title = 'Duplicate page';
-        btnDup.className = 'flex-1 py-1 rounded hover:bg-slate-100 text-slate-600 text-[11px] font-medium flex items-center justify-center';
-        btnDup.textContent = 'Copy';
-        btnDup.addEventListener('click', () => {
-          const clone = { ...page, id: nextId('page'), selected: false };
-          state.pages.splice(index + 1, 0, clone);
-          renderWorkspace();
-          showToast(`Duplicated page #${index + 1}`);
-        });
-
-        // Delete
-        const btnDel = document.createElement('button');
-        btnDel.type = 'button';
-        btnDel.title = 'Remove page';
-        btnDel.className = 'p-1 rounded hover:bg-rose-50 text-rose-600 flex items-center justify-center';
-        btnDel.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>';
-        btnDel.addEventListener('click', () => {
-          state.pages.splice(index, 1);
-          renderWorkspace();
-        });
-
-        actionsRow.appendChild(btnRotCcw);
-        actionsRow.appendChild(btnRotCw);
-        actionsRow.appendChild(btnInspect);
-        actionsRow.appendChild(btnDup);
-        actionsRow.appendChild(btnDel);
-
-        footer.appendChild(fileInfoRow);
-        footer.appendChild(actionsRow);
-
-        card.appendChild(header);
-        card.appendChild(thumbWrap);
-        card.appendChild(footer);
-
-        pagesGrid.appendChild(card);
-      });
-    }
-
-    function reorderPageById(srcId, targetId) {
-      const fromIndex = state.pages.findIndex((p) => p.id === srcId);
-      const toIndex = state.pages.findIndex((p) => p.id === targetId);
-      if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return;
-      const [moved] = state.pages.splice(fromIndex, 1);
-      state.pages.splice(toIndex, 0, moved);
-      renderWorkspace();
-    }
-
-    function movePageByOffset(index, offset) {
-      const newIndex = index + offset;
-      if (newIndex < 0 || newIndex >= state.pages.length) return;
-      const [moved] = state.pages.splice(index, 1);
-      state.pages.splice(newIndex, 0, moved);
-      renderWorkspace();
-    }
-
-    // Page Inspect Modal logic
-    function openInspectModal(pageId) {
-      const pageIndex = state.pages.findIndex((p) => p.id === pageId);
-      if (pageIndex === -1) return;
-      const page = state.pages[pageIndex];
-      state.inspectingPageId = page.id;
-
-      document.getElementById('inspectModalTitle').textContent = `Page #${pageIndex + 1} — ${page.sourceName}`;
-      document.getElementById('inspectModalSubtitle').textContent = `${page.kind.toUpperCase()} • ${page.widthPt} × ${page.heightPt} • Rotation: ${page.rotation}°`;
-
-      const img = document.getElementById('inspectModalImg');
-      img.src = page.thumbDataUrl;
-      img.style.transform = `rotate(${page.rotation}deg)`;
-
-      document.getElementById('inspectPageLabelInput').value = page.customLabel || '';
-      document.getElementById('pageInspectModal').classList.remove('hidden');
-    }
-
-    function closeInspectModal() {
-      const page = state.pages.find((p) => p.id === state.inspectingPageId);
-      if (page) {
-        page.customLabel = document.getElementById('inspectPageLabelInput').value.trim();
-      }
-      state.inspectingPageId = null;
-      document.getElementById('pageInspectModal').classList.add('hidden');
-      renderWorkspace();
-    }
-
-    // Build and export the rearranged PDF with standard + custom metadata
-    async function exportRearrangedPdf() {
-      if (state.pages.length === 0) {
-        showToast('Add at least one PDF or image page before exporting', 'error');
-        return;
-      }
-
-      setLoading(true, 'Building rearranged PDF...', 'Embedding pages & metadata');
-
-      try {
-        const outPdf = await PDFLib.PDFDocument.create();
-        const fontReg = await outPdf.embedFont(PDFLib.StandardFonts.Helvetica);
-        const fontBold = await outPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
-
-        // Cache loaded source PDFDocuments so we don't reload the same PDF multiple times
-        const loadedPdfDocs = new Map();
-        // Cache embedded images by sourceId
-        const embeddedImages = new Map();
-
-        const imagePageSizeMode = document.getElementById('optImagePageSize').value;
-        const imageMargin = parseFloat(document.getElementById('optImageMargin').value || '0');
-        const pageNumbersMode = document.getElementById('optPageNumbers').value;
-        const includePerPageNotes = document.getElementById('optIncludePerPageNotes').checked;
-        const appendMetadataSheet = document.getElementById('optAppendMetadataSheet').checked;
-
-        for (let i = 0; i < state.pages.length; i++) {
-          const item = state.pages[i];
-          setLoading(true, 'Assembling rearranged pages...', `Page ${i + 1} of ${state.pages.length}`);
-
-          let createdPage = null;
-
-          if (item.kind === 'pdf') {
-            const src = state.sources.get(item.sourceId);
-            if (!src) continue;
-            let srcDoc = loadedPdfDocs.get(item.sourceId);
-            if (!srcDoc) {
-              srcDoc = await PDFLib.PDFDocument.load(src.bytes.slice(0), { ignoreEncryption: true });
-              loadedPdfDocs.set(item.sourceId, srcDoc);
-            }
-            const [copiedPage] = await outPdf.copyPages(srcDoc, [item.sourcePageIndex]);
-            const existingRotation = copiedPage.getRotation().angle || 0;
-            const totalRotation = (existingRotation + item.rotation) % 360;
-            copiedPage.setRotation(PDFLib.degrees(totalRotation));
-            createdPage = outPdf.addPage(copiedPage);
-          } else if (item.kind === 'image') {
-            const src = state.sources.get(item.sourceId);
-            if (!src) continue;
-
-            let embeddedImg = embeddedImages.get(item.sourceId);
-            if (!embeddedImg) {
-              if (src.format === 'png') {
-                embeddedImg = await outPdf.embedPng(src.bytes);
-              } else {
-                embeddedImg = await outPdf.embedJpg(src.bytes);
-              }
-              embeddedImages.set(item.sourceId, embeddedImg);
-            }
-
-            const imgW = embeddedImg.width;
-            const imgH = embeddedImg.height;
-            const isLandscape = imgW > imgH;
-
-            let pageW = 595.28;
-            let pageH = 841.89;
-
-            if (imagePageSizeMode === 'FIT_IMAGE') {
-              pageW = imgW + imageMargin * 2;
-              pageH = imgH + imageMargin * 2;
-            } else if (imagePageSizeMode === 'A4_AUTO') {
-              pageW = isLandscape ? 841.89 : 595.28;
-              pageH = isLandscape ? 595.28 : 841.89;
-            } else if (imagePageSizeMode === 'A4_PORTRAIT') {
-              pageW = 595.28;
-              pageH = 841.89;
-            } else if (imagePageSizeMode === 'LETTER_AUTO') {
-              pageW = isLandscape ? 792 : 612;
-              pageH = isLandscape ? 612 : 792;
-            }
-
-            createdPage = outPdf.addPage([pageW, pageH]);
-
-            const availW = Math.max(20, pageW - imageMargin * 2);
-            const availH = Math.max(20, pageH - imageMargin * 2);
-            const scale = Math.min(availW / imgW, availH / imgH);
-            const drawW = imgW * scale;
-            const drawH = imgH * scale;
-            const drawX = (pageW - drawW) / 2;
-            const drawY = (pageH - drawH) / 2;
-
-            createdPage.drawImage(embeddedImg, {
-              x: drawX,
-              y: drawY,
-              width: drawW,
-              height: drawH
-            });
-
-            if (item.rotation !== 0) {
-              createdPage.setRotation(PDFLib.degrees(item.rotation % 360));
-            }
-          } else {
-            // Blank A4 page
-            createdPage = outPdf.addPage([595.28, 841.89]);
-            if (item.rotation !== 0) {
-              createdPage.setRotation(PDFLib.degrees(item.rotation % 360));
-            }
-          }
-
-          // Optional per-page custom caption stamp
-          if (createdPage && includePerPageNotes && item.customLabel && item.customLabel.trim()) {
-            const { width, height } = createdPage.getSize();
-            const labelText = item.customLabel.trim();
-            createdPage.drawRectangle({
-              x: 18,
-              y: height - 30,
-              width: Math.min(width - 36, labelText.length * 6.2 + 20),
-              height: 18,
-              color: PDFLib.rgb(0.95, 0.96, 1),
-              borderColor: PDFLib.rgb(0.75, 0.78, 0.95),
-              borderWidth: 0.8
-            });
-            createdPage.drawText(labelText, {
-              x: 26,
-              y: height - 24,
-              size: 9.5,
-              font: fontBold,
-              color: PDFLib.rgb(0.2, 0.24, 0.55)
-            });
-          }
-
-          // Optional page number stamp
-          if (createdPage && pageNumbersMode !== 'none') {
-            const { width } = createdPage.getSize();
-            const totalCount = state.pages.length;
-            const numText =
-              pageNumbersMode === 'bottom-right'
-                ? `Page ${i + 1} of ${totalCount}`
-                : `${i + 1} / ${totalCount}`;
-            const textWidth = fontReg.widthOfTextAtSize(numText, 9);
-            const xPos =
-              pageNumbersMode === 'bottom-right'
-                ? Math.max(20, width - textWidth - 24)
-                : (width - textWidth) / 2;
-            createdPage.drawText(numText, {
-              x: xPos,
-              y: 16,
-              size: 9,
-              font: fontReg,
-              color: PDFLib.rgb(0.4, 0.45, 0.52)
-            });
-          }
-        }
-
-        // Gather Standard & Custom Metadata inputs
-        const titleVal = document.getElementById('metaTitle').value.trim();
-        const authorVal = document.getElementById('metaAuthor').value.trim();
-        const subjectVal = document.getElementById('metaSubject').value.trim();
-        const keywordsRaw = document.getElementById('metaKeywords').value.trim();
-        const creatorVal = document.getElementById('metaCreator').value.trim();
-        const producerVal = document.getElementById('metaProducer').value.trim();
-        const creationDateStr = document.getElementById('metaCreationDate').value;
-        const modDateStr = document.getElementById('metaModDate').value;
-
-        if (titleVal) outPdf.setTitle(titleVal);
-        if (authorVal) outPdf.setAuthor(authorVal);
-        if (subjectVal) outPdf.setSubject(subjectVal);
-        if (keywordsRaw) {
-          const kwList = keywordsRaw
-            .split(',')
-            .map((k) => k.trim())
-            .filter(Boolean);
-          outPdf.setKeywords(kwList);
-        }
-        if (creatorVal) outPdf.setCreator(creatorVal);
-        if (producerVal) outPdf.setProducer(producerVal);
-
-        const creationDate = creationDateStr ? new Date(creationDateStr + 'T12:00:00') : new Date();
-        const modDate = modDateStr ? new Date(modDateStr + 'T12:00:00') : new Date();
-        if (!isNaN(creationDate.getTime())) outPdf.setCreationDate(creationDate);
-        if (!isNaN(modDate.getTime())) outPdf.setModificationDate(modDate);
-
-        // Write Custom Key-Value pairs directly into the PDF Info dictionary
-        const validCustomPairs = state.customMeta
-          .map((m) => ({
-            key: (m.key || '').trim().replace(/[^a-zA-Z0-9_.-]/g, '_'),
-            rawKey: (m.key || '').trim(),
-            value: (m.value || '').trim()
-          }))
-          .filter((m) => m.key.length > 0 && m.value.length > 0);
-
-        if (validCustomPairs.length > 0) {
-          const infoDict = outPdf.getInfoDict();
-          validCustomPairs.forEach((pair) => {
-            infoDict.set(PDFLib.PDFName.of(pair.key), PDFLib.PDFHexString.fromText(pair.value));
-          });
-        }
-
-        // Optional Visual Metadata Summary Sheet at the end of the PDF
-        if (appendMetadataSheet) {
-          const metaPage = outPdf.addPage([595.28, 841.89]);
-          metaPage.drawRectangle({ x: 0, y: 760, width: 595.28, height: 81.89, color: PDFLib.rgb(0.18, 0.22, 0.32) });
-          metaPage.drawText('DOCUMENT METADATA SPECIFICATION', {
-            x: 40,
-            y: 792,
-            size: 15,
-            font: fontBold,
-            color: PDFLib.rgb(1, 1, 1)
-          });
-
-          let yCursor = 720;
-          const rows = [
-            ['Title', titleVal || '—'],
-            ['Author', authorVal || '—'],
-            ['Subject', subjectVal || '—'],
-            ['Keywords', keywordsRaw || '—'],
-            ['Creator', creatorVal || '—'],
-            ['Producer', producerVal || '—'],
-            ['Creation Date', creationDate.toISOString().slice(0, 10)],
-            ['Modification Date', modDate.toISOString().slice(0, 10)]
-          ];
-          validCustomPairs.forEach((p) => {
-            rows.push([`Custom: ${p.rawKey}`, p.value]);
-          });
-
-          rows.forEach(([k, v], idx) => {
-            if (yCursor < 60) return;
-            metaPage.drawRectangle({
-              x: 40,
-              y: yCursor - 6,
-              width: 515,
-              height: 24,
-              color: idx % 2 === 0 ? PDFLib.rgb(0.96, 0.97, 0.99) : PDFLib.rgb(1, 1, 1)
-            });
-            metaPage.drawText(String(k).slice(0, 32), {
-              x: 50,
-              y: yCursor,
-              size: 10,
-              font: fontBold,
-              color: PDFLib.rgb(0.2, 0.25, 0.35)
-            });
-            metaPage.drawText(String(v).slice(0, 65), {
-              x: 220,
-              y: yCursor,
-              size: 10,
-              font: fontReg,
-              color: PDFLib.rgb(0.1, 0.15, 0.22)
-            });
-            yCursor -= 26;
-          });
-        }
-
-        const pdfBytes = await outPdf.save();
-        state.lastExportedBytes = pdfBytes;
-
-        // Build download link & trigger download
-        const rawFilename = (document.getElementById('exportFilename').value || 'arranged-document').trim();
-        const cleanFilename = (rawFilename.replace(/\.pdf$/i, '') || 'arranged-document') + '.pdf';
-
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-
-        const dlLink = document.getElementById('downloadAgainLink');
-        dlLink.href = url;
-        dlLink.download = cleanFilename;
-
-        const tempLink = document.createElement('a');
-        tempLink.href = url;
-        tempLink.download = cleanFilename;
-        document.body.appendChild(tempLink);
-        tempLink.click();
-        tempLink.remove();
-
-        // Store verification report
-        state.lastExportedMetaReport = {
-          filename: cleanFilename,
-          sizeKb: (pdfBytes.byteLength / 1024).toFixed(1),
-          pageCount: outPdf.getPageCount(),
-          standard: {
-            Title: titleVal || '(none)',
-            Author: authorVal || '(none)',
-            Subject: subjectVal || '(none)',
-            Keywords: keywordsRaw || '(none)',
-            Creator: creatorVal || '(none)',
-            Producer: producerVal || '(none)',
-            CreationDate: creationDate.toISOString().slice(0, 10),
-            ModDate: modDate.toISOString().slice(0, 10)
-          },
-          custom: validCustomPairs
-        };
-
-        // Show Export Result Box
-        const resultBox = document.getElementById('exportResultBox');
-        document.getElementById('exportResultStats').textContent = `${outPdf.getPageCount()} pages • ${(pdfBytes.byteLength / 1024).toFixed(1)} KB`;
-        document.getElementById('exportResultMetaSummary').textContent =
-          `Saved "${cleanFilename}" with ${validCustomPairs.length} custom metadata field(s) and standard PDF Info properties.`;
-        resultBox.classList.remove('hidden');
-
-        showToast(`Exported "${cleanFilename}" (${outPdf.getPageCount()} pages)`, 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('Failed to export PDF: ' + (err && err.message ? err.message : 'Unknown error'), 'error');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    // Verify Embedded Metadata directly from the generated PDF binary
-    async function openMetaVerifyModal() {
-      if (!state.lastExportedBytes || !state.lastExportedMetaReport) return;
-      const body = document.getElementById('metaVerifyBody');
-      body.innerHTML = '';
-
-      try {
-        const checkDoc = await PDFLib.PDFDocument.load(state.lastExportedBytes);
-        const infoDict = checkDoc.getInfoDict();
-
-        const summaryBanner = document.createElement('div');
-        summaryBanner.className = 'p-3 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-900 flex items-center justify-between';
-        summaryBanner.innerHTML = `
-          <div>
-            <p class="font-bold">${state.lastExportedMetaReport.filename}</p>
-            <p class="text-[11px] text-indigo-700">Total Pages in Exported PDF: ${checkDoc.getPageCount()} • Size: ${state.lastExportedMetaReport.sizeKb} KB</p>
-          </div>
-          <span class="px-2 py-1 rounded bg-emerald-600 text-white text-[10px] font-bold uppercase">Binary Verified</span>
-        `;
-        body.appendChild(summaryBanner);
-
-        const stdTitle = document.createElement('h4');
-        stdTitle.className = 'font-bold text-slate-800 pt-2';
-        stdTitle.textContent = 'Standard PDF /Info Dictionary Keys';
-        body.appendChild(stdTitle);
-
-        const stdGrid = document.createElement('div');
-        stdGrid.className = 'border border-slate-200 rounded-xl divide-y divide-slate-100 overflow-hidden';
-
-        Object.entries(state.lastExportedMetaReport.standard).forEach(([k, v]) => {
-          const row = document.createElement('div');
-          row.className = 'px-3 py-2 flex items-center justify-between gap-4 bg-white';
-          row.innerHTML = `<span class="font-mono text-slate-500">/${k}</span><span class="font-medium text-slate-800 text-right">${v}</span>`;
-          stdGrid.appendChild(row);
-        });
-        body.appendChild(stdGrid);
-
-        const custTitle = document.createElement('h4');
-        custTitle.className = 'font-bold text-slate-800 pt-2';
-        custTitle.textContent = 'Custom Embedded /Info Dictionary Keys';
-        body.appendChild(custTitle);
-
-        if (state.lastExportedMetaReport.custom.length === 0) {
-          const noneP = document.createElement('p');
-          noneP.className = 'text-slate-400 italic';
-          noneP.textContent = 'No custom key-value metadata fields were specified.';
-          body.appendChild(noneP);
-        } else {
-          const custGrid = document.createElement('div');
-          custGrid.className = 'border border-slate-200 rounded-xl divide-y divide-slate-100 overflow-hidden';
-          state.lastExportedMetaReport.custom.forEach((pair) => {
-            const rawLookup = infoDict.lookup(PDFLib.PDFName.of(pair.key));
-            const verifiedStr = rawLookup ? pair.value : pair.value;
-            const row = document.createElement('div');
-            row.className = 'px-3 py-2 flex items-center justify-between gap-4 bg-white';
-            row.innerHTML = `<span class="font-mono text-indigo-600">/${pair.key}</span><span class="font-medium text-slate-800 text-right">${verifiedStr}</span>`;
-            custGrid.appendChild(row);
-          });
-          body.appendChild(custGrid);
-        }
-
-        document.getElementById('metaVerifyModal').classList.remove('hidden');
-      } catch (e) {
-        showToast('Could not inspect PDF metadata', 'error');
-      }
-    }
-
-    // Bind UI Event Listeners
-    function bindEvents() {
-      const fileInput = document.getElementById('fileInput');
-      const dropZone = document.getElementById('dropZone');
-
-      fileInput.addEventListener('change', (e) => {
-        handleFiles(e.target.files);
-        fileInput.value = '';
-      });
-
-      dropZone.addEventListener('click', () => fileInput.click());
-      document.getElementById('btnEmptyUpload').addEventListener('click', () => fileInput.click());
-
-      dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('drop-active');
-      });
-      dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('drop-active');
-      });
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('drop-active');
-        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-          handleFiles(e.dataTransfer.files);
-        }
-      });
-
-      // Blank Page trigger
-      document.getElementById('btnAddBlankPage').addEventListener('click', addBlankPage);
-
-      // Arranger Toolbar buttons
-      document.getElementById('btnSelectAll').addEventListener('click', () => {
-        state.pages.forEach((p) => (p.selected = true));
-        renderWorkspace();
-      });
-
-      document.getElementById('btnDeselectAll').addEventListener('click', () => {
-        state.pages.forEach((p) => (p.selected = false));
-        renderWorkspace();
-      });
-
-      document.getElementById('btnRotateSelectedCw').addEventListener('click', () => {
-        const hasSelected = state.pages.some((p) => p.selected);
-        state.pages.forEach((p) => {
-          if (!hasSelected || p.selected) {
-            p.rotation = (p.rotation + 90) % 360;
-          }
-        });
-        renderWorkspace();
-        showToast(hasSelected ? 'Rotated selected pages +90°' : 'Rotated all pages +90°');
-      });
-
-      document.getElementById('btnReverseOrder').addEventListener('click', () => {
-        if (state.pages.length < 2) return;
-        state.pages.reverse();
-        renderWorkspace();
-        showToast('Reversed page order');
-      });
-
-      document.getElementById('btnSortBySource').addEventListener('click', () => {
-        if (state.pages.length < 2) return;
-        state.pages.sort((a, b) => {
-          const cmp = a.sourceName.localeCompare(b.sourceName);
-          if (cmp !== 0) return cmp;
-          return a.sourcePageIndex - b.sourcePageIndex;
-        });
-        renderWorkspace();
-        showToast('Sorted pages by source filename (A–Z)');
-      });
-
-      document.getElementById('btnDeleteSelected').addEventListener('click', () => {
-        const before = state.pages.length;
-        state.pages = state.pages.filter((p) => !p.selected);
-        const removed = before - state.pages.length;
-        renderWorkspace();
-        if (removed > 0) showToast(`Removed ${removed} selected page(s)`);
-      });
-
-      document.getElementById('gridSizeSelect').addEventListener('change', (e) => {
-        state.gridSize = e.target.value;
-        renderWorkspace();
-      });
-
-      // Clear All Confirmation Modal
-      document.getElementById('btnClearAll').addEventListener('click', () => {
-        if (state.pages.length === 0) return;
-        document.getElementById('confirmClearModal').classList.remove('hidden');
-      });
-      document.getElementById('btnCancelClear').addEventListener('click', () => {
-        document.getElementById('confirmClearModal').classList.add('hidden');
-      });
-      document.getElementById('btnConfirmClear').addEventListener('click', () => {
-        state.pages = [];
-        state.sources.clear();
-        document.getElementById('confirmClearModal').classList.add('hidden');
-        document.getElementById('exportResultBox').classList.add('hidden');
-        renderWorkspace();
-        showToast('Cleared workspace');
-      });
-
-      // Sidebar Tabs
-      const tabBtnMetadata = document.getElementById('tabBtnMetadata');
-      const tabBtnLayout = document.getElementById('tabBtnLayout');
-      const tabPanelMetadata = document.getElementById('tabPanelMetadata');
-      const tabPanelLayout = document.getElementById('tabPanelLayout');
-
-      tabBtnMetadata.addEventListener('click', () => {
-        tabBtnMetadata.className = 'py-2 px-3 rounded-xl text-xs font-semibold bg-white text-indigo-700 shadow-sm transition';
-        tabBtnLayout.className = 'py-2 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
-        tabPanelMetadata.classList.remove('hidden');
-        tabPanelLayout.classList.add('hidden');
-      });
-
-      tabBtnLayout.addEventListener('click', () => {
-        tabBtnLayout.className = 'py-2 px-3 rounded-xl text-xs font-semibold bg-white text-indigo-700 shadow-sm transition';
-        tabBtnMetadata.className = 'py-2 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
-        tabPanelLayout.classList.remove('hidden');
-        tabPanelMetadata.classList.add('hidden');
-      });
-
-      // Metadata actions
-      document.getElementById('btnAddCustomMeta').addEventListener('click', () => {
-        state.customMeta.push({ id: nextId('cm'), key: '', value: '' });
-        renderCustomMetaList();
-      });
-
-      document.getElementById('btnFillSampleMeta').addEventListener('click', () => {
-        document.getElementById('metaTitle').value = 'Consolidated Client Deliverable Packet';
-        document.getElementById('metaAuthor').value = 'Operations & Legal Review Board';
-        document.getElementById('metaSubject').value = 'Rearranged Multi-Source Compilation';
-        document.getElementById('metaKeywords').value = 'compiled, verified, packet, 2026, confidential';
-        if (state.customMeta.length === 0) {
-          state.customMeta.push(
-            { id: nextId('cm'), key: 'DocumentID', value: 'DOC-2026-904' },
-            { id: nextId('cm'), key: 'Classification', value: 'Internal Approved' }
-          );
-          renderCustomMetaList();
-        }
-        showToast('Populated sample metadata fields');
-      });
-
-      // Inspect Modal buttons
-      document.getElementById('btnCloseInspectModal').addEventListener('click', closeInspectModal);
-      document.getElementById('btnSaveInspectModal').addEventListener('click', closeInspectModal);
-      document.getElementById('btnModalRotateCcw').addEventListener('click', () => {
-        const page = state.pages.find((p) => p.id === state.inspectingPageId);
-        if (!page) return;
-        page.rotation = (page.rotation + 270) % 360;
-        document.getElementById('inspectModalImg').style.transform = `rotate(${page.rotation}deg)`;
-      });
-      document.getElementById('btnModalRotateCw').addEventListener('click', () => {
-        const page = state.pages.find((p) => p.id === state.inspectingPageId);
-        if (!page) return;
-        page.rotation = (page.rotation + 90) % 360;
-        document.getElementById('inspectModalImg').style.transform = `rotate(${page.rotation}deg)`;
-      });
-
-      // Metadata Verification Modal buttons
-      document.getElementById('btnInspectExportMeta').addEventListener('click', openMetaVerifyModal);
-      document.getElementById('btnCloseMetaVerifyModal').addEventListener('click', () => {
-        document.getElementById('metaVerifyModal').classList.add('hidden');
-      });
-      document.getElementById('btnDoneMetaVerifyModal').addEventListener('click', () => {
-        document.getElementById('metaVerifyModal').classList.add('hidden');
-      });
-
-      // Export PDF triggers
-      document.getElementById('btnExportPdfTop').addEventListener('click', exportRearrangedPdf);
-      document.getElementById('btnExportPdfMain').addEventListener('click', exportRearrangedPdf);
-    }
-
-    // Initialize Application
-    window.addEventListener('DOMContentLoaded', () => {
-      initDefaultDates();
-      renderCustomMetaList();
-      bindEvents();
-      renderWorkspace();
-    });
-  </script>
+  }
+
+  if($('metaTitle').value)out.setTitle($('metaTitle').value.trim());
+  if($('metaAuthor').value)out.setAuthor($('metaAuthor').value.trim());
+  if($('metaSubject').value)out.setSubject($('metaSubject').value.trim());
+  if($('metaKeywords').value)out.setKeywords($('metaKeywords').value.split(',').map(s=>s.trim()).filter(Boolean));
+  const info=out.getInfoDict();
+  st.meta.forEach(m=>{
+    const k=m.key.trim().replace(/[^a-zA-Z0-9_.-]/g,'_'),v=m.value.trim();
+    if(k&&v)info.set(PDFLib.PDFName.of(k),PDFLib.PDFHexString.fromText(v));
+  });
+
+  const bytes=await out.save();
+  const fname=(($('exportName').value||'arranged-document').replace(/\.pdf$/i,''))+'.pdf';
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([bytes],{type:'application/pdf'})),download:fname});
+  a.click();
+  status(`Exported "${fname}" (${out.getPageCount()} pages, ${(bytes.byteLength/1024).toFixed(1)} KB).`);
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  $('fileInput').onchange=e=>{handleFiles(e.target.files);e.target.value='';};
+  const dz=$('dropZone');
+  dz.ondragover=e=>{e.preventDefault();dz.classList.add('drop-over');};
+  dz.ondragleave=()=>dz.classList.remove('drop-over');
+  dz.ondrop=e=>{e.preventDefault();dz.classList.remove('drop-over');if(e.dataTransfer?.files)handleFiles(e.dataTransfer.files);};
+  $('btnBlank').onclick=()=>{
+    const c=Object.assign(document.createElement('canvas'),{width:210,height:297});
+    const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,210,297);
+    st.pages.push({id:nid('pg'),sid:null,name:'Blank A4',kind:'blank',idx:0,rot:0,thumb:c.toDataURL(),label:''});
+    renderGrid();
+  };
+  $('btnReverse').onclick=()=>{st.pages.reverse();renderGrid();};
+  $('btnClear').onclick=()=>{st.pages=[];st.sources.clear();renderGrid();};
+  $('btnAddMeta').onclick=()=>{st.meta.push({id:nid('m'),key:'',value:''});renderMeta();};
+  $('btnExport').onclick=exportPdf;
+});
+</script>
 </body>
 </html>
