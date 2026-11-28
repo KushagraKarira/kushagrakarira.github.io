@@ -22,7 +22,7 @@
   ensureTag('meta[name="author"]', 'meta', { name: 'author', content: 'Kushagra Karira' });
   ensureTag('meta[name="theme-color"]', 'meta', { name: 'theme-color', content: '#00a0fc' });
   ensureTag('link[rel="icon"]', 'link', { rel: 'icon', href: `${base}favicon.svg`, type: 'image/svg+xml' });
-  ensureTag('link[rel="apple-touch-icon"]', 'link', { rel: 'apple-touch-icon', href: `${base}favicon.svg` });
+  ensureTag('link[rel="apple-touch-icon"]', 'link', { rel: 'apple-touch-icon', href: `${base}icon.png` });
   ensureTag('link[rel="manifest"]', 'link', { rel: 'manifest', href: `${base}manifest.webmanifest`, crossorigin: 'use-credentials' });
   ensureTag('meta[property="og:site_name"]', 'meta', { property: 'og:site_name', content: 'Kushagra Karira' });
   ensureTag('meta[property="og:type"]', 'meta', { property: 'og:type', content: inSubdir ? 'article' : 'website' });

@@ -1,15 +1,14 @@
-const CACHE_NAME = 'site-cache-v3';
+const CACHE_NAME = 'site-cache-v4';
 const STATIC_EXTENSIONS = /\.(?:css|js|svg|png|jpg|jpeg|gif|webp|ico|woff2?)$/i;
 
 self.addEventListener('install', () => self.skipWaiting());
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
-    )
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
@@ -22,18 +21,14 @@ self.addEventListener('fetch', event => {
   const isStaticAsset = STATIC_EXTENSIONS.test(url.pathname);
 
   event.respondWith(
-    caches.match(request).then(cachedResponse => {
-      const networkFetch = fetch(request)
-        .then(networkResponse => {
-          if (networkResponse.ok && isStaticAsset) {
-            const cloned = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(request, cloned));
-          }
-          return networkResponse;
-        })
-        .catch(() => cachedResponse);
-
-      return cachedResponse || networkFetch;
-    })
+    fetch(request)
+      .then(networkResponse => {
+        if (networkResponse.ok && isStaticAsset) {
+          const cloned = networkResponse.clone();
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(request, cloned)));
+        }
+        return networkResponse;
+      })
+      .catch(() => caches.match(request))
   );
 });

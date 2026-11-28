@@ -12,32 +12,23 @@
 		<link rel="icon" href="./favicon.svg" type="image/svg+xml">
 		<link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials">
 		<script src="./header.js" defer></script>
-</head>
-	<script>
-		if ("serviceWorker" in navigator) {
-			window.addEventListener("load", () => {
-				navigator.serviceWorker && navigator.serviceWorker.register("service-worker.js");
-			});
-		}
-	</script>
+	</head>
 
 	<body>
-<table class="header" data-site-header></table>
-		</br></br>
+		<nav class="header" data-site-header></nav>
 
-			<button class=single onclick="location.href='./Blog/Hello.html'">Hello World !!</button>
-
+		<button class=single onclick="location.href='./Blog/Hello.html'">Hello World !!</button>
 
 		<h2>STORIES</h2>
 			<button class=top onclick="location.href='./Blog/CityTale1.html'">The Store Run by ghost</button>
 			<button onclick="location.href='./Blog/CityTale2.html'">The Return</button>
 			<button onclick="location.href='./Blog/Atlas.html'">Best Friends</button>
-  <button class=bottom onclick="location.href='./Blog/Truth.html'">The Truth</button>
+			<button class=bottom onclick="location.href='./Blog/Truth.html'">The Truth</button>
 
 		<h2>GUIDES</h2>
 			<button class=top onclick="location.href='./Blog/Packing.html'">Packing for Travel</button>
 			<button onclick="location.href='./Blog/Garden.html'">Starting a garden: Tips for beginners</button>
-			<button class=bottom  onclick="location.href='./Blog/DStress.html'">Stress relief: Strategies for beating anxiety</button>
+			<button class=bottom onclick="location.href='./Blog/DStress.html'">Stress relief: Strategies for beating anxiety</button>
 	</body>
 
 </html>
