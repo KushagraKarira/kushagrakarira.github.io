@@ -10,10 +10,10 @@
   const basePath = depth > 0 ? '../'.repeat(depth) : './';
 
   const sectionMatchers = [
-    ['poems', /\/(Poems\/|Poems\.html$)/i],
-    ['blog', /\/(Blog\/|Blog\.html$)/i],
-    ['gallery', /\/(Gallery\/|Gallery\.html$)/i]
-  ];
+  ['poems', /^\/poems(\/|\.html|$)/i],
+  ['blog', /^\/blog(\/|\.html|$)/i],
+  ['gallery', /^\/gallery(\/|\.html|$)/i]
+];
 
   const activeSection =
     sectionMatchers.find(([, matcher]) => matcher.test(pathname))?.[0] ?? 'home';
