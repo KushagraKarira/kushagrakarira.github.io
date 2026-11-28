@@ -1,301 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MD2PDF</title>
-    
-    <!-- External Assets -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <style>
-        :root {
-            /* Adwaita Dark Colors */
-            --bg: #242424;
-            --header: #303030;
-            --card: #2d2d2d;
-            --text: #ffffff;
-            --text-dim: #9a9996;
-            --accent: #3584e4;
-            --border: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Header bar */
-        header {
-            background-color: var(--header);
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-
-        .logo { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
-        .actions { display: flex; gap: 10px; }
-
-        button, .btn-file {
-            background-color: #3d3d3d;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        button:hover { background-color: #4d4d4d; }
-        button.primary { background-color: var(--accent); border: none; }
-        button.primary:hover { background-color: #1c71d8; }
-        
-        button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
-        button.secondary:hover { background: rgba(255,255,255,0.05); color: white; }
-
-        /* Workspace */
-        main {
-            display: flex;
-            flex-direction: column; /* Vertical on Mobile */
-            flex: 1;
-            padding: 12px;
-            gap: 12px;
-            overflow: hidden;
-        }
-
-        @media (min-width: 900px) {
-            main { flex-direction: row; padding: 24px; gap: 24px; }
-        }
-
-        .pane {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .label {
-            padding: 10px 16px;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid var(--border);
-        }
-
-        textarea {
-            flex: 1;
-            border: none;
-            padding: 20px;
-            resize: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            outline: none;
-            background: transparent;
-            color: white;
-        }
-
-        #preview {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-            background: white; /* Always white for preview accuracy */
-            color: black;
-            line-height: 1.6;
-            word-wrap: break-word;
-        }
-
-        #preview h1 { border-bottom: 1px solid #eee; margin-top: 0; }
-        #preview pre { background: #f6f8fa; padding: 16px; border-radius: 8px; white-space: pre-wrap; }
-
-        input[type="file"] { display: none; }
-
-        /* PDF export styles */
-        .pdf-export-box {
-            width: 170mm; /* A4 (210) - Margins (40) */
-            padding: 0;
-            color: black !important;
-            background: white !important;
-            font-family: 'Inter', sans-serif;
-            font-size: 11pt;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-        
-        /* Fix for page breaks cutting text or creating white space */
-        .pdf-export-box pre, 
-        .pdf-export-box blockquote, 
-        .pdf-export-box h1, 
-        .pdf-export-box h2, 
-        .pdf-export-box h3, 
-        .pdf-export-box table, 
-        .pdf-export-box li {
-            page-break-inside: avoid;
-            break-inside: avoid;
-        }
-        
-        .pdf-export-box pre { 
-            white-space: pre-wrap; 
-            word-wrap: break-word; 
-            border: 1px solid #ccc; 
-            padding: 10px; 
-            background-color: #f9f9f9;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Client-side Markdown editor and A4 PDF exporter by Kushagra Karira.">
+<title>MD2PDF — Kushagra Karira</title>
+<link rel="stylesheet" href="./style.css">
+<script src="./header.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+.bar{display:flex;gap:2px;margin-block:1px}
+.bar button,.bar label{margin:0;text-align:center;flex:1}
+textarea#editor{min-height:240px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;resize:vertical;border-radius:0 0 20px 20px}
+#preview{background:#fff;color:#111;padding:20px;border-radius:0 0 20px 20px;line-height:1.6;overflow-wrap:break-word}
+#preview pre{background:#f4f4f4;padding:12px;border-radius:10px;white-space:pre-wrap}
+#preview table{width:100%;border-collapse:collapse}
+#preview th,#preview td{border:1px solid #ddd;padding:6px 8px;text-align:left}
+.pdf-box{width:170mm;background:#fff!important;color:#000!important;font-family:'Inter',sans-serif;font-size:11pt;line-height:1.5}
+.pdf-box pre,.pdf-box blockquote,.pdf-box h1,.pdf-box h2,.pdf-box table,.pdf-box li{break-inside:avoid}
+</style>
 </head>
 <body>
+<nav class="header" data-site-header></nav>
 
-<header>
-    <div class="logo">MD2PDF</div>
-    <div class="actions">
-        <button class="secondary" onclick="clearEditor()">Clear</button>
-        <button class="secondary" onclick="downloadMd()">Save MD</button>
-        <label for="file-up" class="btn-file">Open</label>
-        <input type="file" id="file-up" accept=".md">
-        <button class="primary" onclick="doExport()">Export</button>
-    </div>
-</header>
+<h1>MD2PDF</h1>
+<div class="bar">
+  <label for="fileUp" class="button top" style="display:block;padding:10px;cursor:pointer">Open .md</label>
+  <button type="button" class="top" onclick="saveMd()">Save .md</button>
+  <button type="button" class="top" onclick="clearEd()">Clear</button>
+  <button type="button" class="top" style="background:#1a5fb4;color:#fafafa;font-weight:600" onclick="exportPdf()">Export PDF</button>
+</div>
+<input id="fileUp" type="file" accept=".md,.txt" style="display:none">
+<textarea id="editor" placeholder="Write Markdown here…" oninput="render()"></textarea>
 
-<main>
-    <section class="pane">
-        <div class="label">Editor</div>
-        <textarea id="editor" placeholder="Type here..." oninput="render()"></textarea>
-    </section>
-
-    <section class="pane">
-        <div class="label">Preview</div>
-        <div id="preview"></div>
-    </section>
-</main>
+<h3>Preview</h3>
+<div class="card top" style="background:#e5e5e5;padding:8px 15px;border-radius:20px 20px 0 0;font-size:.85em;opacity:.8">A4 Print Preview</div>
+<div id="preview"></div>
 
 <script>
-    const ed = document.getElementById('editor');
-    const pre = document.getElementById('preview');
+const ed=document.getElementById('editor'),pre=document.getElementById('preview');
+marked.setOptions({breaks:true,gfm:true});
+const SAMPLE=`# Markdown Note\n\nWrite **bold**, *italic*, \`code\`, lists, or tables.\n\n- Client-side rendering\n- Clean A4 PDF export\n\n> "Simplicity is prerequisite for reliability."`;
 
-    marked.setOptions({ breaks: true, gfm: true });
-
-    const SAMPLE_TEXT = `# Markdown Help Guide
-
-## Text Formatting
-- **Bold text** using \`**text**\` or \`__text__\`
-- *Italic text* using \`*text*\` or \`_text_\`
-- ~~Strikethrough~~ using \`~~text~~\`
-
-## Lists
-### Unordered
-- Item 1
-- Item 2
-  - Sub-item A
-
-### Ordered
-1. First
-2. Second
-3. Third
-
-## Links & Images
-- [Google](https://google.com)
-- Inline images: \`![Alt text](url)\`
-
-## Blockquotes
-> "Intelligence is the ability to adapt to change." 
-> — Stephen Hawking
-
-## Code Blocks
-Inline \`code\` blocks.
-
-Multi-line code:
-\\\`\\\`\\\`javascript
-function hello() {
-  console.log("Hello World");
+function render(){pre.innerHTML=marked.parse(ed.value);localStorage.setItem('md2pdf_content',ed.value);}
+function clearEd(){ed.value='';render();}
+function saveMd(){
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([ed.value],{type:'text/markdown'})),download:'document.md'});
+  a.click();URL.revokeObjectURL(a.href);
 }
-\\\`\\\`\\\`
-
-## Tables
-| Feature | Status |
-| :--- | :--- |
-| PDF Export | Working |
-| Page Breaks | Fixed |
-| Adwaita UI | Active |`;
-
-    function render() {
-        const val = ed.value;
-        pre.innerHTML = marked.parse(val);
-        localStorage.setItem('md2pdf_content', val);
-    }
-
-    function clearEditor() {
-        ed.value = "";
-        render();
-    }
-
-    function downloadMd() {
-        const blob = new Blob([ed.value], { type: 'text/markdown' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'document.md';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    document.getElementById('file-up').onchange = function(e) {
-        const f = e.target.files[0];
-        if (!f) return;
-        const r = new FileReader();
-        r.onload = (ev) => { ed.value = ev.target.result; render(); };
-        r.readAsText(f);
-    };
-
-    async function doExport() {
-        const container = document.createElement('div');
-        container.className = 'pdf-export-box';
-        container.innerHTML = marked.parse(ed.value);
-        
-        const opt = {
-            margin: [20, 20, 20, 20],
-            filename: 'document.pdf',
-            image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 3, useCORS: true, logging: false },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-        };
-
-        try {
-            await html2pdf().set(opt).from(container).save();
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    window.onload = () => {
-        const saved = localStorage.getItem('md2pdf_content');
-        ed.value = saved || SAMPLE_TEXT;
-        render();
-    };
+document.getElementById('fileUp').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=v=>{ed.value=v.target.result;render();};r.readAsText(f);
+};
+async function exportPdf(){
+  const box=Object.assign(document.createElement('div'),{className:'pdf-box',innerHTML:marked.parse(ed.value)});
+  await html2pdf().set({
+    margin:[20,20,20,20],filename:'document.pdf',
+    image:{type:'jpeg',quality:1},html2canvas:{scale:2,useCORS:true},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['avoid-all','css','legacy']}
+  }).from(box).save();
+}
+window.addEventListener('DOMContentLoaded',()=>{ed.value=localStorage.getItem('md2pdf_content')||SAMPLE;render();});
 </script>
-
 </body>
 </html>
